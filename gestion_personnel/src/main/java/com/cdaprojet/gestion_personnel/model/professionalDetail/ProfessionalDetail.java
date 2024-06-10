@@ -41,7 +41,7 @@ public class ProfessionalDetail {
     private long hoursPerWeek;
 
     @ManyToOne
-    @JoinColumn(name = "contract_id", nullable = true)
+    @JoinColumn(name = "contract_type_id", nullable = true)
     private ContractType contractType;
 
     @ManyToOne
