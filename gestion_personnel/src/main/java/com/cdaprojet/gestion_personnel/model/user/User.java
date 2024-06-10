@@ -1,4 +1,4 @@
-package com.cdaprojet.gestion_personnel.model;
+package com.cdaprojet.gestion_personnel.model.user;
 
 import java.util.Collection;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.cdaprojet.gestion_personnel.model.role.Role;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

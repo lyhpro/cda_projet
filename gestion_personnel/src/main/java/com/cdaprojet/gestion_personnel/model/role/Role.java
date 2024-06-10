@@ -1,8 +1,9 @@
-package com.cdaprojet.gestion_personnel.model;
+package com.cdaprojet.gestion_personnel.model.role;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cdaprojet.gestion_personnel.model.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
