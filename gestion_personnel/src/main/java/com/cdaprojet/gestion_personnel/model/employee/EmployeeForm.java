@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class EmployeeForm {
     
+    private long id;
     private String secondname;
     private String firstname;
     private String placeOfBirth;
@@ -30,5 +31,4 @@ public class EmployeeForm {
     private long hoursPerWeek;
     private long contractId;
     private long departmentId;
-    private long mangerId;
 }

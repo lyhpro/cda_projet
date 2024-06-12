@@ -1,7 +1,6 @@
 package com.cdaprojet.gestion_personnel.model.employee;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import com.cdaprojet.gestion_personnel.model.contactDetail.ContactDetail;
 import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
@@ -12,7 +11,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -49,8 +47,5 @@ public class Employee {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "professional_detail_id", referencedColumnName = "id")
     private ProfessionalDetail professionalDetail;
-
-    @OneToMany(mappedBy = "manager")
-    private List<Employee> employees;
 
 }

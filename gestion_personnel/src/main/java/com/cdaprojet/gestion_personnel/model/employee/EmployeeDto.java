@@ -1,7 +1,6 @@
 package com.cdaprojet.gestion_personnel.model.employee;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +19,17 @@ public class EmployeeDto {
     private boolean enable;
     private Timestamp dateOfCreation;
     private long contactDetailId;
-    private long professionnalDetailId;
-    private List<Long> employeesId;
+    private long professionalDetailId;
     
+    public EmployeeDto(Employee employee) {
+        this.id = employee.getId();
+        this.secondname = employee.getSecondname();
+        this.firstname = employee.getFirstname();
+        this.placeOfBirth = employee.getPlaceOfBirth();
+        this.dateOfBirth = employee.getDateOfBirth();
+        this.enable = employee.isEnable();
+        this.dateOfCreation = employee.getDateOfCreation();
+        this.contactDetailId = employee.getContactDetail().getId();
+        this.professionalDetailId = employee.getProfessionalDetail().getId();
+    }
 }

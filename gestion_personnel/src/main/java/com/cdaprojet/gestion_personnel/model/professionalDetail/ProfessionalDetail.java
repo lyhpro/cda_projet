@@ -4,8 +4,6 @@ import java.sql.Timestamp;
 
 import com.cdaprojet.gestion_personnel.model.contractType.ContractType;
 import com.cdaprojet.gestion_personnel.model.department.Department;
-import com.cdaprojet.gestion_personnel.model.employee.Employee;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -48,11 +45,4 @@ public class ProfessionalDetail {
     @JoinColumn(name = "department_id", nullable = true)
     private Department department;
 
-    @ManyToOne
-    @JoinColumn(name = "manager_id", nullable = true)
-    private Employee manager; 
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "professionalDetail")
-    private Employee employee;
 }
