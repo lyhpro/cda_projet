@@ -1,6 +1,7 @@
 package com.cdaprojet.gestion_personnel.model.employee;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,8 +26,8 @@ public class EmployeeForm {
     private int phonenumber;
 
     private String post;
-    private Timestamp dateOfHiring;
-    private Timestamp dateEndOfContract;
+    private LocalDate dateOfHiring;
+    private LocalDate dateEndOfContract;
     private long salary;
     private long hoursPerWeek;
     private long contractId;

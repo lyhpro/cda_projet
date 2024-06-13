@@ -1,6 +1,6 @@
 package com.cdaprojet.gestion_personnel.model.professionalDetail;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import com.cdaprojet.gestion_personnel.model.contractType.ContractType;
 import com.cdaprojet.gestion_personnel.model.department.Department;
@@ -29,11 +29,11 @@ public class ProfessionalDetail {
 
     private String post;
 
-    private Timestamp dateOfHiring;
+    private LocalDate dateOfHiring;
 
-    private Timestamp dateEndOfContract;
+    private LocalDate dateEndOfContract;
 
-    private long salary;
+    private float salary;
 
     private long hoursPerWeek;
 

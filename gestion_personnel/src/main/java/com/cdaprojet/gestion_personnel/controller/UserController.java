@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cdaprojet.gestion_personnel.model.employee.EmployeeDto;
 import com.cdaprojet.gestion_personnel.model.employee.EmployeeForm;
+import com.cdaprojet.gestion_personnel.model.recording.RecordingDto;
 import com.cdaprojet.gestion_personnel.service.employee.EmployeeService;
+import com.cdaprojet.gestion_personnel.service.recording.RecordingService;
 
 @RestController
 @RequestMapping("/gestionnaire-personnel/user")
@@ -21,6 +23,9 @@ public class UserController {
 
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private RecordingService recordingService;
     
     @GetMapping("/hello")
     public ResponseEntity<String> helloUser() {
@@ -50,6 +55,16 @@ public class UserController {
     @GetMapping("/getAllEmployee")
     public ResponseEntity<List<EmployeeDto>> getAllEmployee() {
         return ResponseEntity.ok(employeeService.getAllEmployee());
+    }
+
+    @PostMapping("/createRecording")
+    public ResponseEntity<RecordingDto> createRecording(@RequestBody RecordingDto recordingDto) {
+        return ResponseEntity.ok(recordingService.create(recordingDto));
+    }
+
+    @GetMapping("/getRecordings/{id}")
+    public ResponseEntity<List<RecordingDto>> getRecordingsByEmployeeId(@PathVariable long id) {
+        return ResponseEntity.ok(recordingService.getRecordingsByEmployeeId(id));
     }
 
 }

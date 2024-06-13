@@ -8,8 +8,16 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.cdaprojet.gestion_personnel.model.contractType.ContractType;
+import com.cdaprojet.gestion_personnel.model.dayType.DayType;
+import com.cdaprojet.gestion_personnel.model.department.Department;
+import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
+import com.cdaprojet.gestion_personnel.model.recording.Recording;
 import com.cdaprojet.gestion_personnel.model.role.Role;
 import com.cdaprojet.gestion_personnel.model.user.User;
+import com.cdaprojet.gestion_personnel.repository.ContractTypeRepository;
+import com.cdaprojet.gestion_personnel.repository.DayTypeRepository;
+import com.cdaprojet.gestion_personnel.repository.DepartmentRepository;
 import com.cdaprojet.gestion_personnel.repository.RoleRepository;
 import com.cdaprojet.gestion_personnel.repository.UserRepository;
 
@@ -21,6 +29,15 @@ public class Dataload implements CommandLineRunner {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private ContractTypeRepository contractTypeRepository;
+
+    @Autowired
+    private DayTypeRepository dayTypeRepository;
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -48,6 +65,51 @@ public class Dataload implements CommandLineRunner {
             User users = new User("admin","admin","admin@monmail.com",pwd,role,true);
             
             userRepository.save(users);
+        }
+
+        List<ContractType> contractTypes = contractTypeRepository.findAll();
+        if(contractTypes.size() == 0) {
+            List<ContractType> newContractTypes = new ArrayList<ContractType>();
+
+            ContractType contractTypeA = new ContractType(0,"CDI",true,new ArrayList<ProfessionalDetail>());
+            newContractTypes.add(contractTypeA);
+
+            ContractType contractTypeB = new ContractType(0,"CDD",true,new ArrayList<ProfessionalDetail>());
+            newContractTypes.add(contractTypeB);
+
+            contractTypeRepository.saveAll(newContractTypes);
+        }
+
+        List<DayType> dayTypes = dayTypeRepository.findAll();
+        if(dayTypes.size() == 0) {
+            List<DayType> newDayTypes = new ArrayList<DayType>();
+
+            DayType dayTypeA = new DayType(0, "travail", true, new ArrayList<Recording>());
+            newDayTypes.add(dayTypeA);
+
+            DayType dayTypeB = new DayType(0, "vacance", true, new ArrayList<Recording>());
+            newDayTypes.add(dayTypeB);
+
+            DayType dayTypeC = new DayType(0, "rtt", true, new ArrayList<Recording>());
+            newDayTypes.add(dayTypeC);
+
+            DayType dayTypeD = new DayType(0, "maladie", true, new ArrayList<Recording>());
+            newDayTypes.add(dayTypeD);
+
+            dayTypeRepository.saveAll(newDayTypes);
+        }
+
+        List<Department> departments = departmentRepository.findAll();
+        if(departments.size() == 0) {
+            List<Department> newDepartments = new ArrayList<Department>();
+
+            Department departmentA = new Department(0, "DRH", "Departement des Ressources Humaines", true, new ArrayList<ProfessionalDetail>());
+            newDepartments.add(departmentA);
+
+            Department departmentB = new Department(0, "DI", "Departement Informatique", true, new ArrayList<ProfessionalDetail>());
+            newDepartments.add(departmentB);
+
+            departmentRepository.saveAll(newDepartments);
         }
 
     }
