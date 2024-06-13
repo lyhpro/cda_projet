@@ -1,6 +1,7 @@
 package com.cdaprojet.gestion_personnel.service.employee;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,10 @@ import com.cdaprojet.gestion_personnel.model.department.Department;
 import com.cdaprojet.gestion_personnel.model.employee.Employee;
 import com.cdaprojet.gestion_personnel.model.employee.EmployeeDto;
 import com.cdaprojet.gestion_personnel.model.employee.EmployeeForm;
+import com.cdaprojet.gestion_personnel.model.holliday.Holliday;
 import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
+import com.cdaprojet.gestion_personnel.model.recording.Recording;
+import com.cdaprojet.gestion_personnel.model.rtt.Rtt;
 import com.cdaprojet.gestion_personnel.repository.ContractTypeRepository;
 import com.cdaprojet.gestion_personnel.repository.DepartmentRepository;
 import com.cdaprojet.gestion_personnel.repository.EmployeeRepository;
@@ -64,7 +68,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             true, 
             new Timestamp(System.currentTimeMillis()),
             newContactDetail, 
-            newProfessionalDetail
+            newProfessionalDetail,
+            new ArrayList<Holliday>(),
+            new ArrayList<Rtt>(),
+            new ArrayList<Recording>()
         );
 
         employeeRepository.save(newEmployee);
@@ -111,7 +118,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             oldEmployee.isEnable(), 
             new Timestamp(System.currentTimeMillis()), 
             updatedContactDetail, 
-            updateProfessionalDetail
+            updateProfessionalDetail,
+            oldEmployee.getHollidays(),
+            oldEmployee.getRtts(),
+            oldEmployee.getRecordings()
         );
 
         employeeRepository.save(updatedEmployee);
