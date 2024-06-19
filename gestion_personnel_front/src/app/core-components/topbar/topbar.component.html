@@ -1,1 +1,36 @@
-<p>topbar works!</p>
+<nav class="nav custom-topbar">
+    @if (!user) {
+      <a routerLink="auth" routerLinkActive="active">
+        <h1 class="custom-topbar-title">{{topbarTitle}}</h1>
+      </a>
+      <form class="signin-form" (ngSubmit)="onSubmit()">
+        <div class="me-2">
+          <input class="form-control" type="email" name="email" id="email" placeholder="Enter your email" [(ngModel)]="signinRequest.email" required>
+        </div>
+        <div class="pwd-input me-2">
+          <input class="form-control" type="password" name="pwd" name="pwd" placeholder="Enter your password" [(ngModel)]="signinRequest.password" required>
+          <a class="mt-1 mb-1" routerLink="forget-pwd" routerLinkActive="active">Forget password ?</a>
+        </div>
+        <div>
+          <button class="btn btn-outline-light" type="submit">SignIn</button>
+        </div>
+      </form>
+    }
+    @else {
+      @if(user.enable) {
+        <a routerLink="home" routerLinkActive="active">
+          <h1 class="custom-topbar-title">{{topbarTitle}}</h1>
+        </a>
+        <div class="custom-topbar-content">
+        @for (m of menu; track $index) {
+          <a class="nav-link custom-nav-link" routerLink="{{m.urlPath}}" routerLinkActive="active">{{m.name}}</a>
+        }
+          <button class="btn btn-outline-light" (click)="signOut()">SignOut</button>
+        </div>
+      } @else {
+        <a routerLink="auth" routerLinkActive="active">
+          <h1 class="custom-topbar-title">{{topbarTitle}}</h1>
+        </a>
+      }
+    }
+  </nav>

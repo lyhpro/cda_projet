@@ -1,5 +1,7 @@
 package com.cdaprojet.gestion_personnel.service.user;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -7,13 +9,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.cdaprojet.gestion_personnel.model.user.User;
+import com.cdaprojet.gestion_personnel.model.user.UserDto;
 import com.cdaprojet.gestion_personnel.repository.UserRepository;
+import com.cdaprojet.gestion_personnel.service.jwt.JwtServiceImpl;
 
 @Service
 public class UserServiceImpl implements UserService {
     
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JwtServiceImpl jwtServiceImpl;
 
     @Override
     public UserDetailsService userDetailsService() {
@@ -28,6 +35,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
+    }
+
+    @Override
+    public UserDto getUser(String jwt) {
+        String newToken = jwt.replace("Bearer", "");
+        long idUser = Long.valueOf(jwtServiceImpl.extractUserId(newToken));
+        User user = userRepository.findById(idUser).orElse(null);
+        if(Objects.nonNull(user)) {
+            return new UserDto(user);
+        }
+        return null;
     }
 
     public boolean existsByEmail(String email) {

@@ -1,0 +1,40 @@
+.custom-topbar {
+    padding: 1em 1em 0em 1em;
+    margin-bottom: 2em;
+    background-color: rgb(13,110,253);
+    display: flex;
+    justify-content: space-between;
+}
+
+.custom-topbar-title {
+    color: white;
+    margin: 4px;
+}
+
+.custom-topbar-content {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.custom-nav-link {
+    font-size: medium;
+    color: white;
+}
+
+.signin-form {
+    display: flex;
+}
+
+.pwd-input {
+    display: flex;
+    flex-direction: column;
+}
+
+.pwd-input a {
+    font-size: small;
+    color: black;
+}
+
+.pwd-input a:hover {
+    color: white;
+}
