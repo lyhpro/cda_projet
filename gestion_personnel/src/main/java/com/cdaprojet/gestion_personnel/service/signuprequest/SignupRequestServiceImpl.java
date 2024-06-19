@@ -33,8 +33,9 @@ public class SignupRequestServiceImpl implements SignupRequestService {
             throw new RuntimeException("Email already exists");
         }
 
-        Role role = roleRepository.findByName("USER");
-        String encryptedPassword = passwordEncoder.encode(signupRequest.getPassword());
+        Role role = roleRepository.findByName(signupRequest.getRoleName());
+        String password = signupRequest.getSecondname().toLowerCase() + signupRequest.getFirstname().toLowerCase();
+        String encryptedPassword = passwordEncoder.encode(password);
         User user = new User(signupRequest.getSecondname(), signupRequest.getFirstname(), signupRequest.getEmail(), encryptedPassword, role, true);
         User newUser = userRepository.save(user);
 

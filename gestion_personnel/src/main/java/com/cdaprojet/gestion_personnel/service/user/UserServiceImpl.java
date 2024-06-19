@@ -1,5 +1,6 @@
 package com.cdaprojet.gestion_personnel.service.user;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,11 @@ public class UserServiceImpl implements UserService {
             return new UserDto(user);
         }
         return null;
+    }
+
+    @Override
+    public List<UserDto> getAllUser() {
+        return userRepository.findAll().stream().filter(user -> user.isEnable()).map(UserDto::new).toList();
     }
 
     public boolean existsByEmail(String email) {
