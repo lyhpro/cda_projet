@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cdaprojet.gestion_personnel.model.contractType.ContractType;
+import com.cdaprojet.gestion_personnel.model.department.Department;
 import com.cdaprojet.gestion_personnel.model.employee.EmployeeDto;
 import com.cdaprojet.gestion_personnel.model.employee.EmployeeForm;
 import com.cdaprojet.gestion_personnel.model.recording.RecordingDto;
+import com.cdaprojet.gestion_personnel.service.contractType.ContractTypeService;
+import com.cdaprojet.gestion_personnel.service.department.DepartmentService;
 import com.cdaprojet.gestion_personnel.service.employee.EmployeeService;
 import com.cdaprojet.gestion_personnel.service.recording.RecordingService;
 
@@ -28,6 +32,12 @@ public class UserController {
 
     @Autowired
     private RecordingService recordingService;
+
+    @Autowired
+    private ContractTypeService contractTypeService;
+
+    @Autowired
+    private DepartmentService departmentService;
     
     @GetMapping("/hello")
     public ResponseEntity<String> helloUser() {
@@ -67,6 +77,16 @@ public class UserController {
     @GetMapping("/getRecordings/{id}")
     public ResponseEntity<List<RecordingDto>> getRecordingsByEmployeeId(@PathVariable long id) {
         return ResponseEntity.ok(recordingService.getRecordingsByEmployeeId(id));
+    }
+
+    @GetMapping("/getAllContractType")
+    public ResponseEntity<List<ContractType>> getAllContractType() {
+        return ResponseEntity.ok(contractTypeService.getAllContractType());
+    }
+
+    @GetMapping("/getAllDepartment")
+    public ResponseEntity<List<Department>> getAllDepartment() {
+        return ResponseEntity.ok(departmentService.getAllDepartment());
     }
 
 }
