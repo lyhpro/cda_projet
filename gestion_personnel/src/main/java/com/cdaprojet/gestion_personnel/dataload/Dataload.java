@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import com.cdaprojet.gestion_personnel.model.contractType.ContractType;
 import com.cdaprojet.gestion_personnel.model.dayType.DayType;
 import com.cdaprojet.gestion_personnel.model.department.Department;
+import com.cdaprojet.gestion_personnel.model.path.Path;
+import com.cdaprojet.gestion_personnel.model.pathAssigned.PathAssigned;
 import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
 import com.cdaprojet.gestion_personnel.model.recording.Recording;
 import com.cdaprojet.gestion_personnel.model.role.Role;
@@ -18,6 +20,8 @@ import com.cdaprojet.gestion_personnel.model.user.User;
 import com.cdaprojet.gestion_personnel.repository.ContractTypeRepository;
 import com.cdaprojet.gestion_personnel.repository.DayTypeRepository;
 import com.cdaprojet.gestion_personnel.repository.DepartmentRepository;
+import com.cdaprojet.gestion_personnel.repository.PathAssignedRepository;
+import com.cdaprojet.gestion_personnel.repository.PathRepository;
 import com.cdaprojet.gestion_personnel.repository.RoleRepository;
 import com.cdaprojet.gestion_personnel.repository.UserRepository;
 
@@ -38,6 +42,12 @@ public class Dataload implements CommandLineRunner {
 
     @Autowired
     private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private PathRepository pathRepository;
+
+    @Autowired
+    private PathAssignedRepository pathAssignedRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -110,6 +120,38 @@ public class Dataload implements CommandLineRunner {
             newDepartments.add(departmentB);
 
             departmentRepository.saveAll(newDepartments);
+        }
+
+        List<Path> paths = pathRepository.findAll();
+        if(paths.size() == 0) {
+            List<Path> newPaths = new ArrayList<Path>();
+
+            Path pathA = new Path("Liste des utilisateurs", "home/user/list", "user-list");
+            newPaths.add(pathA);
+
+            Path pathB = new Path("Liste des employes","home/employee/list","employee-list");
+            newPaths.add(pathB);
+
+            Path pathC = new Path("Ajouter des heures","home/employee/add-hours","add-hours");
+            newPaths.add(pathC);
+
+            pathRepository.saveAll(newPaths);
+        }
+
+        List<PathAssigned> pathAssigneds = pathAssignedRepository.findAll();
+        if(pathAssigneds.size() == 0) {
+            List<PathAssigned> newPathAssigneds = new ArrayList<PathAssigned>();
+
+            PathAssigned pathAssignedA = new PathAssigned(pathRepository.findByAlias("user-list"), roleRepository.findByName("ADMIN"));
+            newPathAssigneds.add(pathAssignedA);
+
+            PathAssigned pathAssignedB = new PathAssigned(pathRepository.findByAlias("employee-list"), roleRepository.findByName("USER"));
+            newPathAssigneds.add(pathAssignedB);
+
+            PathAssigned pathAssignedC = new PathAssigned(pathRepository.findByAlias("add-hours"), roleRepository.findByName("USER"));
+            newPathAssigneds.add(pathAssignedC);
+
+            pathAssignedRepository.saveAll(newPathAssigneds);
         }
 
     }
