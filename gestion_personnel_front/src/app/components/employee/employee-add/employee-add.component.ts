@@ -125,7 +125,7 @@ export class EmployeeAddComponent implements OnInit {
     this.employeForm.dateOfHiring = this.form.value.dateOfHiring,
     this.employeForm.dateEndOfContract = this.form.value.dateEndOfContract,
     this.employeForm.salary = this.form.value.salary,
-    this.employeForm.hoursPerWeek = this.form.value.homenumber,
+    this.employeForm.hoursPerWeek = this.form.value.hoursPerWeek,
     this.employeForm.contractId = this.form.value.contractId,
     this.employeForm.departmentId = this.form.value.departmentId
   }

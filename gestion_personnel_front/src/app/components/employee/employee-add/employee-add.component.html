@@ -20,14 +20,13 @@
         <input class="form-control custom-form-input" type="date" id="dateEndOfContract" formControlName="dateEndOfContract" placeholder="Enter the date of end contract">
         <input class="form-control custom-form-input" type="number" id="salary" formControlName="salary" placeholder="Enter the employee salary">
         <input class="form-control custom-form-input" type="number" id="hoursPerWeek" formControlName="hoursPerWeek" placeholder="Enter the number of hour per week">
-        <input class="form-control custom-form-input" type="number" id="hoursPerWeek" formControlName="hoursPerWeek" placeholder="Enter the number of hour per week">
-        <select class="form-select" formControlName="contractId">
+        <select class="form-select custom-form-input" formControlName="contractId">
             <option value="" disabled selected>Sélectionner un type de contrat</option>
             @for (contractType of contractTypes; track $index) {
                 <option [ngValue]="contractType.id">{{contractType.name}}</option>
             }
         </select>
-        <select class="form-select" formControlName="departmentId">
+        <select class="form-select custom-form-input" formControlName="departmentId">
             <option value="" disabled selected>Sélectionner un departement</option>
             @for (departement of departments; track $index) {
                 <option [ngValue]="departement.id">{{departement.name}}</option>

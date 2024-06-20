@@ -1,0 +1,15 @@
+section {
+    height: 65em;
+}
+
+.custom-form {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+}
+
+.custom-form-input {
+    margin-bottom: .5em;
+}
