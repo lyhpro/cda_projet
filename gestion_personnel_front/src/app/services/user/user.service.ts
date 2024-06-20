@@ -6,6 +6,7 @@ import { Role } from '../../models/role/role';
 import { Department } from '../../models/department/department';
 import { EmployeeForm } from '../../models/employee/employee-form/employee-form';
 import { Employee } from '../../models/employee/employee/employee';
+import { DayType } from '../../models/dayType/day-type';
 
 const API_URL_USER = 'http://localhost:8080/gestionnaire-personnel/user/';
 
@@ -26,5 +27,13 @@ export class UserService {
 
   createEmploye(employeForm: EmployeeForm): Observable<Employee> {
     return this.http.post<Employee>(API_URL_USER + 'createEmployee',employeForm);
+  }
+
+  getAllEmployee(): Observable<Employee[]> {
+    return this.http.get<Employee[]>(API_URL_USER + 'getAllEmployee');
+  }
+
+  getAllDayType(): Observable<DayType[]> {
+    return this.http.get<DayType[]>(API_URL_USER + 'getAllDayType');
   }
 }

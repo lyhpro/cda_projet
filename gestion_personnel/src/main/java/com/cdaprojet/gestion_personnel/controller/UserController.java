@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cdaprojet.gestion_personnel.model.contractType.ContractType;
+import com.cdaprojet.gestion_personnel.model.dayType.DayType;
 import com.cdaprojet.gestion_personnel.model.department.Department;
 import com.cdaprojet.gestion_personnel.model.employee.EmployeeDto;
 import com.cdaprojet.gestion_personnel.model.employee.EmployeeForm;
 import com.cdaprojet.gestion_personnel.model.recording.RecordingDto;
 import com.cdaprojet.gestion_personnel.service.contractType.ContractTypeService;
+import com.cdaprojet.gestion_personnel.service.dayType.DayTypeService;
 import com.cdaprojet.gestion_personnel.service.department.DepartmentService;
 import com.cdaprojet.gestion_personnel.service.employee.EmployeeService;
 import com.cdaprojet.gestion_personnel.service.recording.RecordingService;
@@ -38,11 +40,16 @@ public class UserController {
 
     @Autowired
     private DepartmentService departmentService;
+
+    @Autowired
+    private DayTypeService dayTypeService;
     
     @GetMapping("/hello")
     public ResponseEntity<String> helloUser() {
         return ResponseEntity.ok("Hello User");
     }
+
+    // EMPLOYEES ///////////////////////////////////////////////////////////////////////////
 
     @PostMapping("/createEmployee")
     public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeForm employeeForm) {
@@ -69,6 +76,8 @@ public class UserController {
         return ResponseEntity.ok(employeeService.getAllEmployee());
     }
 
+    // RECORDINGS ///////////////////////////////////////////////////////////////////////////
+
     @PostMapping("/createRecording")
     public ResponseEntity<RecordingDto> createRecording(@RequestBody RecordingDto recordingDto) {
         return ResponseEntity.ok(recordingService.create(recordingDto));
@@ -79,14 +88,25 @@ public class UserController {
         return ResponseEntity.ok(recordingService.getRecordingsByEmployeeId(id));
     }
 
+    // CONTRACTTYPES ///////////////////////////////////////////////////////////////////////////
+
     @GetMapping("/getAllContractType")
     public ResponseEntity<List<ContractType>> getAllContractType() {
         return ResponseEntity.ok(contractTypeService.getAllContractType());
     }
 
+    // DEPARTMENTS ///////////////////////////////////////////////////////////////////////////
+
     @GetMapping("/getAllDepartment")
     public ResponseEntity<List<Department>> getAllDepartment() {
         return ResponseEntity.ok(departmentService.getAllDepartment());
+    }
+
+    // DAYTYPES ///////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("getAllDayType")
+    public ResponseEntity<List<DayType>> getAllDayType() {
+        return ResponseEntity.ok(dayTypeService.getAllDayType());
     }
 
 }
