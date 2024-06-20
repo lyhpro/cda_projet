@@ -1,1 +1,37 @@
-<p>recording works!</p>
+<section>
+    <h1>Ajouter un enregistrement</h1>
+
+    <form class="custom-form" [formGroup]="recordingForm" (ngSubmit)="onSubmit()">
+        <select class="form-select custom-form-input" formControlName="employeeId">
+            <option value="" disabled selected>Sélectionner un employe</option>
+            @for (employee of employees; track $index) {
+                <option [ngValue]="employee.id">{{employee.secondname + " " + employee.firstname}}</option>
+            }
+        </select>
+        <div class="custom-form-radio">
+            @for (dayType of dayTypes; track $index) {
+                <div class="form-check custom-form-input">
+                    <input class="form-check-input" type="radio" id="dayTypeId" formControlName="dayTypeId" [value]="dayType.id">
+                    <label class="form-check-label" for="dayType.id">{{dayType.name}}</label>
+                </div>
+            }
+        </div>
+        @if(recordingForm.value.dayTypeId == 1) {
+            <p>TRAVAIL</p>
+            <input class="form-control" type="number" id="id" formControlName="id" [hidden]="true">    
+            <input class="form-control" type="date" id="date" formControlName="date">    
+            <input class="form-control" type="time" id="hourStart" formControlName="hourStart">    
+
+        } @else if(recordingForm.value.dayTypeId == 2) {
+            <p>VACANCE</p>    
+
+        } @else if(recordingForm.value.dayTypeId == 3) {
+            <p>RTT</p>    
+
+        } @else if(recordingForm.value.dayTypeId == 4) {
+            <p>MALADIE</p>    
+
+        }   
+        <button class="btn btn-primary" type="submit" [disabled]="!recordingForm.valid">Submit</button>
+    </form>
+</section>
