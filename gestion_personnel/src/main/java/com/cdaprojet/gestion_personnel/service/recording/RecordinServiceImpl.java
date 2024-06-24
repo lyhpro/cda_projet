@@ -29,23 +29,38 @@ public class RecordinServiceImpl implements RecordingService {
     public RecordingDto create(RecordingDto recordingDto) {
 
         Employee employee = employeeRepository.findById(recordingDto.getEmployeeId()).orElse(null);
+        
         DayType dayType = dayTypeRepository.findById(recordingDto.getDayTypeId()).orElse(null);
 
         Recording newRecording = new Recording(
             0, 
+            null,
+            null,
             null, 
             null, 
             null, 
             null, 
-            null, 
-            null, 
-            null, 
+            null,
             null, 
             employee, 
             dayType
         );
 
-        recordingRepository.save(newRecording);
+        if (recordingDto.getDayTypeId() == 1) {
+            newRecording.setDate(recordingDto.getDate());
+            newRecording.setHourStart(recordingDto.getHourStart());
+            newRecording.setHourStop(recordingDto.getHourStop());
+            newRecording.setBreakStart(recordingDto.getBreakStart());
+            newRecording.setBreakStop(recordingDto.getBreakStop());
+        } else if (recordingDto.getDayTypeId() == 2) {
+
+        } else if (recordingDto.getDayTypeId() == 3) {
+
+        } else if (recordingDto.getDayTypeId() == 4) {
+
+        }
+
+        // recordingRepository.save(newRecording);
 
         return new RecordingDto(newRecording);
 

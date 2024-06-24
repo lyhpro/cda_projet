@@ -72,9 +72,20 @@ public class Dataload implements CommandLineRunner {
             String pwd = new BCryptPasswordEncoder().encode("admin");
             Role role = roleRepository.findByName("ADMIN");
             
-            User users = new User("admin","admin","admin@monmail.com",pwd,role,true);
+            User newAdmin = new User("admin","admin","admin@monmail.com",pwd,role,true);
             
-            userRepository.save(users);
+            userRepository.save(newAdmin);
+        }
+
+        // Crée un User avec le Role USER s'il n'y a aucun User avec le Role USER
+        User user = userRepository.findByRoleId(2);
+        if(user == null) {
+            String pwd = new BCryptPasswordEncoder().encode("user");
+            Role role = roleRepository.findByName("USER");
+
+            User newUser = new User("user","user","user@monmail.com",pwd,role,true);
+
+            userRepository.save(newUser);
         }
 
         List<ContractType> contractTypes = contractTypeRepository.findAll();

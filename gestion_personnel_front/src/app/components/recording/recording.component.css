@@ -1,3 +1,7 @@
+section {
+    height: 40em;
+}
+
 .custom-form {
     margin: auto;
     display: flex;

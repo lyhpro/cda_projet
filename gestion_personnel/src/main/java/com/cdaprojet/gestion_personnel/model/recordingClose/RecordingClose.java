@@ -1,10 +1,8 @@
-package com.cdaprojet.gestion_personnel.model.recording;
+package com.cdaprojet.gestion_personnel.model.recordingClose;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
-import com.cdaprojet.gestion_personnel.model.dayType.DayType;
 import com.cdaprojet.gestion_personnel.model.employee.Employee;
 
 import jakarta.persistence.Entity;
@@ -22,26 +20,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "recordings")
-public class Recording {
+@Table(name = "recordings_close")
+public class RecordingClose {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private LocalDate date;
-    private LocalDate dateStart;
-    private LocalDate dateStop;
-    private LocalTime hourStart;
-    private LocalTime hourStop;
-    private LocalTime breakStart;
-    private LocalTime breakStop;
+    private boolean newEmployee;
     private Duration totalHours;
+    private Duration extraHours;
+    private Duration dueHours;
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = true)
     private Employee employee;
-
-    @ManyToOne
-    @JoinColumn(name = "day_type_id", nullable = true)
-    private DayType dayType;
+    
 }

@@ -5,33 +5,41 @@
         <select class="form-select custom-form-input" formControlName="employeeId">
             <option value="" disabled selected>Sélectionner un employe</option>
             @for (employee of employees; track $index) {
-                <option [ngValue]="employee.id">{{employee.secondname + " " + employee.firstname}}</option>
+                <option [ngValue]="employee.id" (change)="reloadRecordingForm()">{{employee.secondname + " " + employee.firstname}}</option>
             }
         </select>
         <div class="custom-form-radio">
             @for (dayType of dayTypes; track $index) {
                 <div class="form-check custom-form-input">
-                    <input class="form-check-input" type="radio" id="dayTypeId" formControlName="dayTypeId" [value]="dayType.id">
+                    <input class="form-check-input" type="radio" id="dayTypeId" formControlName="dayTypeId" [value]="dayType.id" (change)="displayDayType(recordingForm.value.dayTypeId )">
                     <label class="form-check-label" for="dayType.id">{{dayType.name}}</label>
                 </div>
             }
         </div>
-        @if(recordingForm.value.dayTypeId == 1) {
-            <p>TRAVAIL</p>
-            <input class="form-control" type="number" id="id" formControlName="id" [hidden]="true">    
-            <input class="form-control" type="date" id="date" formControlName="date">    
-            <input class="form-control" type="time" id="hourStart" formControlName="hourStart">    
+        @if(recordingForm.value.dayTypeId != 0) {
+            <div>
+                <div>{{title}}</div>
+                <input class="form-control" type="number" id="id" formControlName="id" [hidden]="true">
 
-        } @else if(recordingForm.value.dayTypeId == 2) {
-            <p>VACANCE</p>    
+                <label for="date" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">Date : </label>    
+                <input class="form-control" type="date" id="date" formControlName="date" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">
+                <label for="hourStart" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">Heure de début : </label>    
+                <input class="form-control" type="time" id="hourStart" formControlName="hourStart" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">
+                <label for="hourStop" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">Heure d'arrêt : </label>    
+                <input class="form-control" type="time" id="hourStop" formControlName="hourStop" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">
+                <label for="breakStart" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">Heure de début de pause : </label>    
+                <input class="form-control" type="time" id="breakStart" formControlName="breakStart" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">
+                <label for="breakStop" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">Heure de fin de pause : </label>    
+                <input class="form-control" type="time" id="breakStop" formControlName="breakStop" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">
+                
+                <label for="dateStart" [hidden]="!isTravailDayType(recordingForm.value.dayTypeId)">Date de début : </label>
+                <input class="form-control" type="date" id="dateStart" formControlName="dateStart" [hidden]="!isTravailDayType(recordingForm.value.dayTypeId)">
+                <label for="dateStop" [hidden]="!isTravailDayType(recordingForm.value.dayTypeId)">Date de fin : </label>    
+                <input class="form-control" type="date" id="dateStop" formControlName="dateStop" [hidden]="!isTravailDayType(recordingForm.value.dayTypeId)">   
+    
+            </div>
 
-        } @else if(recordingForm.value.dayTypeId == 3) {
-            <p>RTT</p>    
-
-        } @else if(recordingForm.value.dayTypeId == 4) {
-            <p>MALADIE</p>    
-
-        }   
+        }
         <button class="btn btn-primary" type="submit" [disabled]="!recordingForm.valid">Submit</button>
     </form>
 </section>

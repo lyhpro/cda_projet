@@ -21,6 +21,8 @@ export class RecordingComponent implements OnInit {
 
   initTime!: Time;
 
+  title!: string;
+
   employees!: Employee[];
   employees$: Observable<Employee[]> | undefined;
   subscriptionEmployees!: Subscription;
@@ -35,13 +37,13 @@ export class RecordingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.initTime.hours = 0;
-    // this.initTime.minutes = 0;
-    this.recording = new Recording(0,new Date(),this.initTime, this.initTime, this.initTime,this.initTime,this.initTime,this.initTime,this.initTime,0,0);
+    this.recording = new Recording(0,new Date(),new Date(), new Date(), this.initTime, this.initTime, this.initTime,this.initTime,this.initTime,this.initTime,this.initTime,0,0);
     this.recordingForm = this.formBuilder.group(
       {
         id: new FormControl(''),
         date: new FormControl(''),
+        dateStart: new FormControl(''),
+        dateStop: new FormControl(''),
         hourStart: new FormControl(''),
         hourStop: new FormControl(''), 
         breakStart: new FormControl(''),
@@ -58,7 +60,10 @@ export class RecordingComponent implements OnInit {
   }
 
   onSubmit() {
-
+    this.initRecordingFormWithForm();
+    this.userService.createRecording(this.recording).subscribe();
+    alert("Enregistrement effectué.");
+    location.reload();
   }
 
   initEmployees() {
@@ -96,4 +101,53 @@ export class RecordingComponent implements OnInit {
     )
   }
 
+  initRecordingFormWithForm() {
+    this.recording.date = this.recordingForm.value.date;
+    this.recording.dateStart = this.recordingForm.value.dateStart;
+    this.recording.dateStop = this.recordingForm.value.dateStop;
+    this.recording.hourStart = this.recordingForm.value.hourStart;
+    this.recording.hourStop = this.recordingForm.value.hourStop; 
+    this.recording.breakStart = this.recordingForm.value.breakStart;
+    this.recording.breakStop = this.recordingForm.value.breakStop;
+    this.recording.totalHours = this.recordingForm.value.totalHours; 
+    this.recording.extraHours = this.recordingForm.value.extraHours; 
+    this.recording.dueHours = this.recordingForm.value.dueHours; 
+    this.recording.employeeId = this.recordingForm.value.employeeId;
+    this.recording.dayTypeId = this.recordingForm.value.dayTypeId;
+  }
+
+  reloadRecordingForm() {    
+    this.recordingForm.patchValue(
+      {
+        date: '',
+        dateStart: '',
+        dateStop: '',
+        hourStart: '',
+        hourStop: '',
+        breakStart: '',
+        breakStop: ''
+      }
+    );
+  }
+
+  displayDayType(dayTypeId: number) {
+    this.reloadRecordingForm();
+    if(dayTypeId == 1) {
+      this.title = "TRAVAIL";
+    } else if(dayTypeId == 2) {
+      this.title = "VACANCE";
+    } else if(dayTypeId == 3) {
+      this.title = "RTT";
+    } else if(dayTypeId == 4) {
+      this.title = "MALADIE";
+    }
+  }
+
+  isTravailDayType(dayTypeId: number): boolean {
+    if(dayTypeId == 1) {
+      return false;
+    }
+    return true;
+  }
+ 
 }

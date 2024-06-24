@@ -1,12 +1,13 @@
 package com.cdaprojet.gestion_personnel.model.employee;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.cdaprojet.gestion_personnel.model.contactDetail.ContactDetail;
 import com.cdaprojet.gestion_personnel.model.holliday.Holliday;
 import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
 import com.cdaprojet.gestion_personnel.model.recording.Recording;
+import com.cdaprojet.gestion_personnel.model.recordingClose.RecordingClose;
 import com.cdaprojet.gestion_personnel.model.rtt.Rtt;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -40,11 +41,11 @@ public class Employee {
 
     private String placeOfBirth;
 
-    private Timestamp dateOfBirth;
+    private LocalDate dateOfBirth;
 
     private boolean enable;
 
-    private Timestamp dateOfCreation;
+    private LocalDate dateOfCreation;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "contact_detail_id", referencedColumnName = "id")
@@ -65,5 +66,9 @@ public class Employee {
     @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private List<Recording> recordings; 
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee")
+    private List<RecordingClose> recordingCloses;
 
 }

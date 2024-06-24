@@ -1,6 +1,5 @@
 package com.cdaprojet.gestion_personnel.model.employee;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
@@ -16,7 +15,7 @@ public class EmployeeForm {
     private String secondname;
     private String firstname;
     private String placeOfBirth;
-    private Timestamp dateOfBirth;
+    private LocalDate dateOfBirth;
 
     private String email;
     private String address;

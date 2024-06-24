@@ -1,6 +1,6 @@
 package com.cdaprojet.gestion_personnel.service.employee;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +16,12 @@ import com.cdaprojet.gestion_personnel.model.employee.EmployeeForm;
 import com.cdaprojet.gestion_personnel.model.holliday.Holliday;
 import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
 import com.cdaprojet.gestion_personnel.model.recording.Recording;
+import com.cdaprojet.gestion_personnel.model.recordingClose.RecordingClose;
 import com.cdaprojet.gestion_personnel.model.rtt.Rtt;
 import com.cdaprojet.gestion_personnel.repository.ContractTypeRepository;
 import com.cdaprojet.gestion_personnel.repository.DepartmentRepository;
 import com.cdaprojet.gestion_personnel.repository.EmployeeRepository;
+import com.cdaprojet.gestion_personnel.service.recordingClose.RecordingCloseService;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -33,8 +35,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private RecordingCloseService recordingCloseService;
+
     @Override
     public EmployeeDto create(EmployeeForm employeeForm) {
+
         ContactDetail newContactDetail = new ContactDetail(
             0,
             employeeForm.getEmail(),
@@ -66,15 +72,17 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeForm.getPlaceOfBirth(), 
             employeeForm.getDateOfBirth(),
             true, 
-            new Timestamp(System.currentTimeMillis()),
+            LocalDate.now(),
             newContactDetail, 
             newProfessionalDetail,
             new ArrayList<Holliday>(),
             new ArrayList<Rtt>(),
-            new ArrayList<Recording>()
+            new ArrayList<Recording>(),
+            new ArrayList<RecordingClose>()
         );
 
-        employeeRepository.save(newEmployee);
+        Employee savedEmployee = employeeRepository.save(newEmployee);
+        this.recordingCloseService.create(savedEmployee);
 
         return new EmployeeDto(newEmployee);
     }
@@ -116,12 +124,13 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeForm.getPlaceOfBirth(), 
             employeeForm.getDateOfBirth(), 
             oldEmployee.isEnable(), 
-            new Timestamp(System.currentTimeMillis()), 
+            LocalDate.now(), 
             updatedContactDetail, 
             updateProfessionalDetail,
             oldEmployee.getHollidays(),
             oldEmployee.getRtts(),
-            oldEmployee.getRecordings()
+            oldEmployee.getRecordings(),
+            oldEmployee.getRecordingCloses()
         );
 
         employeeRepository.save(updatedEmployee);

@@ -3,6 +3,8 @@ import { Time } from "@angular/common";
 export class Recording {
     id: number;
     date: Date;
+    dateStart: Date;
+    dateStop: Date;
     hourStart: Time;
     hourStop: Time; 
     breakStart: Time;
@@ -16,6 +18,8 @@ export class Recording {
     constructor(
         id: number,
         date: Date,
+        dateStart: Date,
+        dateStop: Date,
         hourStart: Time,
         hourStop: Time,
         breakStart: Time,
@@ -28,6 +32,8 @@ export class Recording {
     ) {
         this.id = id;
         this.date = date;
+        this.dateStart = dateStart;
+        this.dateStop = dateStop;
         this.hourStart = hourStart;
         this.hourStop = hourStop;
         this.breakStart = breakStart;

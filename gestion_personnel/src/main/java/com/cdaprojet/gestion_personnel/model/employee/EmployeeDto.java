@@ -1,6 +1,6 @@
 package com.cdaprojet.gestion_personnel.model.employee;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +15,9 @@ public class EmployeeDto {
     private String secondname;
     private String firstname;
     private String placeOfBirth;
-    private Timestamp dateOfBirth;
+    private LocalDate dateOfBirth;
     private boolean enable;
-    private Timestamp dateOfCreation;
+    private LocalDate dateOfCreation;
     private long contactDetailId;
     private long professionalDetailId;
     
