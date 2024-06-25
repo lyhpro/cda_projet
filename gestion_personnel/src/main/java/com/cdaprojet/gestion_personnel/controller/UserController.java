@@ -17,11 +17,13 @@ import com.cdaprojet.gestion_personnel.model.dayType.DayType;
 import com.cdaprojet.gestion_personnel.model.department.Department;
 import com.cdaprojet.gestion_personnel.model.employee.EmployeeDto;
 import com.cdaprojet.gestion_personnel.model.employee.EmployeeForm;
+import com.cdaprojet.gestion_personnel.model.hoursPerWeek.HoursPerWeek;
 import com.cdaprojet.gestion_personnel.model.recording.RecordingDto;
 import com.cdaprojet.gestion_personnel.service.contractType.ContractTypeService;
 import com.cdaprojet.gestion_personnel.service.dayType.DayTypeService;
 import com.cdaprojet.gestion_personnel.service.department.DepartmentService;
 import com.cdaprojet.gestion_personnel.service.employee.EmployeeService;
+import com.cdaprojet.gestion_personnel.service.hoursPerWeek.HoursPerWeekService;
 import com.cdaprojet.gestion_personnel.service.recording.RecordingService;
 
 @RestController
@@ -43,6 +45,9 @@ public class UserController {
 
     @Autowired
     private DayTypeService dayTypeService;
+
+    @Autowired
+    private HoursPerWeekService hoursPerWeekService;
     
     @GetMapping("/hello")
     public ResponseEntity<String> helloUser() {
@@ -79,8 +84,9 @@ public class UserController {
     // RECORDINGS ///////////////////////////////////////////////////////////////////////////
 
     @PostMapping("/createRecording")
-    public ResponseEntity<RecordingDto> createRecording(@RequestBody RecordingDto recordingDto) {
-        return ResponseEntity.ok(recordingService.create(recordingDto));
+    public ResponseEntity<Void> createRecording(@RequestBody RecordingDto recordingDto) {
+        recordingService.create(recordingDto);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/getRecordings/{id}")
@@ -109,4 +115,10 @@ public class UserController {
         return ResponseEntity.ok(dayTypeService.getAllDayType());
     }
 
+    // HOURSPERWEEK ///////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("getAllHoursPerWeek")
+    public ResponseEntity<List<HoursPerWeek>> getAllHoursPerWeek() {
+        return ResponseEntity.ok(hoursPerWeekService.getAllHoursPerWeek());
+    }
 }
