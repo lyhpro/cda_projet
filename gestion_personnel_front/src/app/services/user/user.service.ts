@@ -38,7 +38,7 @@ export class UserService {
     return this.http.get<DayType[]>(API_URL_USER + 'getAllDayType');
   }
 
-  createRecording(recording: Recording): Observable<Recording> {
-    return this.http.post<Recording>(API_URL_USER + 'createRecording', recording);
+  createRecording(recording: Recording): Observable<void> {
+    return this.http.post<void>(API_URL_USER + 'createRecording', recording);
   }
 }
