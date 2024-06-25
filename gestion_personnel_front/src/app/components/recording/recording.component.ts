@@ -1,7 +1,7 @@
 import { CommonModule, Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Employee } from '../../models/employee/employee/employee';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import { UserService } from '../../services/user/user.service';
 import { DayType } from '../../models/dayType/day-type';
 import { Recording } from '../../models/recording/recording';
@@ -67,12 +67,22 @@ export class RecordingComponent implements OnInit {
   }
 
   initEmployees() {
-    this.employees$ = this.userService.getAllEmployee();
+    this.employees$ = this.userService.getAllEmployee().pipe(
+      map(
+        employees => {
+          return employees.map(
+            employee => {
+              const newEmployee = new Employee(employee.id,employee.secondname,employee.firstname,employee.placeOfBirth,employee.dateOfBirth,employee.enable,employee.dateOfCreation,employee.contactDetailId,employee.professionalDetailId);
+              return newEmployee;
+            }
+          )
+        }
+      )
+    );
     this.subscriptionEmployees = this.employees$.subscribe(
       {
         next: resp => {
           this.employees = resp;
-          console.log(this.employees)
         },
         error: err => {
           console.log(err);
@@ -85,7 +95,18 @@ export class RecordingComponent implements OnInit {
   }
 
   initDayTypes() {
-    this.dayTypes$ = this.userService.getAllDayType();
+    this.dayTypes$ = this.userService.getAllDayType().pipe(
+      map(
+        dayTypes => {
+          return dayTypes.map(
+            dayType => {
+              const newDayType = new DayType(dayType.id,dayType.name,dayType.enable);
+              return newDayType;
+            }
+          )
+        }
+      )
+    );
     this.subscriptiondayTypes = this.dayTypes$.subscribe(
       {
         next: resp => {

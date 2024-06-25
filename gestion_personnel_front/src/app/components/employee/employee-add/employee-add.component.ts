@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EmployeeForm } from '../../../models/employee/employee-form/employee-form';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ContractType } from '../../../models/contractType/contract-type';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import { Department } from '../../../models/department/department';
 import { UserService } from '../../../services/user/user.service';
 import { CommonModule } from '@angular/common';
@@ -69,7 +69,18 @@ export class EmployeeAddComponent implements OnInit {
   }
 
   initListContractType() {
-    this.contracTypes$ = this.userService.getAllContractType();
+    this.contracTypes$ = this.userService.getAllContractType().pipe(
+      map(
+        contractTypes => {
+          return contractTypes.map(
+            contractType => {
+              const newContractTypes = new ContractType(contractType.id,contractType.name,contractType.enable);
+              return newContractTypes;
+            }
+          )
+        }
+      )
+    );
     this.subscriptionContractTypes = this.contracTypes$.subscribe(
       {
         next: resp => {
@@ -86,7 +97,18 @@ export class EmployeeAddComponent implements OnInit {
   }
 
   initListDepartment() {
-    this.departments$ = this.userService.getAllDepartment();
+    this.departments$ = this.userService.getAllDepartment().pipe(
+      map(
+        departments => {
+          return departments.map(
+            department => {
+              const newDepartment = new Department(department.id,department.name,department.description,department.enable);
+              return newDepartment;
+            }
+          )
+        }
+      )
+    );
     this.subscriptionDepartments = this.departments$.subscribe(
       {
         next: resp => {
@@ -103,7 +125,18 @@ export class EmployeeAddComponent implements OnInit {
   }
 
   initListHoursPerWeek() {
-    this.hoursPerWeeks$ = this.userService.getAllHoursPerWeek();
+    this.hoursPerWeeks$ = this.userService.getAllHoursPerWeek().pipe(
+      map(
+        hoursPerWeeks => {
+          return hoursPerWeeks.map(
+            hoursPerWeek => {
+              const newHoursPerWeek = new HoursPerWeek(hoursPerWeek.id,hoursPerWeek.hours,hoursPerWeek.enable);
+              return newHoursPerWeek;
+            }
+          )
+        }
+      )
+    );
     this.subscriptionHoursPerWeeks = this.hoursPerWeeks$.subscribe(
       {
         next: resp => {
@@ -125,8 +158,6 @@ export class EmployeeAddComponent implements OnInit {
   }
 
   createEmployee() {
-    console.log(this.employeForm);
-    
     this.userService.createEmploye(this.employeForm).subscribe();
     alert("Employe ajouté.");
     location.reload();

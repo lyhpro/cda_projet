@@ -1,0 +1,12 @@
+.custom-table {
+    width: 75%;
+    margin: auto;
+}
+
+.custom-table-col-title, .custom-table-col-content {
+    text-align: center;
+}
+
+.custom-table-btn {
+    margin-right: .5em;
+}

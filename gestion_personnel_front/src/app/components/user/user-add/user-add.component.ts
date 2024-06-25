@@ -67,7 +67,6 @@ export class UserAddComponent implements OnInit, OnDestroy {
       {
         next : resp => {
           this.listRole = resp;
-          console.log(this.listRole);
         },
         error: err => {
           console.log(err);
