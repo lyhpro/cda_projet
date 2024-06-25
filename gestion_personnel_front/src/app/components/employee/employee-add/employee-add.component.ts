@@ -125,6 +125,8 @@ export class EmployeeAddComponent implements OnInit {
   }
 
   createEmployee() {
+    console.log(this.employeForm);
+    
     this.userService.createEmploye(this.employeForm).subscribe();
     alert("Employe ajouté.");
     location.reload();

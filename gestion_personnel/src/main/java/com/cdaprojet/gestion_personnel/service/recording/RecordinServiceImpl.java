@@ -61,7 +61,7 @@ public class RecordinServiceImpl implements RecordingService {
             dayType
         );
 
-        List<Recording> recordings = new ArrayList<Recording>();
+        // List<Recording> recordings = new ArrayList<Recording>();
 
         if (recordingDto.getDayTypeId() == 1) {
             newRecording.setDate(recordingDto.getDate());
@@ -76,13 +76,26 @@ public class RecordinServiceImpl implements RecordingService {
         } else {
             List<LocalDate> datesBetweenTwoDate = getDatesBetweenTwoDate(recordingDto.getDateStart(), recordingDto.getDateStop());
             for(LocalDate date: datesBetweenTwoDate) {
-                Recording recording = newRecording;
+                Recording recording = new Recording(
+                    0, 
+                    null,
+                    null,
+                    null, 
+                    null, 
+                    null, 
+                    null, 
+                    null,
+                    null,
+                    null,
+                    null, 
+                    employee, 
+                    dayType
+                );
                 recording.setDate(date);
                 recording.setDateStart(recordingDto.getDateStart());
                 recording.setDateStop(recordingDto.getDateStop());
-                recordings.add(recording);
+                recordingRepository.save(recording);
             }
-            recordingRepository.saveAll(recordings);
         }
 
     }

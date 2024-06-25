@@ -19,7 +19,7 @@
         <input class="form-control custom-form-input" type="date" id="dateOfHiring" formControlName="dateOfHiring" placeholder="Enter the date of hiring">
         <input class="form-control custom-form-input" type="date" id="dateEndOfContract" formControlName="dateEndOfContract" placeholder="Enter the date of end contract">
         <input class="form-control custom-form-input" type="number" id="salary" formControlName="salary" placeholder="Enter the employee salary">
-        <select class="form-select custom-form-input" formControlName="contractId">
+        <select class="form-select custom-form-input" formControlName="hoursPerWeekId">
             <option value="" disabled selected>Sélectionner un nombre d'heure</option>
             @for (hoursPerWeek of hoursPerWeeks; track $index) {
                 <option [ngValue]="hoursPerWeek.id">{{hoursPerWeek.hours}}</option>
