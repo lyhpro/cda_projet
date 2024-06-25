@@ -35,6 +35,8 @@ public class Recording {
     private LocalTime hourStop;
     private LocalTime breakStart;
     private LocalTime breakStop;
+    private Duration extraHours;
+    private Duration dueHours;
     private Duration totalHours;
 
     @ManyToOne

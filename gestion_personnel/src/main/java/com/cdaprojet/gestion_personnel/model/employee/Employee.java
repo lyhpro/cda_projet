@@ -7,7 +7,6 @@ import com.cdaprojet.gestion_personnel.model.contactDetail.ContactDetail;
 import com.cdaprojet.gestion_personnel.model.holliday.Holliday;
 import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
 import com.cdaprojet.gestion_personnel.model.recording.Recording;
-import com.cdaprojet.gestion_personnel.model.recordingClose.RecordingClose;
 import com.cdaprojet.gestion_personnel.model.rtt.Rtt;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -66,9 +65,5 @@ public class Employee {
     @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private List<Recording> recordings; 
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "employee")
-    private List<RecordingClose> recordingCloses;
 
 }

@@ -41,6 +41,8 @@ public class RecordinServiceImpl implements RecordingService {
             null, 
             null, 
             null,
+            null,
+            null,
             null, 
             employee, 
             dayType

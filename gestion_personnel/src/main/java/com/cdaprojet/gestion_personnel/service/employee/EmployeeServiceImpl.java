@@ -16,12 +16,10 @@ import com.cdaprojet.gestion_personnel.model.employee.EmployeeForm;
 import com.cdaprojet.gestion_personnel.model.holliday.Holliday;
 import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
 import com.cdaprojet.gestion_personnel.model.recording.Recording;
-import com.cdaprojet.gestion_personnel.model.recordingClose.RecordingClose;
 import com.cdaprojet.gestion_personnel.model.rtt.Rtt;
 import com.cdaprojet.gestion_personnel.repository.ContractTypeRepository;
 import com.cdaprojet.gestion_personnel.repository.DepartmentRepository;
 import com.cdaprojet.gestion_personnel.repository.EmployeeRepository;
-import com.cdaprojet.gestion_personnel.service.recordingClose.RecordingCloseService;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -34,9 +32,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
-
-    @Autowired
-    private RecordingCloseService recordingCloseService;
 
     @Override
     public EmployeeDto create(EmployeeForm employeeForm) {
@@ -77,12 +72,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             newProfessionalDetail,
             new ArrayList<Holliday>(),
             new ArrayList<Rtt>(),
-            new ArrayList<Recording>(),
-            new ArrayList<RecordingClose>()
+            new ArrayList<Recording>()
         );
 
-        Employee savedEmployee = employeeRepository.save(newEmployee);
-        this.recordingCloseService.create(savedEmployee);
+        employeeRepository.save(newEmployee);
 
         return new EmployeeDto(newEmployee);
     }
@@ -129,8 +122,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             updateProfessionalDetail,
             oldEmployee.getHollidays(),
             oldEmployee.getRtts(),
-            oldEmployee.getRecordings(),
-            oldEmployee.getRecordingCloses()
+            oldEmployee.getRecordings()
         );
 
         employeeRepository.save(updatedEmployee);
