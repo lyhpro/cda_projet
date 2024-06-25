@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.cdaprojet.gestion_personnel.model.contactDetail.ContactDetail;
-import com.cdaprojet.gestion_personnel.model.holliday.Holliday;
+import com.cdaprojet.gestion_personnel.model.holiday.Holiday;
 import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
 import com.cdaprojet.gestion_personnel.model.recording.Recording;
 import com.cdaprojet.gestion_personnel.model.rtt.Rtt;
@@ -56,7 +56,7 @@ public class Employee {
 
     @JsonIgnore
     @OneToMany(mappedBy = "employee")
-    private List<Holliday> hollidays; 
+    private List<Holiday> hollidays; 
 
     @JsonIgnore
     @OneToMany(mappedBy = "employee")

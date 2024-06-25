@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.cdaprojet.gestion_personnel.model.contractType.ContractType;
 import com.cdaprojet.gestion_personnel.model.department.Department;
+import com.cdaprojet.gestion_personnel.model.hoursPerWeek.HoursPerWeek;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,16 +27,14 @@ public class ProfessionalDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String post;
-
     private LocalDate dateOfHiring;
-
     private LocalDate dateEndOfContract;
-
     private float salary;
 
-    private long hoursPerWeek;
+    @ManyToOne
+    @JoinColumn(name = "hoursperweek_id", nullable = true)
+    private HoursPerWeek hoursPerWeek;
 
     @ManyToOne
     @JoinColumn(name = "contract_type_id", nullable = true)

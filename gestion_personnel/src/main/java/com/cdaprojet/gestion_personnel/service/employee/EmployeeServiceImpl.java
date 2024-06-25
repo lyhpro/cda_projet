@@ -13,13 +13,15 @@ import com.cdaprojet.gestion_personnel.model.department.Department;
 import com.cdaprojet.gestion_personnel.model.employee.Employee;
 import com.cdaprojet.gestion_personnel.model.employee.EmployeeDto;
 import com.cdaprojet.gestion_personnel.model.employee.EmployeeForm;
-import com.cdaprojet.gestion_personnel.model.holliday.Holliday;
+import com.cdaprojet.gestion_personnel.model.holiday.Holiday;
+import com.cdaprojet.gestion_personnel.model.hoursPerWeek.HoursPerWeek;
 import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
 import com.cdaprojet.gestion_personnel.model.recording.Recording;
 import com.cdaprojet.gestion_personnel.model.rtt.Rtt;
 import com.cdaprojet.gestion_personnel.repository.ContractTypeRepository;
 import com.cdaprojet.gestion_personnel.repository.DepartmentRepository;
 import com.cdaprojet.gestion_personnel.repository.EmployeeRepository;
+import com.cdaprojet.gestion_personnel.repository.HoursPerWeekRepository;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -32,6 +34,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private HoursPerWeekRepository hoursPerWeekRepository;
 
     @Override
     public EmployeeDto create(EmployeeForm employeeForm) {
@@ -48,6 +53,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Department department = departmentRepository.findById(employeeForm.getDepartmentId()).orElse(null);
         ContractType contractType = contractTypeRepository.findById(employeeForm.getContractId()).orElse(null);
+        HoursPerWeek hoursPerWeek = hoursPerWeekRepository.findById(employeeForm.getHoursPerWeekId()).orElse(null);
 
         ProfessionalDetail newProfessionalDetail = new ProfessionalDetail(
             0,
@@ -55,7 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeForm.getDateOfHiring(),
             employeeForm.getDateEndOfContract(),
             employeeForm.getSalary(),
-            employeeForm.getHoursPerWeek(),
+            hoursPerWeek,
             contractType,
             department
         );
@@ -70,7 +76,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             LocalDate.now(),
             newContactDetail, 
             newProfessionalDetail,
-            new ArrayList<Holliday>(),
+            new ArrayList<Holiday>(),
             new ArrayList<Rtt>(),
             new ArrayList<Recording>()
         );
@@ -97,6 +103,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         ContractType newContractType = contractTypeRepository.findById(employeeForm.getContractId()).orElse(null);
         Department newDepartment = departmentRepository.findById(employeeForm.getDepartmentId()).orElse(null);
+        HoursPerWeek hoursPerWeek = hoursPerWeekRepository.findById(employeeForm.getHoursPerWeekId()).orElse(null);
 
         ProfessionalDetail oldProfessionalDetail = oldEmployee.getProfessionalDetail();
         ProfessionalDetail updateProfessionalDetail = new ProfessionalDetail(
@@ -105,7 +112,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeForm.getDateOfHiring(), 
             employeeForm.getDateEndOfContract(), 
             employeeForm.getSalary(), 
-            employeeForm.getHoursPerWeek(), 
+            hoursPerWeek, 
             newContractType, 
             newDepartment
         );

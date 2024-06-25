@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.cdaprojet.gestion_personnel.model.contractType.ContractType;
 import com.cdaprojet.gestion_personnel.model.dayType.DayType;
 import com.cdaprojet.gestion_personnel.model.department.Department;
+import com.cdaprojet.gestion_personnel.model.hoursPerWeek.HoursPerWeek;
 import com.cdaprojet.gestion_personnel.model.path.Path;
 import com.cdaprojet.gestion_personnel.model.pathAssigned.PathAssigned;
 import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
@@ -20,6 +21,7 @@ import com.cdaprojet.gestion_personnel.model.user.User;
 import com.cdaprojet.gestion_personnel.repository.ContractTypeRepository;
 import com.cdaprojet.gestion_personnel.repository.DayTypeRepository;
 import com.cdaprojet.gestion_personnel.repository.DepartmentRepository;
+import com.cdaprojet.gestion_personnel.repository.HoursPerWeekRepository;
 import com.cdaprojet.gestion_personnel.repository.PathAssignedRepository;
 import com.cdaprojet.gestion_personnel.repository.PathRepository;
 import com.cdaprojet.gestion_personnel.repository.RoleRepository;
@@ -42,6 +44,9 @@ public class Dataload implements CommandLineRunner {
 
     @Autowired
     private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private HoursPerWeekRepository hoursPerWeekRepository;
 
     @Autowired
     private PathRepository pathRepository;
@@ -131,6 +136,19 @@ public class Dataload implements CommandLineRunner {
             newDepartments.add(departmentB);
 
             departmentRepository.saveAll(newDepartments);
+        }
+
+        List<HoursPerWeek> hoursPerWeeks = hoursPerWeekRepository.findAll();
+        if(hoursPerWeeks.size() == 0) {
+            List<HoursPerWeek> newHoursPerWeeks = new ArrayList<HoursPerWeek>();
+
+            HoursPerWeek hoursPerWeekA = new HoursPerWeek(0, 35, true, new ArrayList<ProfessionalDetail>());
+            newHoursPerWeeks.add(hoursPerWeekA);
+
+            HoursPerWeek hoursPerWeekB = new HoursPerWeek(0, 30, true, new ArrayList<ProfessionalDetail>());
+            newHoursPerWeeks.add(hoursPerWeekB);
+
+            hoursPerWeekRepository.saveAll(newHoursPerWeeks);
         }
 
         List<Path> paths = pathRepository.findAll();

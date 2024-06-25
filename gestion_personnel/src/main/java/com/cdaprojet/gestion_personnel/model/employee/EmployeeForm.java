@@ -28,7 +28,7 @@ public class EmployeeForm {
     private LocalDate dateOfHiring;
     private LocalDate dateEndOfContract;
     private long salary;
-    private long hoursPerWeek;
+    private long hoursPerWeekId;
     private long contractId;
     private long departmentId;
 }

@@ -17,7 +17,7 @@ public class ProfessionalDetailDto {
     private Timestamp dateEndOfContract;
     private long salary;
     private long hoursPerWeek;
+    private float hoursPerDay;
     private long contractTypeId;
     private long departmentId;
-    
 }

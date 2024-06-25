@@ -1,4 +1,4 @@
-package com.cdaprojet.gestion_personnel.model.holliday;
+package com.cdaprojet.gestion_personnel.model.holiday;
 
 import com.cdaprojet.gestion_personnel.model.employee.Employee;
 
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "hollidays")
-public class Holliday {
+public class Holiday {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
