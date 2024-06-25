@@ -46,4 +46,8 @@ export class UserService {
   createRecording(recording: Recording): Observable<void> {
     return this.http.post<void>(API_URL_USER + 'createRecording', recording);
   }
+
+  getEmployeeById(employeeId: number): Observable<Employee> {
+    return this.http.get<Employee>(API_URL_USER + 'getEmployee/' + employeeId);
+  }
 }
