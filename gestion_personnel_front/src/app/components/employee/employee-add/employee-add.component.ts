@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Department } from '../../../models/department/department';
 import { UserService } from '../../../services/user/user.service';
 import { CommonModule } from '@angular/common';
+import { HoursPerWeek } from '../../../models/hoursPerWeek/hours-per-week';
 
 @Component({
   selector: 'app-employee-add',
@@ -26,6 +27,10 @@ export class EmployeeAddComponent implements OnInit {
   departments!: Department[];
   departments$: Observable<Department[]> | undefined;
   subscriptionDepartments!: Subscription;
+
+  hoursPerWeeks!: HoursPerWeek[];
+  hoursPerWeeks$: Observable<HoursPerWeek[]> | undefined;
+  subscriptionHoursPerWeeks!: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,13 +58,14 @@ export class EmployeeAddComponent implements OnInit {
         dateOfHiring: new FormControl(''),
         dateEndOfContract: new FormControl(''),
         salary: new FormControl(''),
-        hoursPerWeek: new FormControl(''),
+        hoursPerWeekId: new FormControl(''),
         contractId: new FormControl(''),
         departmentId: new FormControl('')
       }
     )
     this.initListContractType();
     this.initListDepartment();
+    this.initListHoursPerWeek();
   }
 
   initListContractType() {
@@ -73,7 +79,7 @@ export class EmployeeAddComponent implements OnInit {
           console.log(err);
         },
         complete: () => {
-          console.log("Liste des contrats chargés.");
+          console.log("Liste des contrats chargé.");
         }
       }
     )
@@ -90,7 +96,24 @@ export class EmployeeAddComponent implements OnInit {
           console.log(err);
         },
         complete: () => {
-          console.log("Liste des departments chargés.");
+          console.log("Liste des departments chargé.");
+        }
+      }
+    )
+  }
+
+  initListHoursPerWeek() {
+    this.hoursPerWeeks$ = this.userService.getAllHoursPerWeek();
+    this.subscriptionHoursPerWeeks = this.hoursPerWeeks$.subscribe(
+      {
+        next: resp => {
+          this.hoursPerWeeks = resp;
+        },
+        error: err => {
+          console.log(err);
+        },
+        complete: () => {
+          console.log("Liste des heures chargé.");
         }
       }
     )
@@ -125,7 +148,7 @@ export class EmployeeAddComponent implements OnInit {
     this.employeForm.dateOfHiring = this.form.value.dateOfHiring,
     this.employeForm.dateEndOfContract = this.form.value.dateEndOfContract,
     this.employeForm.salary = this.form.value.salary,
-    this.employeForm.hoursPerWeek = this.form.value.hoursPerWeek,
+    this.employeForm.hoursPerWeekId = this.form.value.hoursPerWeekId,
     this.employeForm.contractId = this.form.value.contractId,
     this.employeForm.departmentId = this.form.value.departmentId
   }

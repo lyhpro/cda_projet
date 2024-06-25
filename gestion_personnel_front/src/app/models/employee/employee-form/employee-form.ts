@@ -16,7 +16,7 @@ export class EmployeeForm {
     dateOfHiring: Date;
     dateEndOfContract: Date;
     salary: number;
-    hoursPerWeek: number;
+    hoursPerWeekId: number;
     contractId: number;
     departmentId: number;
 
@@ -38,7 +38,7 @@ export class EmployeeForm {
         dateOfHiring: Date,
         dateEndOfContract: Date,
         salary: number,
-        hoursPerWeek: number,
+        hoursPerWeekId: number,
         contractId: number,
         departmentId: number
     ) {
@@ -59,7 +59,7 @@ export class EmployeeForm {
         this.dateOfHiring = dateOfHiring;
         this.dateEndOfContract = dateEndOfContract;
         this.salary = salary;
-        this.hoursPerWeek = hoursPerWeek;
+        this.hoursPerWeekId = hoursPerWeekId;
         this.contractId =  contractId;
         this.departmentId = departmentId;
     }

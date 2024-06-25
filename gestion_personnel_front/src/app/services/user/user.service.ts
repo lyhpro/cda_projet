@@ -8,6 +8,7 @@ import { EmployeeForm } from '../../models/employee/employee-form/employee-form'
 import { Employee } from '../../models/employee/employee/employee';
 import { DayType } from '../../models/dayType/day-type';
 import { Recording } from '../../models/recording/recording';
+import { HoursPerWeek } from '../../models/hoursPerWeek/hours-per-week';
 
 const API_URL_USER = 'http://localhost:8080/gestionnaire-personnel/user/';
 
@@ -36,6 +37,10 @@ export class UserService {
 
   getAllDayType(): Observable<DayType[]> {
     return this.http.get<DayType[]>(API_URL_USER + 'getAllDayType');
+  }
+
+  getAllHoursPerWeek(): Observable<HoursPerWeek[]> {
+    return this.http.get<HoursPerWeek[]>(API_URL_USER + 'getAllHoursPerWeek');
   }
 
   createRecording(recording: Recording): Observable<void> {
