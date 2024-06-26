@@ -7,10 +7,44 @@
         <select class="form-select custom-form-input" formControlName="month">
             <option value="" disabled selected>Sélectionner un mois</option>
             @for (month of months; track $index) {
-                <option [ngValue]="month">{{month}}</option>
+                <option [ngValue]="month.id">{{month.name}}</option>
             }
         </select>
         <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>
     </form>
+
+    @if(recordings.length != 0) {
+        <table class="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th class="custom-table-col-title" scope="col">Date</th>
+                <th class="custom-table-col-title" scope="col">Journée</th>
+                <th class="custom-table-col-title" scope="col">Heure de début</th>
+                <th class="custom-table-col-title" scope="col">Heure de fin</th>
+                <th class="custom-table-col-title" scope="col">Heure de pause</th>
+                <th class="custom-table-col-title" scope="col">Heure de fin de pause</th>
+                <th class="custom-table-col-title" scope="col">Heure total</th>
+                <th class="custom-table-col-title" scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+                @for (recording of recordings; track $index) {
+                    <tr>
+                        <td class="custom-table-col-content">{{recording.date}}</td>
+                        <td class="custom-table-col-content">{{loadDayType(recording.dayTypeId)}}</td>
+                        <td class="custom-table-col-content">{{recording.hourStart.hours +":"+recording.hourStart.minutes}}</td>
+                        <td class="custom-table-col-content">{{recording.hourStop}}</td>
+                        <td class="custom-table-col-content">{{recording.breakStart}}</td>
+                        <td class="custom-table-col-content">{{recording.breakStop}}</td>
+                        <td class="custom-table-col-content">{{recording.totalHours}}</td>
+                        <td class="custom-table-col-content">
+                          <button class="btn btn-success custom-table-btn">Consulter</button>
+                        </td>
+                    </tr>
+                    
+                }
+            </tbody>
+        </table>
+    }
 
 </section>

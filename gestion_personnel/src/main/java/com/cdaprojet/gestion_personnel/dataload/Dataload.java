@@ -12,6 +12,7 @@ import com.cdaprojet.gestion_personnel.model.contractType.ContractType;
 import com.cdaprojet.gestion_personnel.model.dayType.DayType;
 import com.cdaprojet.gestion_personnel.model.department.Department;
 import com.cdaprojet.gestion_personnel.model.hoursPerWeek.HoursPerWeek;
+import com.cdaprojet.gestion_personnel.model.month.Month;
 import com.cdaprojet.gestion_personnel.model.path.Path;
 import com.cdaprojet.gestion_personnel.model.pathAssigned.PathAssigned;
 import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
@@ -22,6 +23,7 @@ import com.cdaprojet.gestion_personnel.repository.ContractTypeRepository;
 import com.cdaprojet.gestion_personnel.repository.DayTypeRepository;
 import com.cdaprojet.gestion_personnel.repository.DepartmentRepository;
 import com.cdaprojet.gestion_personnel.repository.HoursPerWeekRepository;
+import com.cdaprojet.gestion_personnel.repository.MonthRepository;
 import com.cdaprojet.gestion_personnel.repository.PathAssignedRepository;
 import com.cdaprojet.gestion_personnel.repository.PathRepository;
 import com.cdaprojet.gestion_personnel.repository.RoleRepository;
@@ -53,6 +55,9 @@ public class Dataload implements CommandLineRunner {
 
     @Autowired
     private PathAssignedRepository pathAssignedRepository;
+
+    @Autowired
+    private MonthRepository monthRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -149,6 +154,50 @@ public class Dataload implements CommandLineRunner {
             newHoursPerWeeks.add(hoursPerWeekB);
 
             hoursPerWeekRepository.saveAll(newHoursPerWeeks);
+        }
+
+        List<Month> months = monthRepository.findAll();
+        if(months.size() == 0) {
+            List<Month> newMonths = new ArrayList<Month>();
+
+            Month january = new Month(0,"Janvier",1);
+            newMonths.add(january);
+
+            Month february = new Month(0,"Fevrier",2);
+            newMonths.add(february);
+
+            Month march = new Month(0,"Mars",3);
+            newMonths.add(march);
+
+            Month april = new Month(0,"Avril",4);
+            newMonths.add(april);
+
+            Month may = new Month(0,"Mai",5);
+            newMonths.add(may);
+
+            Month june = new Month(0,"Juin",6);
+            newMonths.add(june);
+
+            Month july = new Month(0,"Juillet",7);
+            newMonths.add(july);
+
+            Month august = new Month(0,"Aout",8);
+            newMonths.add(august);
+
+            Month september = new Month(0,"Septembre",9);
+            newMonths.add(september);
+
+            Month october = new Month(0,"Octobre",10);
+            newMonths.add(october);
+
+            Month november = new Month(0,"Novembre",11);
+            newMonths.add(november);
+
+            Month december = new Month(0,"Decembre",12);
+            newMonths.add(december);
+
+            monthRepository.saveAll(newMonths);
+
         }
 
         List<Path> paths = pathRepository.findAll();

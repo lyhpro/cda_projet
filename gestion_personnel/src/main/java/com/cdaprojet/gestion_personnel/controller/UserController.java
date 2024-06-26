@@ -18,12 +18,14 @@ import com.cdaprojet.gestion_personnel.model.department.Department;
 import com.cdaprojet.gestion_personnel.model.employee.EmployeeDto;
 import com.cdaprojet.gestion_personnel.model.employee.EmployeeForm;
 import com.cdaprojet.gestion_personnel.model.hoursPerWeek.HoursPerWeek;
+import com.cdaprojet.gestion_personnel.model.month.Month;
 import com.cdaprojet.gestion_personnel.model.recording.RecordingDto;
 import com.cdaprojet.gestion_personnel.service.contractType.ContractTypeService;
 import com.cdaprojet.gestion_personnel.service.dayType.DayTypeService;
 import com.cdaprojet.gestion_personnel.service.department.DepartmentService;
 import com.cdaprojet.gestion_personnel.service.employee.EmployeeService;
 import com.cdaprojet.gestion_personnel.service.hoursPerWeek.HoursPerWeekService;
+import com.cdaprojet.gestion_personnel.service.month.MonthService;
 import com.cdaprojet.gestion_personnel.service.recording.RecordingService;
 
 @RestController
@@ -48,6 +50,9 @@ public class UserController {
 
     @Autowired
     private HoursPerWeekService hoursPerWeekService;
+
+    @Autowired
+    private MonthService monthService;
     
     @GetMapping("/hello")
     public ResponseEntity<String> helloUser() {
@@ -89,9 +94,9 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/getRecordings/{id}")
-    public ResponseEntity<List<RecordingDto>> getRecordingsByEmployeeId(@PathVariable long id) {
-        return ResponseEntity.ok(recordingService.getRecordingsByEmployeeId(id));
+    @GetMapping("/getAllEmployeeRecording/{employeeId}/{year}/{monthId}")
+    public ResponseEntity<List<RecordingDto>> getAllEmployeeRecording(@PathVariable long employeeId, @PathVariable long year, @PathVariable long monthId) {
+        return ResponseEntity.ok(recordingService.getAllEmployeeRecording(employeeId, year, monthId));
     }
 
     // CONTRACTTYPES ///////////////////////////////////////////////////////////////////////////
@@ -120,5 +125,12 @@ public class UserController {
     @GetMapping("getAllHoursPerWeek")
     public ResponseEntity<List<HoursPerWeek>> getAllHoursPerWeek() {
         return ResponseEntity.ok(hoursPerWeekService.getAllHoursPerWeek());
+    }
+
+    // MONTH ///////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("getAllMonth")
+    public ResponseEntity<List<Month>> getAllMonth() {
+        return ResponseEntity.ok(monthService.getAllMonth());
     }
 }

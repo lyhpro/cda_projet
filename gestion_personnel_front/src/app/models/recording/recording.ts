@@ -9,9 +9,9 @@ export class Recording {
     hourStop: Time; 
     breakStart: Time;
     breakStop: Time;
-    totalHours: Time; 
-    extraHours: Time; 
-    dueHours: Time; 
+    totalHours: string; 
+    extraHours: string; 
+    dueHours: string; 
     employeeId: number;
     dayTypeId: number;
 
@@ -24,9 +24,9 @@ export class Recording {
         hourStop: Time,
         breakStart: Time,
         breakStop: Time,
-        totalHours: Time,
-        extraHours: Time,
-        dueHours: Time,
+        totalHours: string,
+        extraHours: string,
+        dueHours: string,
         employeeId: number,
         dayTypeId: number
     ) {

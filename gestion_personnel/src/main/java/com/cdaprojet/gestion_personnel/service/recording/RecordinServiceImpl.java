@@ -3,7 +3,6 @@ package com.cdaprojet.gestion_personnel.service.recording;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +10,13 @@ import org.springframework.stereotype.Service;
 
 import com.cdaprojet.gestion_personnel.model.dayType.DayType;
 import com.cdaprojet.gestion_personnel.model.employee.Employee;
+import com.cdaprojet.gestion_personnel.model.month.Month;
 import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
 import com.cdaprojet.gestion_personnel.model.recording.Recording;
 import com.cdaprojet.gestion_personnel.model.recording.RecordingDto;
 import com.cdaprojet.gestion_personnel.repository.DayTypeRepository;
 import com.cdaprojet.gestion_personnel.repository.EmployeeRepository;
-import com.cdaprojet.gestion_personnel.repository.ProfessionalDetailRepository;
+import com.cdaprojet.gestion_personnel.repository.MonthRepository;
 import com.cdaprojet.gestion_personnel.repository.RecordingRepository;
 import com.cdaprojet.gestion_personnel.service.publicHoliday.PublicHolidayService;
 
@@ -33,10 +33,10 @@ public class RecordinServiceImpl implements RecordingService {
     private DayTypeRepository dayTypeRepository;
 
     @Autowired
-    private ProfessionalDetailRepository professionalDetailRepository;
+    private PublicHolidayService publicHolidayService;
 
     @Autowired
-    private PublicHolidayService publicHolidayService;
+    private MonthRepository monthRepository;
 
     @Override
     public void create(RecordingDto recordingDto) {
@@ -101,10 +101,17 @@ public class RecordinServiceImpl implements RecordingService {
     }
 
     @Override
-    public List<RecordingDto> getRecordingsByEmployeeId(long id) {
+    public List<RecordingDto> getAllEmployeeRecording(long employeeId, long year, long monthId) {
         
-        List<Recording> recordings = recordingRepository.findAllByEmployeeId(id);
-        List<RecordingDto> recordingDtos = recordings.stream().map(RecordingDto::new).toList();
+        Month month = monthRepository.findById(monthId).orElse(null);
+
+        List<Recording> recordings = recordingRepository.findAllByEmployeeId(employeeId);
+        List<RecordingDto> recordingDtos = recordings
+            .stream()
+            .filter(recording -> recording.getDate().getYear() == year)
+            .filter(recording -> recording.getDate().getMonth().getValue() == month.getNumber())
+            .map(RecordingDto::new)
+            .toList();
         return recordingDtos;
     }
 
