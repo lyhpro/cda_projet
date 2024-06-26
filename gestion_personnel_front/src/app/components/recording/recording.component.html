@@ -3,7 +3,7 @@
 
     <form class="custom-form" [formGroup]="recordingForm" (ngSubmit)="onSubmit()">
         <select class="form-select custom-form-input" formControlName="employeeId">
-            <option value="" disabled selected>Sélectionner un employe</option>
+            <option value=0 disabled selected>Sélectionner un employe</option>
             @for (employee of employees; track $index) {
                 <option [ngValue]="employee.id" (change)="reloadRecordingForm()">{{employee.secondname + " " + employee.firstname}}</option>
             }

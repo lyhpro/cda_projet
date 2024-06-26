@@ -2,10 +2,10 @@
     <h1>Ajouter un utilisateur</h1>
 
     <form class="custom-form" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-        <input class="form-control custom-form-input" type="text" id="secondname" formControlName="secondname" placeholder="Enter a secondname">
-        <input class="form-control custom-form-input" type="text" id="firstname" formControlName="firstname" placeholder="Enter a firstname">
-        <input class="form-control custom-form-input" type="email" id="email" formControlName="email" placeholder="Enter an email">
-        <input class="form-control custom-form-input" type="password" id="pwd" formControlName="pwd" placeholder="Enter a password" [hidden]="true">
+        <input class="form-control custom-form-input" type="text" id="secondname" formControlName="secondname" placeholder="Entrer un nom">
+        <input class="form-control custom-form-input" type="text" id="firstname" formControlName="firstname" placeholder="Entrer un prenom">
+        <input class="form-control custom-form-input" type="email" id="email" formControlName="email" placeholder="Entrer un email">
+        <input class="form-control custom-form-input" type="password" id="pwd" formControlName="pwd" placeholder="Entrer un mot de passe" [hidden]="true">
         <select class="form-select custom-form-input" formControlName="roleName">
             <option value="" disabled selected>Sélectionner un rôle</option>
             @for (role of listRole; track $index) {

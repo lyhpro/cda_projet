@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SignupRequest } from '../../../models/signup-request/signup-request';
 import { Role } from '../../../models/role/role';
 import { Observable, Subscription, map } from 'rxjs';
@@ -31,11 +31,11 @@ export class UserAddComponent implements OnInit, OnDestroy {
     this.signup = new SignupRequest("","","","","");
     this.signupForm = this.formBuilder.group(
       {
-        secondname: new FormControl(''),
-        firstname: new FormControl(''),
-        email: new FormControl(''),
-        pwd: new FormControl(''),
-        roleName: new FormControl('')
+        secondname: ['', Validators.required],
+        firstname: ['', Validators.required],
+        email: ['', Validators.required],
+        pwd: [''],
+        roleName: ['', Validators.required]
       }
     )
     this.initListRole();  

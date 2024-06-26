@@ -40,7 +40,7 @@ export class RecordingComponent implements OnInit {
     this.recording = new Recording(0,"","","","","","","","","","",0,0);
     this.recordingForm = this.formBuilder.group(
       {
-        id: new FormControl(''),
+        id: new FormControl(0),
         date: new FormControl(''),
         dateStart: new FormControl(''),
         dateStop: new FormControl(''),
@@ -51,8 +51,8 @@ export class RecordingComponent implements OnInit {
         totalHours: new FormControl(''), 
         extraHours: new FormControl(''), 
         dueHours: new FormControl(''), 
-        employeeId: new FormControl(''),
-        dayTypeId: new FormControl('')
+        employeeId: new FormControl(0),
+        dayTypeId: new FormControl(0)
       }
     )
     this.initEmployees();
