@@ -7,6 +7,6 @@ import com.cdaprojet.gestion_personnel.model.recording.RecordingDto;
 public interface RecordingService {
     
     void create(RecordingDto recordingDto);
-    List<RecordingDto> getAllEmployeeRecording(long employeeId, long year, long monthId);
+    List<RecordingDto> getAllEmployeeRecording(long employeeId, long yearId, long monthId);
 
 }

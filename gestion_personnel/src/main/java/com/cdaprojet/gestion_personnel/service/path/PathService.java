@@ -2,7 +2,7 @@ package com.cdaprojet.gestion_personnel.service.path;
 
 import java.util.List;
 
-import com.cdaprojet.gestion_personnel.model.path.PathDto;
+import com.cdaprojet.gestion_personnel.model.pathModel.path.PathDto;
 
 public interface PathService {
     

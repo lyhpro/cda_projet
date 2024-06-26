@@ -1,8 +1,8 @@
-package com.cdaprojet.gestion_personnel.model.path;
+package com.cdaprojet.gestion_personnel.model.pathModel.path;
 
 import java.util.List;
 
-import com.cdaprojet.gestion_personnel.model.pathAssigned.PathAssigned;
+import com.cdaprojet.gestion_personnel.model.pathModel.pathAssigned.PathAssigned;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;

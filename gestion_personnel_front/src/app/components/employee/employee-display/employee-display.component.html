@@ -1,16 +1,20 @@
 <section>
     <h1>Affichage des heures pour l'employé {{employee.secondname}} {{employee.firstname}}</h1>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form">
         <label for="year">Année : </label>
-        <input class="form-control custom-form-input" type="number" id="year" formControlName="year" min="2000" max="2050">
+        <select class="form-select custom-form-input" formControlName="year">
+            <option value=0 disabled selected>Sélectionner une année</option>
+            @for (year of years; track $index) {
+                <option [ngValue]="year.id">{{year.value}}</option>
+            }
+        </select>
         <label for="month">Mois : </label>
         <select class="form-select custom-form-input" formControlName="month">
-            <option value="" disabled selected>Sélectionner un mois</option>
+            <option value=0 disabled selected>Sélectionner un mois</option>
             @for (month of months; track $index) {
                 <option [ngValue]="month.id">{{month.name}}</option>
             }
         </select>
-        <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>
     </form>
 
     @if(recordings.length != 0) {

@@ -10,6 +10,7 @@ import { Recording } from '../../../models/recording/recording';
 import { DayType } from '../../../models/dayType/day-type';
 import { HoursFormatPipe } from '../../../pipes/hours/hours-format.pipe';
 import { DurationsFormatPipe } from '../../../pipes/durations/durations-format.pipe';
+import { Year } from '../../../models/year/year';
 
 @Component({
   selector: 'app-employee-display',
@@ -25,6 +26,10 @@ export class EmployeeDisplayComponent implements OnInit {
 
   monthSelected!: number;
   yearSelected!: number;
+
+  years!: Year[];
+  years$: Observable<Year[]> | undefined;
+  subscriptionYears!: Subscription;
 
   months!: Month[];
   months$: Observable<Month[]> | undefined;
@@ -50,21 +55,27 @@ export class EmployeeDisplayComponent implements OnInit {
 
   ngOnInit(): void {
     this.recordings = [];
+    this.monthSelected = 0;
+    this.yearSelected = 0;
     this.employeeId = this.activatedRoute.snapshot.params['id'];
     this.form = this.formBuilder.group(
       {
-        year: new FormControl(''),
-        month: new FormControl(''),
+        year: new FormControl(0),
+        month: new FormControl(
+          {
+            value: 0,
+            disabled: true
+          }
+        ),
       }
     )
+    this.enableMonthField(this.form);
+    this.changeYearField(this.form);
+    this.changeMonthField(this.form);
+    this.initYears();
     this.initMonths();
     this.initDayTypes();
     this.initEmployeeById(this.employeeId);
-  }
-
-  onSubmit() {
-    this.loadFormWithData();
-    this.loadEmployeeRecordings(this.employeeId, this.yearSelected, this.monthSelected);
   }
 
   initDayTypes() {
@@ -90,6 +101,34 @@ export class EmployeeDisplayComponent implements OnInit {
         },
         complete: () => {
           console.log("Liste des types de journées chargé.");
+        }
+      }
+    )
+  }
+
+  initYears() {
+    this.years$ = this.userService.getAllYear().pipe(
+      map(
+        years => {
+          return years.map(
+            year => {
+              const newYear = new Year(year.id,year.value);
+              return newYear;
+            }
+          )
+        }
+      )
+    )
+    this.subscriptionYears = this.years$.subscribe(
+      {
+        next: resp => {
+          this.years = resp;
+        },
+        error: err => {
+          console.log(err);
+        },
+        complete: () => {
+          console.log("Liste des années chargé.");
         }
       }
     )
@@ -140,11 +179,6 @@ export class EmployeeDisplayComponent implements OnInit {
     )
   }
 
-  loadFormWithData() {
-    this.yearSelected = this.form.value.year;
-    this.monthSelected = this.form.value.month;
-  }
-
   loadEmployeeRecordings(employeeId: number, year: number, monthId: number) {
     this.recordings$ = this.userService.getAllEmployeeRecordings(employeeId, year, monthId).pipe(
       map(
@@ -180,6 +214,38 @@ export class EmployeeDisplayComponent implements OnInit {
     } else {
       return loadDayType.name;
     }
+  }
+
+  enableMonthField(form: FormGroup) {
+    form.get('year')?.valueChanges.subscribe(
+      value => {       
+        if (value === 0) {
+          this.form.get('month')?.disable();
+        } else {
+          this.form.get('month')?.enable();
+        }
+      }
+    );
+  }
+
+  changeYearField(form: FormGroup) {
+    form.get('year')?.valueChanges.subscribe(
+      year => {
+        form.value.year = year;
+        this.yearSelected = form.value.year;
+        this.loadEmployeeRecordings(this.employeeId, this.yearSelected, this.monthSelected);        
+      }
+    )
+  }
+
+  changeMonthField(form: FormGroup) {
+    form.get('month')?.valueChanges.subscribe(
+      month => {
+        form.value.month = month;
+        this.monthSelected = form.value.month;
+        this.loadEmployeeRecordings(this.employeeId, this.yearSelected, this.monthSelected);        
+      }
+    )
   }
 
 }

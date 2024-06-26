@@ -1,6 +1,6 @@
-package com.cdaprojet.gestion_personnel.model.pathAssigned;
+package com.cdaprojet.gestion_personnel.model.pathModel.pathAssigned;
 
-import com.cdaprojet.gestion_personnel.model.path.Path;
+import com.cdaprojet.gestion_personnel.model.pathModel.path.Path;
 import com.cdaprojet.gestion_personnel.model.role.Role;
 
 import jakarta.persistence.Entity;

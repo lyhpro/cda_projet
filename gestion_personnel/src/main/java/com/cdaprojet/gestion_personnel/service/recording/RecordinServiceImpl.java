@@ -9,15 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cdaprojet.gestion_personnel.model.dayType.DayType;
-import com.cdaprojet.gestion_personnel.model.employee.Employee;
-import com.cdaprojet.gestion_personnel.model.month.Month;
-import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
+import com.cdaprojet.gestion_personnel.model.employeeModel.employee.Employee;
+import com.cdaprojet.gestion_personnel.model.employeeModel.professionalDetail.ProfessionalDetail;
 import com.cdaprojet.gestion_personnel.model.recording.Recording;
 import com.cdaprojet.gestion_personnel.model.recording.RecordingDto;
+import com.cdaprojet.gestion_personnel.model.time.month.Month;
+import com.cdaprojet.gestion_personnel.model.time.year.Year;
 import com.cdaprojet.gestion_personnel.repository.DayTypeRepository;
 import com.cdaprojet.gestion_personnel.repository.EmployeeRepository;
 import com.cdaprojet.gestion_personnel.repository.MonthRepository;
 import com.cdaprojet.gestion_personnel.repository.RecordingRepository;
+import com.cdaprojet.gestion_personnel.repository.YearRepository;
 import com.cdaprojet.gestion_personnel.service.publicHoliday.PublicHolidayService;
 
 @Service
@@ -37,6 +39,9 @@ public class RecordinServiceImpl implements RecordingService {
 
     @Autowired
     private MonthRepository monthRepository;
+
+    @Autowired
+    private YearRepository yearRepository;
 
     @Override
     public void create(RecordingDto recordingDto) {
@@ -101,18 +106,30 @@ public class RecordinServiceImpl implements RecordingService {
     }
 
     @Override
-    public List<RecordingDto> getAllEmployeeRecording(long employeeId, long year, long monthId) {
+    public List<RecordingDto> getAllEmployeeRecording(long employeeId, long yearId, long monthId) {
         
-        Month month = monthRepository.findById(monthId).orElse(null);
+        Year year = yearRepository.findById(yearId).orElse(null);
+        
+        if(monthId != 0) {
+            Month month = monthRepository.findById(monthId).orElse(null);
+            List<Recording> recordings = recordingRepository.findAllByEmployeeId(employeeId);
+            List<RecordingDto> recordingDtos = recordings
+                .stream()
+                .filter(recording -> recording.getDate().getYear() == year.getValue())
+                .filter(recording -> recording.getDate().getMonth().getValue() == month.getNumber())
+                .map(RecordingDto::new)
+                .toList();
+            return recordingDtos;
+        } else {
+            List<Recording> recordings = recordingRepository.findAllByEmployeeId(employeeId);
+            List<RecordingDto> recordingDtos = recordings
+                .stream()
+                .filter(recording -> recording.getDate().getYear() == year.getValue())
+                .map(RecordingDto::new)
+                .toList();
+            return recordingDtos;
+        }
 
-        List<Recording> recordings = recordingRepository.findAllByEmployeeId(employeeId);
-        List<RecordingDto> recordingDtos = recordings
-            .stream()
-            .filter(recording -> recording.getDate().getYear() == year)
-            .filter(recording -> recording.getDate().getMonth().getValue() == month.getNumber())
-            .map(RecordingDto::new)
-            .toList();
-        return recordingDtos;
     }
 
     public void initTotalHours(RecordingDto recordingDto, Recording newRecording) {

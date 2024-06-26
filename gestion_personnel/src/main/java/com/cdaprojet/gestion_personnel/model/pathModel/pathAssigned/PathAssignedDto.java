@@ -1,4 +1,4 @@
-package com.cdaprojet.gestion_personnel.model.pathAssigned;
+package com.cdaprojet.gestion_personnel.model.pathModel.pathAssigned;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cdaprojet.gestion_personnel.model.path.Path;
-import com.cdaprojet.gestion_personnel.model.path.PathDto;
-import com.cdaprojet.gestion_personnel.model.pathAssigned.PathAssigned;
+import com.cdaprojet.gestion_personnel.model.pathModel.path.Path;
+import com.cdaprojet.gestion_personnel.model.pathModel.path.PathDto;
+import com.cdaprojet.gestion_personnel.model.pathModel.pathAssigned.PathAssigned;
 import com.cdaprojet.gestion_personnel.model.role.Role;
 import com.cdaprojet.gestion_personnel.repository.PathAssignedRepository;
 import com.cdaprojet.gestion_personnel.repository.PathRepository;

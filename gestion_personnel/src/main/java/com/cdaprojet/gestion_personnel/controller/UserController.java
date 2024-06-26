@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cdaprojet.gestion_personnel.model.contractType.ContractType;
 import com.cdaprojet.gestion_personnel.model.dayType.DayType;
 import com.cdaprojet.gestion_personnel.model.department.Department;
-import com.cdaprojet.gestion_personnel.model.employee.EmployeeDto;
-import com.cdaprojet.gestion_personnel.model.employee.EmployeeForm;
+import com.cdaprojet.gestion_personnel.model.employeeModel.employee.EmployeeDto;
+import com.cdaprojet.gestion_personnel.model.employeeModel.employee.EmployeeForm;
 import com.cdaprojet.gestion_personnel.model.hoursPerWeek.HoursPerWeek;
-import com.cdaprojet.gestion_personnel.model.month.Month;
 import com.cdaprojet.gestion_personnel.model.recording.RecordingDto;
+import com.cdaprojet.gestion_personnel.model.time.month.Month;
+import com.cdaprojet.gestion_personnel.model.time.year.Year;
 import com.cdaprojet.gestion_personnel.service.contractType.ContractTypeService;
 import com.cdaprojet.gestion_personnel.service.dayType.DayTypeService;
 import com.cdaprojet.gestion_personnel.service.department.DepartmentService;
@@ -27,6 +28,7 @@ import com.cdaprojet.gestion_personnel.service.employee.EmployeeService;
 import com.cdaprojet.gestion_personnel.service.hoursPerWeek.HoursPerWeekService;
 import com.cdaprojet.gestion_personnel.service.month.MonthService;
 import com.cdaprojet.gestion_personnel.service.recording.RecordingService;
+import com.cdaprojet.gestion_personnel.service.year.YearService;
 
 @RestController
 @RequestMapping("/gestionnaire-personnel/user")
@@ -53,6 +55,9 @@ public class UserController {
 
     @Autowired
     private MonthService monthService;
+
+    @Autowired
+    private YearService yearService;
     
     @GetMapping("/hello")
     public ResponseEntity<String> helloUser() {
@@ -94,9 +99,9 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/getAllEmployeeRecording/{employeeId}/{year}/{monthId}")
-    public ResponseEntity<List<RecordingDto>> getAllEmployeeRecording(@PathVariable long employeeId, @PathVariable long year, @PathVariable long monthId) {
-        return ResponseEntity.ok(recordingService.getAllEmployeeRecording(employeeId, year, monthId));
+    @GetMapping("/getAllEmployeeRecording/{employeeId}/{yearId}/{monthId}")
+    public ResponseEntity<List<RecordingDto>> getAllEmployeeRecording(@PathVariable long employeeId, @PathVariable long yearId, @PathVariable long monthId) {
+        return ResponseEntity.ok(recordingService.getAllEmployeeRecording(employeeId, yearId, monthId));
     }
 
     // CONTRACTTYPES ///////////////////////////////////////////////////////////////////////////
@@ -132,5 +137,12 @@ public class UserController {
     @GetMapping("getAllMonth")
     public ResponseEntity<List<Month>> getAllMonth() {
         return ResponseEntity.ok(monthService.getAllMonth());
+    }
+
+    // YEAR ///////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("getAllYear")
+    public ResponseEntity<List<Year>> getAllYear() {
+        return ResponseEntity.ok(yearService.getAllYear());
     }
 }

@@ -2,7 +2,7 @@ package com.cdaprojet.gestion_personnel.model.contractType;
 
 import java.util.List;
 
-import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
+import com.cdaprojet.gestion_personnel.model.employeeModel.professionalDetail.ProfessionalDetail;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;

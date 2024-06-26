@@ -1,4 +1,4 @@
-package com.cdaprojet.gestion_personnel.model.month;
+package com.cdaprojet.gestion_personnel.model.time.month;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

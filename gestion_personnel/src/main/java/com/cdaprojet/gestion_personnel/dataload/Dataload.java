@@ -1,5 +1,6 @@
 package com.cdaprojet.gestion_personnel.dataload;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,13 +12,14 @@ import org.springframework.stereotype.Component;
 import com.cdaprojet.gestion_personnel.model.contractType.ContractType;
 import com.cdaprojet.gestion_personnel.model.dayType.DayType;
 import com.cdaprojet.gestion_personnel.model.department.Department;
+import com.cdaprojet.gestion_personnel.model.employeeModel.professionalDetail.ProfessionalDetail;
 import com.cdaprojet.gestion_personnel.model.hoursPerWeek.HoursPerWeek;
-import com.cdaprojet.gestion_personnel.model.month.Month;
-import com.cdaprojet.gestion_personnel.model.path.Path;
-import com.cdaprojet.gestion_personnel.model.pathAssigned.PathAssigned;
-import com.cdaprojet.gestion_personnel.model.professionalDetail.ProfessionalDetail;
+import com.cdaprojet.gestion_personnel.model.pathModel.path.Path;
+import com.cdaprojet.gestion_personnel.model.pathModel.pathAssigned.PathAssigned;
 import com.cdaprojet.gestion_personnel.model.recording.Recording;
 import com.cdaprojet.gestion_personnel.model.role.Role;
+import com.cdaprojet.gestion_personnel.model.time.month.Month;
+import com.cdaprojet.gestion_personnel.model.time.year.Year;
 import com.cdaprojet.gestion_personnel.model.user.User;
 import com.cdaprojet.gestion_personnel.repository.ContractTypeRepository;
 import com.cdaprojet.gestion_personnel.repository.DayTypeRepository;
@@ -28,6 +30,7 @@ import com.cdaprojet.gestion_personnel.repository.PathAssignedRepository;
 import com.cdaprojet.gestion_personnel.repository.PathRepository;
 import com.cdaprojet.gestion_personnel.repository.RoleRepository;
 import com.cdaprojet.gestion_personnel.repository.UserRepository;
+import com.cdaprojet.gestion_personnel.repository.YearRepository;
 
 @Component
 public class Dataload implements CommandLineRunner {
@@ -58,6 +61,9 @@ public class Dataload implements CommandLineRunner {
 
     @Autowired
     private MonthRepository monthRepository;
+
+    @Autowired
+    private YearRepository yearRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -154,6 +160,20 @@ public class Dataload implements CommandLineRunner {
             newHoursPerWeeks.add(hoursPerWeekB);
 
             hoursPerWeekRepository.saveAll(newHoursPerWeeks);
+        }
+
+        List<Year> years = yearRepository.findAll();
+        if(years.size() == 0) {
+            List<Year> newYears = new ArrayList<Year>();
+
+            int actualYear = LocalDate.now().getYear();
+
+            for(int year = actualYear ; year < actualYear + 10 ; year++) {
+                Year newYear = new Year(0,year);
+                newYears.add(newYear);
+            }
+
+            yearRepository.saveAll(newYears);
         }
 
         List<Month> months = monthRepository.findAll();

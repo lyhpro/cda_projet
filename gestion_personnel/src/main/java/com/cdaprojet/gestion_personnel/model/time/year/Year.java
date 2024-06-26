@@ -1,4 +1,4 @@
-package com.cdaprojet.gestion_personnel.model.contactDetail;
+package com.cdaprojet.gestion_personnel.model.time.year;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,23 +13,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "contact_details")
-public class ContactDetail {
-
+@Table(name = "years")
+public class Year {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    private String email;
-
-    private String address;
-
-    private int postalCode;
-
-    private String city;
-
-    private int homenumber;
-
-    private int phonenumber;
+    private int value;
     
 }

@@ -1,13 +1,9 @@
-package com.cdaprojet.gestion_personnel.model.holiday;
-
-import com.cdaprojet.gestion_personnel.model.employeeModel.employee.Employee;
+package com.cdaprojet.gestion_personnel.model.employeeModel.contactDetail;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,18 +13,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "hollidays")
-public class Holiday {
-    
+@Table(name = "contact_details")
+public class ContactDetail {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private int year;
+    private String email;
 
-    private int nbDay;
+    private String address;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = true)
-    private Employee employee;
+    private int postalCode;
+
+    private String city;
+
+    private int homenumber;
+
+    private int phonenumber;
+    
 }

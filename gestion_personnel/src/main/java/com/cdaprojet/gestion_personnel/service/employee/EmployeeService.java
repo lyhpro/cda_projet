@@ -2,8 +2,8 @@ package com.cdaprojet.gestion_personnel.service.employee;
 
 import java.util.List;
 
-import com.cdaprojet.gestion_personnel.model.employee.EmployeeDto;
-import com.cdaprojet.gestion_personnel.model.employee.EmployeeForm;
+import com.cdaprojet.gestion_personnel.model.employeeModel.employee.EmployeeDto;
+import com.cdaprojet.gestion_personnel.model.employeeModel.employee.EmployeeForm;
 
 public interface EmployeeService {
 

@@ -10,6 +10,7 @@ import { DayType } from '../../models/dayType/day-type';
 import { Recording } from '../../models/recording/recording';
 import { HoursPerWeek } from '../../models/hoursPerWeek/hours-per-week';
 import { Month } from '../../models/month/month';
+import { Year } from '../../models/year/year';
 
 const API_URL_USER = 'http://localhost:8080/gestionnaire-personnel/user/';
 
@@ -54,6 +55,10 @@ export class UserService {
 
   getAllMonth(): Observable<Month[]> {
     return this.http.get<Month[]>(API_URL_USER + 'getAllMonth');
+  }
+
+  getAllYear(): Observable<Year[]> {
+    return this.http.get<Year[]>(API_URL_USER + 'getAllYear');
   }
 
   getAllEmployeeRecordings(employeeId: number, year: number, monthId: number): Observable<Recording[]>{

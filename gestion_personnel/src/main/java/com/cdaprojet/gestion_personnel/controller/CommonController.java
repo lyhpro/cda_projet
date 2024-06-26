@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cdaprojet.gestion_personnel.model.path.PathDto;
+import com.cdaprojet.gestion_personnel.model.pathModel.path.PathDto;
 import com.cdaprojet.gestion_personnel.model.user.UserDto;
 import com.cdaprojet.gestion_personnel.service.path.PathService;
 import com.cdaprojet.gestion_personnel.service.user.UserService;

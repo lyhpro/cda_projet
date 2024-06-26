@@ -1,4 +1,4 @@
-package com.cdaprojet.gestion_personnel.model.employee;
+package com.cdaprojet.gestion_personnel.model.employeeModel.employee;
 
 import java.time.LocalDate;
 
