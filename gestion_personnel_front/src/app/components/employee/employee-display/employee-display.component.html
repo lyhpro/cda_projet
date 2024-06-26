@@ -32,11 +32,11 @@
                     <tr>
                         <td class="custom-table-col-content">{{recording.date}}</td>
                         <td class="custom-table-col-content">{{loadDayType(recording.dayTypeId)}}</td>
-                        <td class="custom-table-col-content">{{recording.hourStart.hours +":"+recording.hourStart.minutes}}</td>
-                        <td class="custom-table-col-content">{{recording.hourStop}}</td>
-                        <td class="custom-table-col-content">{{recording.breakStart}}</td>
-                        <td class="custom-table-col-content">{{recording.breakStop}}</td>
-                        <td class="custom-table-col-content">{{recording.totalHours}}</td>
+                        <td class="custom-table-col-content">{{recording.hourStart | hoursFormat}}</td>
+                        <td class="custom-table-col-content">{{recording.hourStop | hoursFormat}}</td>
+                        <td class="custom-table-col-content">{{recording.breakStart | hoursFormat}}</td>
+                        <td class="custom-table-col-content">{{recording.breakStop | hoursFormat}}</td>
+                        <td class="custom-table-col-content">{{recording.totalHours | durationsFormat}}</td>
                         <td class="custom-table-col-content">
                           <button class="btn btn-success custom-table-btn">Consulter</button>
                         </td>

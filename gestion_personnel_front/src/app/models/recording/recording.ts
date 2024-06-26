@@ -2,13 +2,13 @@ import { Time } from "@angular/common";
 
 export class Recording {
     id: number;
-    date: Date;
-    dateStart: Date;
-    dateStop: Date;
-    hourStart: Time;
-    hourStop: Time; 
-    breakStart: Time;
-    breakStop: Time;
+    date: string;
+    dateStart: string;
+    dateStop: string;
+    hourStart: string;
+    hourStop: string; 
+    breakStart: string;
+    breakStop: string;
     totalHours: string; 
     extraHours: string; 
     dueHours: string; 
@@ -17,13 +17,13 @@ export class Recording {
 
     constructor(
         id: number,
-        date: Date,
-        dateStart: Date,
-        dateStop: Date,
-        hourStart: Time,
-        hourStop: Time,
-        breakStart: Time,
-        breakStop: Time,
+        date: string,
+        dateStart: string,
+        dateStop: string,
+        hourStart: string,
+        hourStop: string,
+        breakStart: string,
+        breakStop: string,
         totalHours: string,
         extraHours: string,
         dueHours: string,

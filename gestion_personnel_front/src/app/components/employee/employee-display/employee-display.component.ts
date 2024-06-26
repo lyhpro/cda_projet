@@ -8,11 +8,13 @@ import { Observable, Subscription, map } from 'rxjs';
 import { Month } from '../../../models/month/month';
 import { Recording } from '../../../models/recording/recording';
 import { DayType } from '../../../models/dayType/day-type';
+import { HoursFormatPipe } from '../../../pipes/hours/hours-format.pipe';
+import { DurationsFormatPipe } from '../../../pipes/durations/durations-format.pipe';
 
 @Component({
   selector: 'app-employee-display',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, HoursFormatPipe, DurationsFormatPipe],
   templateUrl: './employee-display.component.html',
   styleUrl: './employee-display.component.css'
 })
