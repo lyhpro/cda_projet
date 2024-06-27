@@ -1,5 +1,12 @@
 <section>
     <h1>Affichage des heures pour l'employé {{employee.secondname}} {{employee.firstname}}</h1>
+    
+    <div>
+        <button class="btn btn-success custom-table-btn" (click)="goToSpecialDay('vacance')">Ajout jour conge</button>
+        <button class="btn btn-success custom-table-btn" (click)="goToSpecialDay('rtt')">Ajout jour rtt</button>
+        <button class="btn btn-success custom-table-btn" (click)="goToSpecialDay('maladie')">Ajout jour maladie</button>
+    </div>
+
     <form [formGroup]="form">
         <label for="year">Année : </label>
         <select class="form-select custom-form-input" formControlName="year">
@@ -46,6 +53,27 @@
                         </td>
                     </tr>
                     
+                }
+            </tbody>
+        </table>
+
+        <br>
+        <br>
+        <table class="table table-striped custom-table">
+            <thead>
+                <tr>
+                    <th class="custom-table-col-title" scope="col">Type de journée</th>
+                    <th class="custom-table-col-title" scope="col">Année : {{displayYearValue(form.value.year)}}</th>
+                    <th class="custom-table-col-title" scope="col">Mois : {{displayMonthName(form.value.month)}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (nbDay of nbSpecialDays; track nbDay) {
+                    <tr>
+                        <td class="custom-table-col-content">{{nbDay}}</td>
+                        <td class="custom-table-col-content">{{nbDay[0]}}</td>
+                        <td class="custom-table-col-content">{{nbDay[1]}}</td>
+                    </tr>
                 }
             </tbody>
         </table>

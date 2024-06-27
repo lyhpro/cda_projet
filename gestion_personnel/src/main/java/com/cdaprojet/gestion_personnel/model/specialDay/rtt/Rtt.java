@@ -1,4 +1,6 @@
-package com.cdaprojet.gestion_personnel.model.rtt;
+package com.cdaprojet.gestion_personnel.model.specialDay.rtt;
+
+import java.time.LocalDate;
 
 import com.cdaprojet.gestion_personnel.model.employeeModel.employee.Employee;
 
@@ -23,10 +25,8 @@ public class Rtt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    private int year;
-
     private int nbDay;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = true)

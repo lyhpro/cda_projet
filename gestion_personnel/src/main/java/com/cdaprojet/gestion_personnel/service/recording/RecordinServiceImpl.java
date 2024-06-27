@@ -3,6 +3,7 @@ package com.cdaprojet.gestion_personnel.service.recording;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import com.cdaprojet.gestion_personnel.repository.MonthRepository;
 import com.cdaprojet.gestion_personnel.repository.RecordingRepository;
 import com.cdaprojet.gestion_personnel.repository.YearRepository;
 import com.cdaprojet.gestion_personnel.service.publicHoliday.PublicHolidayService;
+import com.cdaprojet.gestion_personnel.service.specialDay.holiday.HolidayService;
 
 @Service
 public class RecordinServiceImpl implements RecordingService {
@@ -43,6 +45,9 @@ public class RecordinServiceImpl implements RecordingService {
     @Autowired
     private YearRepository yearRepository;
 
+    @Autowired 
+    private HolidayService holidayService;
+
     @Override
     public void create(RecordingDto recordingDto) {
 
@@ -50,25 +55,12 @@ public class RecordinServiceImpl implements RecordingService {
         
         DayType dayType = dayTypeRepository.findById(recordingDto.getDayTypeId()).orElse(null);
 
-        Recording newRecording = new Recording(
-            0, 
-            null,
-            null,
-            null, 
-            null, 
-            null, 
-            null, 
-            null,
-            null,
-            null,
-            null, 
-            employee, 
-            dayType
-        );
-
+        
         // List<Recording> recordings = new ArrayList<Recording>();
-
+        
         if (recordingDto.getDayTypeId() == 1) {
+            Recording newRecording = new Recording(0, null, null, null, null, null, null, null, null, null, null, employee, dayType);
+
             newRecording.setDate(recordingDto.getDate());
             newRecording.setHourStart(recordingDto.getHourStart());
             newRecording.setHourStop(recordingDto.getHourStop());
@@ -78,28 +70,23 @@ public class RecordinServiceImpl implements RecordingService {
             this.initExtraHours(employee, newRecording);
             this.initDueHours(employee, newRecording);
             recordingRepository.save(newRecording);
-        } else {
-            List<LocalDate> datesBetweenTwoDate = getDatesBetweenTwoDate(recordingDto.getDateStart(), recordingDto.getDateStop());
-            for(LocalDate date: datesBetweenTwoDate) {
-                Recording recording = new Recording(
-                    0, 
-                    null,
-                    null,
-                    null, 
-                    null, 
-                    null, 
-                    null, 
-                    null,
-                    null,
-                    null,
-                    null, 
-                    employee, 
-                    dayType
-                );
-                recording.setDate(date);
-                recording.setDateStart(recordingDto.getDateStart());
-                recording.setDateStop(recordingDto.getDateStop());
-                recordingRepository.save(recording);
+        } else if(recordingDto.getDayTypeId() == 2 || recordingDto.getDayTypeId() == 3) {
+            List<LocalDate> holidayDays = getDatesBetweenTwoDate(recordingDto.getDateStart(), recordingDto.getDateStop());
+            int nbHolidays = holidayDays.size();
+
+            this.holidayService.remove(employee.getId(), nbHolidays);
+
+            for(LocalDate holidayDay: holidayDays) {
+                Recording newRecording = new Recording(0, holidayDay, null, null, null, null, null, null, null, null, null, employee, dayType);
+                recordingRepository.save(newRecording);
+            }
+
+        } else if(recordingDto.getDayTypeId() == 4) {
+            List<LocalDate> illnessDays = getDatesBetweenTwoDate(recordingDto.getDateStart(), recordingDto.getDateStop());
+
+            for(LocalDate illnessDay: illnessDays) {
+                Recording newRecording = new Recording(0, illnessDay, null, null, null, null, null, null, null, null, null, employee, dayType);
+                recordingRepository.save(newRecording);
             }
         }
 
@@ -109,6 +96,10 @@ public class RecordinServiceImpl implements RecordingService {
     public List<RecordingDto> getAllEmployeeRecording(long employeeId, long yearId, long monthId) {
         
         Year year = yearRepository.findById(yearId).orElse(null);
+
+        if(yearId == 0 && monthId == 0) {
+            return new ArrayList<RecordingDto>();
+        }
         
         if(monthId != 0) {
             Month month = monthRepository.findById(monthId).orElse(null);

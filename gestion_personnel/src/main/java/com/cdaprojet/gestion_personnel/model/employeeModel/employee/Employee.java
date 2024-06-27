@@ -5,9 +5,10 @@ import java.util.List;
 
 import com.cdaprojet.gestion_personnel.model.employeeModel.contactDetail.ContactDetail;
 import com.cdaprojet.gestion_personnel.model.employeeModel.professionalDetail.ProfessionalDetail;
-import com.cdaprojet.gestion_personnel.model.holiday.Holiday;
 import com.cdaprojet.gestion_personnel.model.recording.Recording;
-import com.cdaprojet.gestion_personnel.model.rtt.Rtt;
+import com.cdaprojet.gestion_personnel.model.specialDay.holiday.Holiday;
+import com.cdaprojet.gestion_personnel.model.specialDay.illness.Illness;
+import com.cdaprojet.gestion_personnel.model.specialDay.rtt.Rtt;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -56,11 +57,15 @@ public class Employee {
 
     @JsonIgnore
     @OneToMany(mappedBy = "employee")
-    private List<Holiday> hollidays; 
+    private List<Holiday> holidays;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee")
+    private List<Rtt> rtts;
 
     @JsonIgnore
     @OneToMany(mappedBy = "employee")
-    private List<Rtt> rtts; 
+    private List<Illness> illnesses;
 
     @JsonIgnore
     @OneToMany(mappedBy = "employee")

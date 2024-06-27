@@ -83,8 +83,8 @@ public class Dataload implements CommandLineRunner {
         }
 
         // Crée un User avec le Role ADMIN s'il n'y a aucun User avec le Role ADMIN
-        User adminUser = userRepository.findByRoleId(1);
-        if(adminUser == null) {
+        List<User> adminUsers = userRepository.findAllByRoleId(1);
+        if(adminUsers.size() == 0) {
             String pwd = new BCryptPasswordEncoder().encode("admin");
             Role role = roleRepository.findByName("ADMIN");
             
@@ -94,8 +94,8 @@ public class Dataload implements CommandLineRunner {
         }
 
         // Crée un User avec le Role USER s'il n'y a aucun User avec le Role USER
-        User user = userRepository.findByRoleId(2);
-        if(user == null) {
+        List<User> users = userRepository.findAllByRoleId(2);
+        if(users.size() == 0) {
             String pwd = new BCryptPasswordEncoder().encode("user");
             Role role = roleRepository.findByName("USER");
 

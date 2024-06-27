@@ -2,7 +2,7 @@ import { CommonModule, Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user/user.service';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Employee } from '../../../models/employee/employee/employee';
 import { Observable, Subscription, map } from 'rxjs';
 import { Month } from '../../../models/month/month';
@@ -39,6 +39,10 @@ export class EmployeeDisplayComponent implements OnInit {
   employee$: Observable<Employee> | undefined;
   subscriptionEmployee!: Subscription;
 
+  nbSpecialDays!: Map<string,number[]>;
+  nbSpecialDays$: Observable<Map<string,number[]>> | undefined;
+  subscriptionNbSpecialDays!: Subscription;
+
   recordings!: Recording[];
   recordings$: Observable<Recording[]> | undefined;
   subscriptionRecordings!: Subscription;
@@ -49,6 +53,7 @@ export class EmployeeDisplayComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     private userService: UserService
   ) {}
@@ -207,6 +212,23 @@ export class EmployeeDisplayComponent implements OnInit {
     )
   }
 
+  loadEmployeeNbHolidayRttIllness(employeeId: number, yearId: number, monthId: number) {
+    this.nbSpecialDays$ = this.userService.getNbSpecialDay(employeeId,yearId,monthId);
+    this.subscriptionEmployee = this.nbSpecialDays$.subscribe(
+      {
+        next: resp => {
+          this.nbSpecialDays = resp;
+        },
+        error: err => {
+          console.log(err);
+        },
+        complete: () => {
+          console.log("Liste du nombre de jour de vacance, rtt et maladie de l'meployé chargé.");
+        }
+      }
+    )
+  }
+
   loadDayType(dayTypeId: number): string {
     let loadDayType: DayType | undefined =  this.dayTypes.find(dayType => dayType.id === dayTypeId);
     if(loadDayType == undefined) {
@@ -232,8 +254,11 @@ export class EmployeeDisplayComponent implements OnInit {
     form.get('year')?.valueChanges.subscribe(
       year => {
         form.value.year = year;
-        this.yearSelected = form.value.year;
-        this.loadEmployeeRecordings(this.employeeId, this.yearSelected, this.monthSelected);        
+        this.yearSelected = year;
+        if(this.yearSelected != 0) {
+          this.loadEmployeeRecordings(this.employeeId, this.yearSelected, this.monthSelected);  
+          this.loadEmployeeNbHolidayRttIllness(this.employeeId, this.yearSelected, this.monthSelected);     
+        }
       }
     )
   }
@@ -243,9 +268,34 @@ export class EmployeeDisplayComponent implements OnInit {
       month => {
         form.value.month = month;
         this.monthSelected = form.value.month;
-        this.loadEmployeeRecordings(this.employeeId, this.yearSelected, this.monthSelected);        
+        if(this.yearSelected != 0) {
+          this.loadEmployeeRecordings(this.employeeId, this.yearSelected, this.monthSelected); 
+          this.loadEmployeeNbHolidayRttIllness(this.employeeId, this.yearSelected, this.monthSelected);       
+        }
       }
     )
+  }
+
+  displayYearValue(yearId: number): number {
+    let yearValue =  this.years.find(year => year.id == yearId)?.value;
+    if(yearValue != undefined) {
+      return yearValue;
+    } else {
+      return 0;
+    }
+  }
+
+  displayMonthName(monthId: number): string {
+    let monthName = this.months.find(month => month.id == monthId)?.name;
+    if(monthName != undefined) {
+      return monthName;
+    } else {
+      return "Aucun";
+    }
+  }
+
+  goToSpecialDay(dayname: string) {
+    this.router.navigate(['/home/employee/add-special-day', dayname]);
   }
 
 }

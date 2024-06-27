@@ -1,6 +1,7 @@
 package com.cdaprojet.gestion_personnel.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +27,9 @@ import com.cdaprojet.gestion_personnel.service.dayType.DayTypeService;
 import com.cdaprojet.gestion_personnel.service.department.DepartmentService;
 import com.cdaprojet.gestion_personnel.service.employee.EmployeeService;
 import com.cdaprojet.gestion_personnel.service.hoursPerWeek.HoursPerWeekService;
-import com.cdaprojet.gestion_personnel.service.month.MonthService;
 import com.cdaprojet.gestion_personnel.service.recording.RecordingService;
-import com.cdaprojet.gestion_personnel.service.year.YearService;
+import com.cdaprojet.gestion_personnel.service.time.month.MonthService;
+import com.cdaprojet.gestion_personnel.service.time.year.YearService;
 
 @RestController
 @RequestMapping("/gestionnaire-personnel/user")
@@ -89,6 +90,11 @@ public class UserController {
     @GetMapping("/getAllEmployee")
     public ResponseEntity<List<EmployeeDto>> getAllEmployee() {
         return ResponseEntity.ok(employeeService.getAllEmployee());
+    }
+
+    @GetMapping("getEmployeeNbHolidaysRttsIllnesses/{employeeId}/{yearId}/{monthId}")
+    public ResponseEntity<Map<String,List<Integer>>> getEmployeeNbHolidaysRttsIllnesses(@PathVariable long employeeId, @PathVariable long yearId, @PathVariable long monthId) {
+        return ResponseEntity.ok(employeeService.getEmployeeNbHolidaysRttsIllnesses(employeeId, yearId, monthId));
     }
 
     // RECORDINGS ///////////////////////////////////////////////////////////////////////////

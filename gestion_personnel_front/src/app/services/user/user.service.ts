@@ -64,4 +64,8 @@ export class UserService {
   getAllEmployeeRecordings(employeeId: number, year: number, monthId: number): Observable<Recording[]>{
     return this.http.get<Recording[]>(API_URL_USER + 'getAllEmployeeRecording/' + employeeId + '/' + year + '/' + monthId);
   }
+
+  getNbSpecialDay(employeeId: number, yearId: number, monthId: number): Observable<Map<string,number[]>> {
+    return this.http.get<Map<string,number[]>>(API_URL_USER + 'getEmployeeNbHolidaysRttsIllnesses/' + employeeId + '/' + yearId + '/' + monthId);
+  }
 }

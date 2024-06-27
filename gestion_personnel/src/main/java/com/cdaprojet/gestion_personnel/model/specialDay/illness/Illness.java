@@ -1,4 +1,6 @@
-package com.cdaprojet.gestion_personnel.model.holiday;
+package com.cdaprojet.gestion_personnel.model.specialDay.illness;
+
+import java.time.LocalDate;
 
 import com.cdaprojet.gestion_personnel.model.employeeModel.employee.Employee;
 
@@ -17,18 +19,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "hollidays")
-public class Holiday {
+@Table(name = "illness")
+public class Illness {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    private int year;
-
     private int nbDay;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = true)
     private Employee employee;
+
 }
