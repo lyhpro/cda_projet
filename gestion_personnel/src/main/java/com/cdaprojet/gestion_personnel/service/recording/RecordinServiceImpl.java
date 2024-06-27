@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,6 +105,7 @@ public class RecordinServiceImpl implements RecordingService {
         if(monthId != 0) {
             Month month = monthRepository.findById(monthId).orElse(null);
             List<Recording> recordings = recordingRepository.findAllByEmployeeId(employeeId);
+            recordings.sort(Comparator.comparing(Recording::getDate));
             List<RecordingDto> recordingDtos = recordings
                 .stream()
                 .filter(recording -> recording.getDate().getYear() == year.getValue())
@@ -113,6 +115,7 @@ public class RecordinServiceImpl implements RecordingService {
             return recordingDtos;
         } else {
             List<Recording> recordings = recordingRepository.findAllByEmployeeId(employeeId);
+            recordings.sort(Comparator.comparing(Recording::getDate));
             List<RecordingDto> recordingDtos = recordings
                 .stream()
                 .filter(recording -> recording.getDate().getYear() == year.getValue())

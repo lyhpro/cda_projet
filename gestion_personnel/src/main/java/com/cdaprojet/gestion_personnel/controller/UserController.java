@@ -97,6 +97,12 @@ public class UserController {
         return ResponseEntity.ok(employeeService.getEmployeeNbHolidaysRttsIllnesses(employeeId, yearId, monthId));
     }
 
+    @GetMapping("addDaysToEmployeeSpecialDay/{employeeId}/{dayname}/{nbDay}")
+    public ResponseEntity<Void> addDaysToEmployeeSpecialDay(@PathVariable long employeeId, @PathVariable String dayname, @PathVariable int nbDay) {
+        employeeService.addDaysToEmployeeSpecialDay(employeeId, dayname, nbDay);
+        return ResponseEntity.ok().build();
+    }
+
     // RECORDINGS ///////////////////////////////////////////////////////////////////////////
 
     @PostMapping("/createRecording")

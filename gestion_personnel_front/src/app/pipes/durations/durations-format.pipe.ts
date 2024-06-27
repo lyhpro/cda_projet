@@ -8,7 +8,7 @@ export class DurationsFormatPipe implements PipeTransform {
 
   transform(value: string): string {
     if (!value) {
-      return '';
+      return '00:00';
     }
 
     // Use a regular expression to extract hours and minutes

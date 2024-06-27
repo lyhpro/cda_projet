@@ -13,6 +13,8 @@ public interface EmployeeService {
     EmployeeDto delete(long id);
     EmployeeDto getEmployeeById(long id);
     List<EmployeeDto> getAllEmployee();
+    
     Map<String,List<Integer>> getEmployeeNbHolidaysRttsIllnesses(long employeeId, long yearId, long monthId);
+    void addDaysToEmployeeSpecialDay(long employeeId, String dayname, int nbDay);
 
 }

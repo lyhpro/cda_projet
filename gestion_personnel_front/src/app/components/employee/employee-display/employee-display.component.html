@@ -2,9 +2,8 @@
     <h1>Affichage des heures pour l'employé {{employee.secondname}} {{employee.firstname}}</h1>
     
     <div>
-        <button class="btn btn-success custom-table-btn" (click)="goToSpecialDay('vacance')">Ajout jour conge</button>
-        <button class="btn btn-success custom-table-btn" (click)="goToSpecialDay('rtt')">Ajout jour rtt</button>
-        <button class="btn btn-success custom-table-btn" (click)="goToSpecialDay('maladie')">Ajout jour maladie</button>
+        <button class="btn btn-success custom-table-btn" (click)="goToSpecialDay(employee.id,'vacance')">Ajout jour conge</button>
+        <button class="btn btn-success custom-table-btn" (click)="goToSpecialDay(employee.id,'rtt')">Ajout jour rtt</button>
     </div>
 
     <form [formGroup]="form">
@@ -34,6 +33,8 @@
                 <th class="custom-table-col-title" scope="col">Heure de fin</th>
                 <th class="custom-table-col-title" scope="col">Heure de pause</th>
                 <th class="custom-table-col-title" scope="col">Heure de fin de pause</th>
+                <th class="custom-table-col-title" scope="col">Heure supplémentaire</th>
+                <th class="custom-table-col-title" scope="col">Heure a rattraper</th>
                 <th class="custom-table-col-title" scope="col">Heure total</th>
                 <th class="custom-table-col-title" scope="col">Actions</th>
               </tr>
@@ -47,6 +48,8 @@
                         <td class="custom-table-col-content">{{recording.hourStop | hoursFormat}}</td>
                         <td class="custom-table-col-content">{{recording.breakStart | hoursFormat}}</td>
                         <td class="custom-table-col-content">{{recording.breakStop | hoursFormat}}</td>
+                        <td class="custom-table-col-content">{{recording.extraHours | durationsFormat}}</td>
+                        <td class="custom-table-col-content">{{recording.dueHours | durationsFormat}}</td>
                         <td class="custom-table-col-content">{{recording.totalHours | durationsFormat}}</td>
                         <td class="custom-table-col-content">
                           <button class="btn btn-success custom-table-btn">Consulter</button>
@@ -59,20 +62,23 @@
 
         <br>
         <br>
+
         <table class="table table-striped custom-table">
             <thead>
                 <tr>
-                    <th class="custom-table-col-title" scope="col">Type de journée</th>
-                    <th class="custom-table-col-title" scope="col">Année : {{displayYearValue(form.value.year)}}</th>
-                    <th class="custom-table-col-title" scope="col">Mois : {{displayMonthName(form.value.month)}}</th>
+                    <th class="custom-table-col-title" scope="col">{{displayMonthName(form.value.month)}} {{displayYearValue(form.value.year)}}</th>
+                    <th class="custom-table-col-title" scope="col">Total année</th>
+                    <th class="custom-table-col-title" scope="col">Total mois</th>
+                    <th class="custom-table-col-title" scope="col">Reste</th>
                 </tr>
             </thead>
             <tbody>
-                @for (nbDay of nbSpecialDays; track nbDay) {
+                @for (nbDay of nbSpecialDays | keyvalue; track nbDay) {
                     <tr>
-                        <td class="custom-table-col-content">{{nbDay}}</td>
-                        <td class="custom-table-col-content">{{nbDay[0]}}</td>
-                        <td class="custom-table-col-content">{{nbDay[1]}}</td>
+                        <td class="custom-table-col-content">{{nbDay.key}}</td>
+                        <td class="custom-table-col-content">{{nbDay.value.at(0)}}</td>
+                        <td class="custom-table-col-content">{{nbDay.value.at(1)}}</td>
+                        <td class="custom-table-col-content">{{nbDay.value.at(2)}}</td>
                     </tr>
                 }
             </tbody>

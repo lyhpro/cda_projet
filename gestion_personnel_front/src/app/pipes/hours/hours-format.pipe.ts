@@ -8,7 +8,7 @@ export class HoursFormatPipe implements PipeTransform {
 
   transform(value: string): string {
     if(!value) {
-      return '';
+      return '00:00';
     }
     const [hours, minutes] = value.split(':');
     return `${hours}:${minutes}`;

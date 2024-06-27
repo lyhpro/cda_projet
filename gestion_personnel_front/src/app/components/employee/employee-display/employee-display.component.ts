@@ -218,6 +218,8 @@ export class EmployeeDisplayComponent implements OnInit {
       {
         next: resp => {
           this.nbSpecialDays = resp;
+          console.log(this.nbSpecialDays);
+          
         },
         error: err => {
           console.log(err);
@@ -290,12 +292,12 @@ export class EmployeeDisplayComponent implements OnInit {
     if(monthName != undefined) {
       return monthName;
     } else {
-      return "Aucun";
+      return "";
     }
   }
 
-  goToSpecialDay(dayname: string) {
-    this.router.navigate(['/home/employee/add-special-day', dayname]);
+  goToSpecialDay(employeeId: number, dayname: string) {
+    this.router.navigate(['/home/employee/add-special-day', employeeId, dayname]);
   }
 
 }

@@ -18,7 +18,7 @@ export const routes: Routes = [
     {path: 'home/employee/list', component: EmployeeListComponent},
     {path: 'home/employee/add', component: EmployeeAddComponent},
     {path: 'home/employee/add-hours', component: RecordingComponent},
-    {path: 'home/employee/add-special-day/:name', component: SpecialDayComponent},
+    {path: 'home/employee/add-special-day/:employeeId/:dayname', component: SpecialDayComponent},
 
     {path: '', redirectTo: 'auth', pathMatch: 'full'},
     {path: '**', redirectTo: 'home', pathMatch: 'full'}

@@ -27,8 +27,10 @@ import com.cdaprojet.gestion_personnel.model.time.year.Year;
 import com.cdaprojet.gestion_personnel.repository.ContractTypeRepository;
 import com.cdaprojet.gestion_personnel.repository.DepartmentRepository;
 import com.cdaprojet.gestion_personnel.repository.EmployeeRepository;
+import com.cdaprojet.gestion_personnel.repository.HolidayRepository;
 import com.cdaprojet.gestion_personnel.repository.HoursPerWeekRepository;
 import com.cdaprojet.gestion_personnel.repository.MonthRepository;
+import com.cdaprojet.gestion_personnel.repository.RttRepository;
 import com.cdaprojet.gestion_personnel.repository.YearRepository;
 
 @Service
@@ -51,6 +53,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private MonthRepository monthRepository;
+
+    @Autowired
+    private HolidayRepository holidayRepository;
+
+    @Autowired
+    private RttRepository rttRepository;
 
     @Override
     public EmployeeDto create(EmployeeForm employeeForm) {
@@ -195,12 +203,36 @@ public class EmployeeServiceImpl implements EmployeeService {
         return mapEmployeeRttVacanceMaladieDuration;
     }
 
+    @Override
+    public void addDaysToEmployeeSpecialDay(long employeeId, String dayname, int nbDay) {
+        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        if(dayname.equals("vacance")) {
+            Holiday latestHoliday = employee.getHolidays().stream().max(Comparator.comparing(Holiday::getDate)).orElse(null);
+            if(latestHoliday != null) {
+                int newNbDays = latestHoliday.getNbDay() + nbDay;
+                Holiday newHoliday = new Holiday(0, newNbDays, LocalDate.now(), employee);
+                holidayRepository.save(newHoliday);
+            } else {
+                holidayRepository.save(new Holiday(0,nbDay,LocalDate.now(),employee));
+            }
+        } else if(dayname.equals("rtt")) {
+            Rtt latestRtt = employee.getRtts().stream().max(Comparator.comparing(Rtt::getDate)).orElse(null);
+            if(latestRtt != null) {
+                int newNbDays = latestRtt.getNbDay() + nbDay;
+                Rtt newRtt = new Rtt(0, newNbDays, LocalDate.now(), employee);
+                rttRepository.save(newRtt);
+            } else {
+                rttRepository.save(new Rtt(0, nbDay, LocalDate.now(), employee));
+            }
+        }
+    }
+
     public void setNbHolidays(Map<String,List<Integer>> map, Employee employee, Month month, Year year) {
         List<Integer> nbHolidays = new ArrayList<Integer>(); 
         List<Recording> holidayRecordingsOfYear = employee.getRecordings()
             .stream()
             .filter(recording -> recording.getDate().getYear() == year.getValue())
-            .filter(recording -> recording.getDayType().getName().equals("Vacance"))
+            .filter(recording -> recording.getDayType().getName().equals("vacance"))
             .toList();
         int nbHolidayPerYear = holidayRecordingsOfYear.size();
 
@@ -234,7 +266,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<Recording> rttRecordingsOfYear = employee.getRecordings()
             .stream()
             .filter(recording -> recording.getDate().getYear() == year.getValue())
-            .filter(recording -> recording.getDayType().getName().equals("Rtt"))
+            .filter(recording -> recording.getDayType().getName().equals("rtt"))
             .toList();
         int nbRttPerYear = rttRecordingsOfYear.size();
 
@@ -268,7 +300,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<Recording> illnessRecordingsOfYear = employee.getRecordings()
             .stream()
             .filter(recording -> recording.getDate().getYear() == year.getValue())
-            .filter(recording -> recording.getDayType().getName().equals("Maladie"))
+            .filter(recording -> recording.getDayType().getName().equals("maladie"))
             .toList();
         int nbIllnessPerYear = illnessRecordingsOfYear.size();
 
@@ -281,11 +313,15 @@ public class EmployeeServiceImpl implements EmployeeService {
             nbIllnessPerYearAndMonth = illnessRecordingsOfYearAndMonth.size();
         }
 
-        int actualNbIllnesses = employee.getIllnesses()
+        Illness actualIllnesses = employee.getIllnesses()
             .stream()
             .max(Comparator.comparing(Illness::getDate))
-            .orElse(null)
-            .getNbDay();
+            .orElse(null);
+        
+        int actualNbIllnesses = 0;
+        if(actualIllnesses != null) {
+            actualNbIllnesses = actualIllnesses.getNbDay();
+        }
         
         int nbRttsLeft = actualNbIllnesses - nbIllnessPerYear;
 
@@ -293,7 +329,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         nbIllnesses.add(1,nbIllnessPerYearAndMonth);
         nbIllnesses.add(2,nbRttsLeft);
         
-        map.put("Rtt", nbIllnesses);
+        map.put("Maladie", nbIllnesses);
     }
 
 }
