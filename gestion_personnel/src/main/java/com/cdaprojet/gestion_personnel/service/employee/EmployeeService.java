@@ -1,5 +1,6 @@
 package com.cdaprojet.gestion_personnel.service.employee;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
@@ -16,5 +17,6 @@ public interface EmployeeService {
     
     Map<String,List<Integer>> getEmployeeNbHolidaysRttsIllnesses(long employeeId, long yearId, long monthId);
     void addDaysToEmployeeSpecialDay(long employeeId, String dayname, int nbDay);
+    Map<String,List<Duration>> getEmployeeWorkingHours(long employeeId, long yearId, long monthId);
 
 }

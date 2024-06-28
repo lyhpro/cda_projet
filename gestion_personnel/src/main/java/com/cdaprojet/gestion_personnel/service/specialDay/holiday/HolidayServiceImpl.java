@@ -1,6 +1,6 @@
 package com.cdaprojet.gestion_personnel.service.specialDay.holiday;
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.Comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class HolidayServiceImpl implements HolidayService {
             .max(Comparator.comparing(Holiday::getDate))
             .orElse(null);
         int updatedNbDay = lastHoliday.getNbDay() + nbDay;
-        Holiday newHoliday = new Holiday(0, updatedNbDay, LocalDate.now(), employee);
+        Holiday newHoliday = new Holiday(0, updatedNbDay, new Timestamp(System.currentTimeMillis()), employee);
         holidayRepository.save(newHoliday);
     }
 
@@ -40,7 +40,7 @@ public class HolidayServiceImpl implements HolidayService {
             .max(Comparator.comparing(Holiday::getDate))
             .orElse(null);
         int updatedNbDay = lastHoliday.getNbDay() - nbDay;
-        Holiday newHoliday = new Holiday(0, updatedNbDay, LocalDate.now(), employee);
+        Holiday newHoliday = new Holiday(0, updatedNbDay, new Timestamp(System.currentTimeMillis()), employee);
         holidayRepository.save(newHoliday);
     }
 }

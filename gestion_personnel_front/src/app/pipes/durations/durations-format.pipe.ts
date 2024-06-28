@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DurationsFormatPipe implements PipeTransform {
 
-  transform(value: string): string {
+  transform(value: string | undefined): string {
     if (!value) {
       return '00:00';
     }

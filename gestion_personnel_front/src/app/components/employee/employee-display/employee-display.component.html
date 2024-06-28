@@ -23,6 +23,8 @@
         </select>
     </form>
 
+    <br><br>
+
     @if(recordings.length != 0) {
         <table class="table table-striped custom-table">
             <thead>
@@ -36,7 +38,6 @@
                 <th class="custom-table-col-title" scope="col">Heure supplémentaire</th>
                 <th class="custom-table-col-title" scope="col">Heure a rattraper</th>
                 <th class="custom-table-col-title" scope="col">Heure total</th>
-                <th class="custom-table-col-title" scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -51,17 +52,13 @@
                         <td class="custom-table-col-content">{{recording.extraHours | durationsFormat}}</td>
                         <td class="custom-table-col-content">{{recording.dueHours | durationsFormat}}</td>
                         <td class="custom-table-col-content">{{recording.totalHours | durationsFormat}}</td>
-                        <td class="custom-table-col-content">
-                          <button class="btn btn-success custom-table-btn">Consulter</button>
-                        </td>
                     </tr>
                     
                 }
             </tbody>
         </table>
 
-        <br>
-        <br>
+        <br><br>
 
         <table class="table table-striped custom-table">
             <thead>
@@ -79,6 +76,27 @@
                         <td class="custom-table-col-content">{{nbDay.value.at(0)}}</td>
                         <td class="custom-table-col-content">{{nbDay.value.at(1)}}</td>
                         <td class="custom-table-col-content">{{nbDay.value.at(2)}}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <br><br>
+
+        <table class="table table-striped custom-table">
+            <thead>
+                <tr>
+                    <th class="custom-table-col-title" scope="col">{{displayMonthName(form.value.month)}} {{displayYearValue(form.value.year)}}</th>
+                    <th class="custom-table-col-title" scope="col">Total année</th>
+                    <th class="custom-table-col-title" scope="col">Total mois</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (employeeTotalWorkingHour of employeeTotalWorkingHours | keyvalue; track employeeTotalWorkingHour) {
+                    <tr>
+                        <td class="custom-table-col-content">{{employeeTotalWorkingHour.key}}</td>
+                        <td class="custom-table-col-content">{{employeeTotalWorkingHour.value.at(0) | durationsFormat}}</td>
+                        <td class="custom-table-col-content">{{employeeTotalWorkingHour.value.at(1) | durationsFormat}}</td>
                     </tr>
                 }
             </tbody>

@@ -1,6 +1,6 @@
 package com.cdaprojet.gestion_personnel.service.specialDay.illness;
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.Comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class IllnessServiceImpl implements IllnessService {
             .max(Comparator.comparing(Illness::getDate))
             .orElse(null);
         int updatedNbDay = lastIllness.getNbDay() + nbDay;
-        Illness newIllness = new Illness(0, updatedNbDay, LocalDate.now(), employee);
+        Illness newIllness = new Illness(0, updatedNbDay, new Timestamp(System.currentTimeMillis()), employee);
         illnessRepository.save(newIllness);
     }
 
@@ -40,7 +40,7 @@ public class IllnessServiceImpl implements IllnessService {
             .max(Comparator.comparing(Illness::getDate))
             .orElse(null);
         int updatedNbDay = lastIllness.getNbDay() - nbDay;
-        Illness newIllness = new Illness(0, updatedNbDay, LocalDate.now(), employee);
+        Illness newIllness = new Illness(0, updatedNbDay, new Timestamp(System.currentTimeMillis()), employee);
         illnessRepository.save(newIllness);
     }
 

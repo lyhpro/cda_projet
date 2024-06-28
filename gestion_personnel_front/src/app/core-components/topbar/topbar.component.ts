@@ -45,7 +45,7 @@ export class TopbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.topbarTitle = "Topbar title";
+    this.topbarTitle = "Gestionnaire de personnel";
     this.signinRequest = new SigninRequest("","");
     this.jwtResponse = new JwtResponse("");
     if(this.jwtIsPresent()) {

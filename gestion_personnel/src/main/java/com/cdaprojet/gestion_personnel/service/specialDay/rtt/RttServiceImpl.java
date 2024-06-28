@@ -1,6 +1,6 @@
 package com.cdaprojet.gestion_personnel.service.specialDay.rtt;
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.Comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class RttServiceImpl implements RttService {
             .max(Comparator.comparing(Rtt::getDate))
             .orElse(null);
         int updatedNbDay = lastRtt.getNbDay() + nbDay;
-        Rtt newRtt = new Rtt(0, updatedNbDay, LocalDate.now(), employee);
+        Rtt newRtt = new Rtt(0, updatedNbDay, new Timestamp(System.currentTimeMillis()), employee);
         rttRepository.save(newRtt);
     }
 
@@ -40,7 +40,7 @@ public class RttServiceImpl implements RttService {
             .max(Comparator.comparing(Rtt::getDate))
             .orElse(null);
         int updatedNbDay = lastRtt.getNbDay() - nbDay;
-        Rtt newRtt = new Rtt(0, updatedNbDay, LocalDate.now(), employee);
+        Rtt newRtt = new Rtt(0, updatedNbDay, new Timestamp(System.currentTimeMillis()), employee);
         rttRepository.save(newRtt);
     }
 

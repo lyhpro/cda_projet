@@ -51,6 +51,10 @@ export class EmployeeDisplayComponent implements OnInit {
   dayTypes$: Observable<DayType[]> | undefined;
   subscriptiondayTypes!: Subscription;
 
+  employeeTotalWorkingHours!: Map<string,string[]>;
+  employeeTotalWorkingHours$: Observable<Map<string,string[]>> | undefined;
+  subscriptionEmployeeTotalWorkingHours!: Subscription;
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -62,19 +66,15 @@ export class EmployeeDisplayComponent implements OnInit {
     this.recordings = [];
     this.monthSelected = 0;
     this.yearSelected = 0;
+    this.employee = new Employee(0,"","","",new Date(),false,new Date(),0,0);
     this.employeeId = this.activatedRoute.snapshot.params['id'];
     this.form = this.formBuilder.group(
       {
         year: new FormControl(0),
-        month: new FormControl(
-          {
-            value: 0,
-            disabled: true
-          }
-        ),
+        month: new FormControl(0),
       }
     )
-    this.enableMonthField(this.form);
+    // this.enableMonthField(this.form);
     this.changeYearField(this.form);
     this.changeMonthField(this.form);
     this.initYears();
@@ -217,15 +217,30 @@ export class EmployeeDisplayComponent implements OnInit {
     this.subscriptionEmployee = this.nbSpecialDays$.subscribe(
       {
         next: resp => {
-          this.nbSpecialDays = resp;
-          console.log(this.nbSpecialDays);
-          
+          this.nbSpecialDays = resp;          
         },
         error: err => {
           console.log(err);
         },
         complete: () => {
           console.log("Liste du nombre de jour de vacance, rtt et maladie de l'meployé chargé.");
+        }
+      }
+    )
+  }
+
+  loadEmployeeTotalWorkingHours(employeeId: number, yearId: number, monthId: number) {
+    this.employeeTotalWorkingHours$ =  this.userService.getEmployeeWorkingHours(employeeId,yearId,monthId);
+    this.subscriptionEmployeeTotalWorkingHours = this.employeeTotalWorkingHours$.subscribe(
+      {
+        next: resp => {
+          this.employeeTotalWorkingHours = resp;          
+        },
+        error: err => {
+          console.log(err);
+        },
+        complete: () => { 
+          console.log("Total des heures de travail de l'employé chargé");
         }
       }
     )
@@ -257,9 +272,10 @@ export class EmployeeDisplayComponent implements OnInit {
       year => {
         form.value.year = year;
         this.yearSelected = year;
-        if(this.yearSelected != 0) {
+        if(this.yearSelected != 0 && this.monthSelected != 0) {
           this.loadEmployeeRecordings(this.employeeId, this.yearSelected, this.monthSelected);  
           this.loadEmployeeNbHolidayRttIllness(this.employeeId, this.yearSelected, this.monthSelected);     
+          this.loadEmployeeTotalWorkingHours(this.employeeId, this.yearSelected, this.monthSelected);
         }
       }
     )
@@ -270,9 +286,10 @@ export class EmployeeDisplayComponent implements OnInit {
       month => {
         form.value.month = month;
         this.monthSelected = form.value.month;
-        if(this.yearSelected != 0) {
+        if(this.yearSelected != 0 && this.monthSelected != 0) {
           this.loadEmployeeRecordings(this.employeeId, this.yearSelected, this.monthSelected); 
-          this.loadEmployeeNbHolidayRttIllness(this.employeeId, this.yearSelected, this.monthSelected);       
+          this.loadEmployeeNbHolidayRttIllness(this.employeeId, this.yearSelected, this.monthSelected); 
+          this.loadEmployeeTotalWorkingHours(this.employeeId, this.yearSelected, this.monthSelected);      
         }
       }
     )

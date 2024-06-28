@@ -7,8 +7,13 @@
 }
 
 .custom-topbar-title {
+    font-size: larger;
     color: white;
     margin: 4px;
+}
+
+.custom-topbar-title:hover {
+    text-decoration: none;
 }
 
 .custom-topbar-content {

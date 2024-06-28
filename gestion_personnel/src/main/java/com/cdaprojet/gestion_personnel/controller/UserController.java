@@ -1,5 +1,6 @@
 package com.cdaprojet.gestion_personnel.controller;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
@@ -101,6 +102,11 @@ public class UserController {
     public ResponseEntity<Void> addDaysToEmployeeSpecialDay(@PathVariable long employeeId, @PathVariable String dayname, @PathVariable int nbDay) {
         employeeService.addDaysToEmployeeSpecialDay(employeeId, dayname, nbDay);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("getEmployeeWorkingHours/{employeeId}/{yearId}/{monthId}")
+    public ResponseEntity<Map<String,List<Duration>>> getEmployeeWorkingHours(@PathVariable long employeeId, @PathVariable long yearId, @PathVariable long monthId) {
+        return ResponseEntity.ok(employeeService.getEmployeeWorkingHours(employeeId, yearId, monthId));
     }
 
     // RECORDINGS ///////////////////////////////////////////////////////////////////////////

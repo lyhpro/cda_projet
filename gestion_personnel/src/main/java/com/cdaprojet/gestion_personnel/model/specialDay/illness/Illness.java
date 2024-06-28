@@ -1,6 +1,6 @@
 package com.cdaprojet.gestion_personnel.model.specialDay.illness;
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
 
 import com.cdaprojet.gestion_personnel.model.employeeModel.employee.Employee;
 
@@ -26,7 +26,7 @@ public class Illness {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private int nbDay;
-    private LocalDate date;
+    private Timestamp date;
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = true)

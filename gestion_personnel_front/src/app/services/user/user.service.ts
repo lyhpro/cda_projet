@@ -72,4 +72,8 @@ export class UserService {
   addDaysToEmployeeSpecialDay(employeeId: number, dayname: string, nbDay: number): Observable<void> {
     return this.http.get<void>(API_URL_USER + 'addDaysToEmployeeSpecialDay/' + employeeId + '/' + dayname + '/' + nbDay);
   }
+
+  getEmployeeWorkingHours(employeeId: number, yearId: number, monthId: number): Observable<Map<string,string[]>> {
+    return this.http.get<Map<string,string[]>>(API_URL_USER + 'getEmployeeWorkingHours/' + employeeId + '/' + yearId + '/' + monthId);
+  }
 }

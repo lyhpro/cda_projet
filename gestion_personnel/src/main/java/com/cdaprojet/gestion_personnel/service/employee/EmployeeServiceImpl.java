@@ -1,5 +1,7 @@
 package com.cdaprojet.gestion_personnel.service.employee;
 
+import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -210,21 +212,88 @@ public class EmployeeServiceImpl implements EmployeeService {
             Holiday latestHoliday = employee.getHolidays().stream().max(Comparator.comparing(Holiday::getDate)).orElse(null);
             if(latestHoliday != null) {
                 int newNbDays = latestHoliday.getNbDay() + nbDay;
-                Holiday newHoliday = new Holiday(0, newNbDays, LocalDate.now(), employee);
+                Holiday newHoliday = new Holiday(0, newNbDays, new Timestamp(System.currentTimeMillis()), employee);
                 holidayRepository.save(newHoliday);
             } else {
-                holidayRepository.save(new Holiday(0,nbDay,LocalDate.now(),employee));
+                holidayRepository.save(new Holiday(0,nbDay,new Timestamp(System.currentTimeMillis()),employee));
             }
         } else if(dayname.equals("rtt")) {
             Rtt latestRtt = employee.getRtts().stream().max(Comparator.comparing(Rtt::getDate)).orElse(null);
             if(latestRtt != null) {
                 int newNbDays = latestRtt.getNbDay() + nbDay;
-                Rtt newRtt = new Rtt(0, newNbDays, LocalDate.now(), employee);
+                Rtt newRtt = new Rtt(0, newNbDays, new Timestamp(System.currentTimeMillis()), employee);
                 rttRepository.save(newRtt);
             } else {
-                rttRepository.save(new Rtt(0, nbDay, LocalDate.now(), employee));
+                rttRepository.save(new Rtt(0, nbDay, new Timestamp(System.currentTimeMillis()), employee));
             }
         }
+    }
+
+    @Override
+    public Map<String,List<Duration>> getEmployeeWorkingHours(long employeeId, long yearId, long monthId) {
+        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        Year year = yearRepository.findById(yearId).orElse(null);
+        Month month = monthRepository.findById(monthId).orElse(null);
+        Map<String,List<Duration>> mapWorkingHours = new HashMap<String, List<Duration>>();
+        List<Duration> totalHourDuration = new ArrayList<Duration>();
+        List<Duration> totalExtraHourDuration = new ArrayList<Duration>();
+        List<Duration> totalDueHourDuration = new ArrayList<Duration>();
+
+        List<Recording> yearRecordings = new ArrayList<Recording>();
+        yearRecordings = employee.getRecordings().stream().filter(recording -> recording.getDate().getYear() == year.getValue()).toList();
+        
+        List<Recording> monthRecordings = new ArrayList<Recording>();
+        monthRecordings = yearRecordings.stream().filter(recording -> recording.getDate().getMonth().getValue() == month.getNumber()).toList();
+        
+        Duration yearTotalHourDuration = Duration.ofHours(0).plusMinutes(0);
+        Duration monthTotalHourDuration = Duration.ofHours(0).plusMinutes(0);
+        
+        Duration yearExtraHourDuration = Duration.ofHours(0).plusMinutes(0);
+        Duration monthExtraHourDuration = Duration.ofHours(0).plusMinutes(0);
+        
+        Duration yearDueHourDuration = Duration.ofHours(0).plusMinutes(0);
+        Duration monthDueHourDuration = Duration.ofHours(0).plusMinutes(0);
+        
+        if(yearRecordings.size() != 0) {
+            for(Recording yearRecording: yearRecordings) {
+                if (yearRecording.getTotalHours() != null) {
+                    yearTotalHourDuration = yearTotalHourDuration.plus(yearRecording.getTotalHours());
+                }
+                if(yearRecording.getExtraHours() != null) {
+                    yearExtraHourDuration = yearExtraHourDuration.plus(yearRecording.getExtraHours());
+                }
+                if(yearRecording.getDueHours() != null) {
+                    yearDueHourDuration = yearDueHourDuration.plus(yearRecording.getDueHours());
+                }
+            }
+            for(Recording monthRecording: monthRecordings) {
+                if (monthRecording.getTotalHours() != null) {
+                    monthTotalHourDuration = monthTotalHourDuration.plus(monthRecording.getTotalHours());
+                }
+                if (monthRecording.getExtraHours() != null) {
+                    monthExtraHourDuration = monthExtraHourDuration.plus(monthRecording.getExtraHours());
+                }
+                if (monthRecording.getDueHours() != null) {
+                    monthDueHourDuration = monthDueHourDuration.plus(monthRecording.getDueHours());
+                }
+            }
+        }
+
+        totalHourDuration.add(0,yearTotalHourDuration);
+        totalHourDuration.add(1,monthTotalHourDuration);
+
+        totalExtraHourDuration.add(0,yearExtraHourDuration);
+        totalExtraHourDuration.add(1,monthExtraHourDuration);
+
+        totalDueHourDuration.add(0,yearDueHourDuration);
+        totalDueHourDuration.add(1,monthDueHourDuration);
+
+        mapWorkingHours.put("Total heures", totalHourDuration);
+        mapWorkingHours.put("Total heures supplementaire", totalExtraHourDuration);
+        mapWorkingHours.put("Total heures manquante", totalDueHourDuration);
+
+        return mapWorkingHours;
+
     }
 
     public void setNbHolidays(Map<String,List<Integer>> map, Employee employee, Month month, Year year) {
@@ -237,25 +306,29 @@ public class EmployeeServiceImpl implements EmployeeService {
         int nbHolidayPerYear = holidayRecordingsOfYear.size();
 
         int nbHolidayPerYearAndMonth = 0;
+        int nbHolidayLeft = 0;
         if(month != null) {
             List<Recording> holidayRecordingsOfYearAndMonth = holidayRecordingsOfYear
                 .stream()
                 .filter(recording -> recording.getDate().getMonth().getValue() == month.getNumber())
                 .toList();
             nbHolidayPerYearAndMonth = holidayRecordingsOfYearAndMonth.size();
-        }
 
-        int actualNbHolidays = employee.getHolidays()
-            .stream()
-            .max(Comparator.comparing(Holiday::getDate))
-            .orElse(null)
-            .getNbDay();
-        
-        int nbHolidaysLeft = actualNbHolidays - nbHolidayPerYear;
+            Holiday recentHoliday = employee.getHolidays()
+                .stream()
+                .filter(holiday -> holiday.getDate().toLocalDateTime().getYear() == year.getValue())
+                .filter(holiday -> holiday.getDate().toLocalDateTime().getMonth().getValue() == month.getNumber())
+                .max(Comparator.comparing(Holiday::getDate))
+                .orElse(null);
+            if(recentHoliday != null) {
+                nbHolidayLeft = recentHoliday.getNbDay();
+            }
+
+        }
 
         nbHolidays.add(0,nbHolidayPerYear);
         nbHolidays.add(1,nbHolidayPerYearAndMonth);
-        nbHolidays.add(2,nbHolidaysLeft);
+        nbHolidays.add(2,nbHolidayLeft);
         
         map.put("Vacance", nbHolidays);
     }
@@ -271,25 +344,28 @@ public class EmployeeServiceImpl implements EmployeeService {
         int nbRttPerYear = rttRecordingsOfYear.size();
 
         int nbRttPerYearAndMonth = 0;
+        int nbRttLeft = 0;
         if(month != null) {
             List<Recording> rttRecordingsOfYearAndMonth = rttRecordingsOfYear
                 .stream()
                 .filter(recording -> recording.getDate().getMonth().getValue() == month.getNumber())
                 .toList();
             nbRttPerYearAndMonth = rttRecordingsOfYearAndMonth.size();
-        }
 
-        int actualNbRtts = employee.getRtts()
-            .stream()
-            .max(Comparator.comparing(Rtt::getDate))
-            .orElse(null)
-            .getNbDay();
-        
-        int nbRttsLeft = actualNbRtts - nbRttPerYear;
+            Rtt recentRtt = employee.getRtts()
+                .stream()
+                .filter(rtt -> rtt.getDate().toLocalDateTime().getYear() == year.getValue())
+                .filter(rtt -> rtt.getDate().toLocalDateTime().getMonth().getValue() == month.getNumber())
+                .max(Comparator.comparing(Rtt::getDate))
+                .orElse(null);
+            if(recentRtt != null) {
+                nbRttLeft = recentRtt.getNbDay();
+            }
+        }
 
         nbRtts.add(0,nbRttPerYear);
         nbRtts.add(1,nbRttPerYearAndMonth);
-        nbRtts.add(2,nbRttsLeft);
+        nbRtts.add(2,nbRttLeft);
         
         map.put("Rtt", nbRtts);
     }
@@ -305,29 +381,28 @@ public class EmployeeServiceImpl implements EmployeeService {
         int nbIllnessPerYear = illnessRecordingsOfYear.size();
 
         int nbIllnessPerYearAndMonth = 0;
+        int nbIllnessLeft = 0;
         if(month != null) {
             List<Recording> illnessRecordingsOfYearAndMonth = illnessRecordingsOfYear
                 .stream()
                 .filter(recording -> recording.getDate().getMonth().getValue() == month.getNumber())
                 .toList();
             nbIllnessPerYearAndMonth = illnessRecordingsOfYearAndMonth.size();
-        }
 
-        Illness actualIllnesses = employee.getIllnesses()
-            .stream()
-            .max(Comparator.comparing(Illness::getDate))
-            .orElse(null);
-        
-        int actualNbIllnesses = 0;
-        if(actualIllnesses != null) {
-            actualNbIllnesses = actualIllnesses.getNbDay();
+            Illness recentIllness = employee.getIllnesses()
+                .stream()
+                .filter(illness -> illness.getDate().toLocalDateTime().getYear() == year.getValue())
+                .filter(illness -> illness.getDate().toLocalDateTime().getMonth().getValue() == month.getNumber())
+                .max(Comparator.comparing(Illness::getDate))
+                .orElse(null);
+            if(recentIllness != null) {
+                nbIllnessLeft = recentIllness.getNbDay();
+            }
         }
-        
-        int nbRttsLeft = actualNbIllnesses - nbIllnessPerYear;
 
         nbIllnesses.add(0,nbIllnessPerYear);
         nbIllnesses.add(1,nbIllnessPerYearAndMonth);
-        nbIllnesses.add(2,nbRttsLeft);
+        nbIllnesses.add(2,nbIllnessLeft);
         
         map.put("Maladie", nbIllnesses);
     }
