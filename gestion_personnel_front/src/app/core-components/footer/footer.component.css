@@ -10,3 +10,7 @@
     text-align: center;
     color: white;
 }
+
+.container h1 {
+    font-size: larger;
+}

@@ -14,7 +14,7 @@ export class FooterComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.footerTitle = "Footer title";
+    this.footerTitle = "Gestionnaire de personnel - Heunpha-Ly LY";
   }
   
 }
