@@ -15,6 +15,8 @@ import { AdminService } from '../../../services/admin/admin.service';
 })
 export class UserAddComponent implements OnInit, OnDestroy {
 
+  title!: string;
+
   signupForm!: FormGroup;
   signup!: SignupRequest;
 
@@ -28,6 +30,7 @@ export class UserAddComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.title = "Ajout d'un utilisateur";
     this.signup = new SignupRequest("","","","","");
     this.signupForm = this.formBuilder.group(
       {

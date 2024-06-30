@@ -1,12 +1,27 @@
-.custom-table {
-    width: 75%;
+.user-list-container {
     margin: auto;
+    width: 75%;
+    padding: 1em;
+
+    text-align: center;
+
+}
+
+.custom-table {
+    margin: auto;
+    width: 75%;
+
+    border: 2px solid black;
 }
 
 .custom-table-col-title, .custom-table-col-content {
     text-align: center;
 }
 
-.custom-table-btn {
+.custom-btn {
+    margin-bottom: 1em;
+}   
+
+.custom-table-btn, .custom-btn {
     margin-right: .5em;
 }

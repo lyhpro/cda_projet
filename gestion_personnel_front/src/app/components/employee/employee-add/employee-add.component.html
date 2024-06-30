@@ -1,42 +1,105 @@
 <section>
     <h1>Ajouter un employe</h1>
 
-    <form class="custom-form" [formGroup]="form" (ngSubmit)="onSubmit()">
-        <input class="form-control custom-form-input" type="number" id="id" formControlName="id" [hidden]="true" placeholder="Enter an id">
-        <input class="form-control custom-form-input" type="text" id="secondname" formControlName="secondname" placeholder="Enter a secondname">
-        <input class="form-control custom-form-input" type="text" id="firstname" formControlName="firstname" placeholder="Enter a firstname">
-        <input class="form-control custom-form-input" type="text" id="placeOfBirth" formControlName="placeOfBirth" placeholder="Enter a birth place">
-        <input class="form-control custom-form-input" type="date" id="dateOfBirth" formControlName="dateOfBirth" placeholder="Enter a birth date">
+    <form class="employee-form" [formGroup]="form" (ngSubmit)="onSubmit()">
 
-        <input class="form-control custom-form-input" type="email" id="email" formControlName="email" placeholder="Enter an email">
-        <input class="form-control custom-form-input" type="text" id="address" formControlName="address" placeholder="Enter an address">
-        <input class="form-control custom-form-input" type="number" id="postalCode" formControlName="postalCode" placeholder="Enter a postal code">
-        <input class="form-control custom-form-input" type="text" id="city" formControlName="city" placeholder="Enter a city">
-        <input class="form-control custom-form-input" type="number" id="homenumber" formControlName="homenumber" placeholder="Enter a home number">
-        <input class="form-control custom-form-input" type="number" id="phonenumber" formControlName="phonenumber" placeholder="Enter a phone number">
+        <div class="employee-form-content">
 
-        <input class="form-control custom-form-input" type="text" id="post" formControlName="post" placeholder="Enter a post">
-        <input class="form-control custom-form-input" type="date" id="dateOfHiring" formControlName="dateOfHiring" placeholder="Enter the date of hiring">
-        <input class="form-control custom-form-input" type="date" id="dateEndOfContract" formControlName="dateEndOfContract" placeholder="Enter the date of end contract">
-        <input class="form-control custom-form-input" type="number" id="salary" formControlName="salary" placeholder="Enter the employee salary">
-        <select class="form-select custom-form-input" formControlName="hoursPerWeekId">
-            <option value="" disabled selected>Sélectionner un nombre d'heure</option>
-            @for (hoursPerWeek of hoursPerWeeks; track $index) {
-                <option [ngValue]="hoursPerWeek.id">{{hoursPerWeek.hours}}</option>
-            }
-        </select>
-        <select class="form-select custom-form-input" formControlName="contractId">
-            <option value="" disabled selected>Sélectionner un type de contrat</option>
-            @for (contractType of contractTypes; track $index) {
-                <option [ngValue]="contractType.id">{{contractType.name}}</option>
-            }
-        </select>
-        <select class="form-select custom-form-input" formControlName="departmentId">
-            <option value="" disabled selected>Sélectionner un departement</option>
-            @for (departement of departments; track $index) {
-                <option [ngValue]="departement.id">{{departement.name}}</option>
-            }
-        </select>
-        <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>
+            <input class="form-control employee-form-input" type="number" id="id" formControlName="id" [hidden]="true">
+    
+            <div class="employee-main-information">
+    
+                <div>
+                    <h2>Informations principales</h2>
+                </div>
+    
+                <label for="secondname">Nom : </label>
+                <input class="form-control employee-form-input" type="text" id="secondname" formControlName="secondname">
+                
+                <label for="firstname">Prenom : </label>
+                <input class="form-control employee-form-input" type="text" id="firstname" formControlName="firstname">
+                
+                <label for="placeOfBirth">Lieu de naissance : </label>
+                <input class="form-control employee-form-input" type="text" id="placeOfBirth" formControlName="placeOfBirth">
+                
+                <label for="dateOfBirth">Date de naissance : </label>
+                <input class="form-control employee-form-input" type="date" id="dateOfBirth" formControlName="dateOfBirth">
+    
+            </div>
+    
+            <div class="employee-contact-information">
+    
+                <div>
+                    <h2>Informations de contact</h2>
+                </div>
+    
+                <label for="email">Email : </label>
+                <input class="form-control employee-form-input" type="email" id="email" formControlName="email">
+                
+                <label for="address">Adresse : </label>
+                <input class="form-control employee-form-input" type="text" id="address" formControlName="address">
+                
+                <label for="postalCode">Code postal : </label>
+                <input class="form-control employee-form-input" type="number" id="postalCode" formControlName="postalCode">
+                
+                <label for="city">Ville : </label>
+                <input class="form-control employee-form-input" type="text" id="city" formControlName="city">
+                
+                <label for="homenumber">Telephone fixe : </label>
+                <input class="form-control employee-form-input" type="number" id="homenumber" formControlName="homenumber">
+                
+                <label for="phonenumber">Telephone portable : </label>
+                <input class="form-control employee-form-input" type="number" id="phonenumber" formControlName="phonenumber">
+            </div>
+    
+            <div class="employee-profesionnal-information">
+    
+                <div>
+                    <h2>Informations professionnelles</h2>
+                </div>
+    
+                <label for="post">Intitulé du poste : </label>
+                <input class="form-control employee-form-input" type="text" id="post" formControlName="post">
+                
+                <label for="dateOfHiring">Date d'embauche : </label>
+                <input class="form-control employee-form-input" type="date" id="dateOfHiring" formControlName="dateOfHiring">
+                
+                <label for="dateEndOfContract">Date de fin de contrat : </label>
+                <input class="form-control employee-form-input" type="date" id="dateEndOfContract" formControlName="dateEndOfContract">
+                
+                <label for="salary">Dalaire : </label>
+                <input class="form-control employee-form-input" type="number" id="salary" formControlName="salary">
+                
+                <label for="hoursPerWeekId">Nombre d'heure mensuel : </label>
+                <select class="form-select employee-form-input" formControlName="hoursPerWeekId" id="hoursPerWeekId">
+                    <option value="" disabled selected>Sélectionner un nombre d'heure</option>
+                    @for (hoursPerWeek of hoursPerWeeks; track $index) {
+                        <option [ngValue]="hoursPerWeek.id">{{hoursPerWeek.hours}}</option>
+                    }
+                </select>
+    
+                <label for="contractId">Type de contrat : </label>
+                <select class="form-select employee-form-input" formControlName="contractId" id="contractId">
+                    <option value="" disabled selected>Sélectionner un type de contrat</option>
+                    @for (contractType of contractTypes; track $index) {
+                        <option [ngValue]="contractType.id">{{contractType.name}}</option>
+                    }
+                </select>
+    
+                <label for="departmentId">Département : </label>
+                <select class="form-select employee-form-input" formControlName="departmentId" id="departmentId">
+                    <option value="" disabled selected>Sélectionner un departement</option>
+                    @for (departement of departments; track $index) {
+                        <option [ngValue]="departement.id">{{departement.name}}</option>
+                    }
+                </select>
+    
+            </div>
+
+        </div>
+        
+        <button class="btn btn-primary employee-form-btn" type="submit" [disabled]="!form.valid">Ajouter</button>
+
     </form>
+
 </section>

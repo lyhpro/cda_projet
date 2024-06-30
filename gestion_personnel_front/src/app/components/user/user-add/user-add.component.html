@@ -1,17 +1,19 @@
 <section>
-    <h1>Ajouter un utilisateur</h1>
+    <h1>{{title}}</h1>
 
-    <form class="custom-form" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-        <input class="form-control custom-form-input" type="text" id="secondname" formControlName="secondname" placeholder="Entrer un nom">
-        <input class="form-control custom-form-input" type="text" id="firstname" formControlName="firstname" placeholder="Entrer un prenom">
-        <input class="form-control custom-form-input" type="email" id="email" formControlName="email" placeholder="Entrer un email">
-        <input class="form-control custom-form-input" type="password" id="pwd" formControlName="pwd" placeholder="Entrer un mot de passe" [hidden]="true">
-        <select class="form-select custom-form-input" formControlName="roleName">
-            <option value="" disabled selected>Sélectionner un rôle</option>
-            @for (role of listRole; track $index) {
-                <option [ngValue]="role.name">{{role.name}}</option>
-            }
-        </select>
-        <button class="btn btn-primary" type="submit" [disabled]="!signupForm.valid">Submit</button>
-    </form>
+    <div class="form-container">
+        <form class="user-form" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+            <input class="form-control user-form-input" type="text" id="secondname" formControlName="secondname" placeholder="Entrer un nom">
+            <input class="form-control user-form-input" type="text" id="firstname" formControlName="firstname" placeholder="Entrer un prenom">
+            <input class="form-control user-form-input" type="email" id="email" formControlName="email" placeholder="Entrer un email">
+            <input class="form-control user-form-input" type="password" id="pwd" formControlName="pwd" placeholder="Entrer un mot de passe" [hidden]="true">
+            <select class="form-select user-form-input" formControlName="roleName">
+                <option value="" disabled selected>Sélectionner un rôle</option>
+                @for (role of listRole; track $index) {
+                    <option [ngValue]="role.name">{{role.name}}</option>
+                }
+            </select>
+            <button class="btn btn-primary" type="submit" [disabled]="!signupForm.valid">Ajouter</button>
+        </form>
+    </div>
 </section>

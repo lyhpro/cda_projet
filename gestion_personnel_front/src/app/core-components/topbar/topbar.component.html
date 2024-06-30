@@ -6,13 +6,13 @@
         </a>
         <form class="navbar-form" (ngSubmit)="onSubmit()">
           <div class="me-2">
-            <input class="form-control" type="email" name="email" id="email" placeholder="Email" [(ngModel)]="signinRequest.email" required>
+            <input class="form-control form-control-sm" type="email" name="email" id="email" placeholder="Email" [(ngModel)]="signinRequest.email" required>
           </div>
           <div class="me-2">
-            <input class="form-control" type="password" name="pwd" name="pwd" placeholder="Mot de passe" [(ngModel)]="signinRequest.password" required>
+            <input class="form-control form-control-sm" type="password" name="pwd" name="pwd" placeholder="Mot de passe" [(ngModel)]="signinRequest.password" required>
           </div>
           <div>
-            <button class="btn btn-outline-light" type="submit">Connexion</button>
+            <button class="btn btn-sm btn-outline-light" type="submit">Connexion</button>
           </div>
         </form>
       }
@@ -25,7 +25,7 @@
             @for (m of menu; track $index) {
               <a class="nav-link custom-nav-link" routerLink="{{m.urlPath}}" routerLinkActive="active">{{m.name}}</a>
             }
-            <button class="btn btn-outline-light" (click)="signOut()">SignOut</button>
+            <button class="btn btn-sm btn-outline-light" (click)="signOut()">Deconnexion</button>
           </div>
         } @else {
           <a routerLink="auth" routerLinkActive="active">

@@ -1,34 +1,39 @@
 <section>
 
-    <h1>Liste des utilisateurs</h1>
+    <h1>{{title}}</h1>
 
-    <button class="btn btn-primary custom-table-btn" (click)="goToAddUser()">Ajouter un utilisateur</button>
+    <div class="user-list-container">
 
-    <table class="table table-striped custom-table">
-        <thead>
-          <tr>
-            <th class="custom-table-col-title" scope="col">Nom</th>
-            <th class="custom-table-col-title" scope="col">Prenom</th>
-            <th class="custom-table-col-title" scope="col">Role</th>
-            <th class="custom-table-col-title" scope="col">Activé</th>
-            <th class="custom-table-col-title" scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-            @for (user of listUser; track $index) {
-                <tr>
-                    <td class="custom-table-col-content">{{user.secondname}}</td>
-                    <td class="custom-table-col-content">{{user.firstname}}</td>
-                    <td class="custom-table-col-content">{{user.roleName}}</td>
-                    <td class="custom-table-col-content">{{user.enable ? "Oui" : "Non"}}</td>
-                    <td class="custom-table-col-content">
-                        <button class="btn btn-success custom-table-btn">Consulter</button>
-                        <button class="btn btn-warning custom-table-btn">Modifier</button>
-                        <button class="btn btn-danger custom-table-btn">Supprimer</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-      </table>
+      <button class="btn btn-primary custom-btn" (click)="goToAddUser()">Ajouter un utilisateur</button>
+  
+      <table class="table table-striped custom-table">
+          <thead>
+            <tr>
+              <th class="custom-table-col-title" scope="col">Nom</th>
+              <th class="custom-table-col-title" scope="col">Prenom</th>
+              <th class="custom-table-col-title" scope="col">Role</th>
+              <th class="custom-table-col-title" scope="col">Activé</th>
+              <th class="custom-table-col-title" scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+              @for (user of listUser; track $index) {
+                  <tr>
+                      <td class="custom-table-col-content">{{user.secondname}}</td>
+                      <td class="custom-table-col-content">{{user.firstname}}</td>
+                      <td class="custom-table-col-content">{{user.roleName}}</td>
+                      <td class="custom-table-col-content">{{user.enable ? "Oui" : "Non"}}</td>
+                      <td class="custom-table-col-content">
+                          <button class="btn btn-sm btn-success custom-table-btn">Consulter</button>
+                          <button class="btn btn-sm btn-warning custom-table-btn">Modifier</button>
+                          <button class="btn btn-sm btn-danger custom-table-btn">Supprimer</button>
+                      </td>
+                  </tr>
+              }
+          </tbody>
+        </table>
+        
+    </div>
+
 </section>
 

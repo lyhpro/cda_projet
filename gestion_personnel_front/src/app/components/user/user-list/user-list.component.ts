@@ -14,6 +14,8 @@ import { Route, Router } from '@angular/router';
 })
 export class UserListComponent implements OnInit, OnDestroy {
 
+  title!: string;
+
   listUser!: User[];
   listUser$: Observable<User[]> | undefined;
   subscriptionListUser!: Subscription;
@@ -24,6 +26,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.title = "Liste des utilisateurs du gestionnaire";
     this.loadUsers();
   }
 

@@ -1,15 +1,50 @@
-section {
-    height: 65em;
+h2 {
+    font-size: large;
+    font-weight: bold;
 }
 
-.custom-form {
-    margin: auto;
+.employee-form {
+    margin-left: 0em;
+    margin-right: 0em;
+    width: 100%;
+    padding: 1em;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
 }
 
-.custom-form-input {
+.employee-form-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+
+    width: 100%;
+}
+
+.employee-main-information,
+.employee-contact-information,
+.employee-profesionnal-information {
+    width: 33%;
+    padding: 2em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    border: 2px solid black;
+    border-radius: 30px;
+
+    background-color: lavender;
+}
+
+.employee-form-input {
     margin-bottom: .5em;
+    background-color: azure;
+
+    border: 1px solid black;
+}
+
+.employee-form-btn {
+    margin: 1em;
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-landing-page',
@@ -8,6 +8,14 @@ import { Component } from '@angular/core';
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css'
 })
-export class LandingPageComponent {
+export class LandingPageComponent implements OnInit {
+
+  title!: string;
+
+  constructor() {}
+
+  ngOnInit(): void {
+    this.title = "Bienvenue sur le gestionnaire de personnel";
+  }
 
 }
