@@ -1,12 +1,27 @@
+.employee-list-container {
+    margin: auto;
+    width: 75%;
+    padding: 1em;
+
+    text-align: center;
+
+}
+
 .custom-table {
     width: 75%;
     margin: auto;
+
+    border: 2px solid black;
 }
 
 .custom-table-col-title, .custom-table-col-content {
     text-align: center;
 }
 
-.custom-table-btn {
+.custom-table-btn, .custom-btn {
     margin-right: .5em;
 }
+
+.custom-btn {
+    margin-bottom: 1em;
+}   

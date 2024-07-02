@@ -1,29 +1,33 @@
 <section>
     <h1>Liste des employés</h1>
 
-    <button class="btn btn-primary" (click)="goToAddEmployee()">Ajouter un employee</button>
+    <div class="employee-list-container">
 
-    <table class="table table-striped custom-table">
-        <thead>
-          <tr>
-            <th class="custom-table-col-title" scope="col">Nom</th>
-            <th class="custom-table-col-title" scope="col">Prenom</th>
-            <th class="custom-table-col-title" scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-            @for (employee of employees; track $index) {
-                <tr>
-                    <td class="custom-table-col-content">{{employee.secondname}}</td>
-                    <td class="custom-table-col-content">{{employee.firstname}}</td>
-                    <td class="custom-table-col-content">
-                      <button class="btn btn-success custom-table-btn" (click)="goToDisplayEmployee(employee.id)">Consulter</button>
-                      <button class="btn btn-primary custom-table-btn" >Modifier</button>
-                    </td>
-                </tr>
-                
-            }
-        </tbody>
-    </table>
+      <button class="btn btn-primary custom-btn" (click)="goToAddEmployee()">Ajouter un employee</button>
+  
+      <table class="table table-striped custom-table">
+          <thead>
+            <tr>
+              <th class="custom-table-col-title" scope="col">Nom</th>
+              <th class="custom-table-col-title" scope="col">Prenom</th>
+              <th class="custom-table-col-title" scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+              @for (employee of employees; track $index) {
+                  <tr>
+                      <td class="custom-table-col-content">{{employee.secondname}}</td>
+                      <td class="custom-table-col-content">{{employee.firstname}}</td>
+                      <td class="custom-table-col-content">
+                        <button class="btn btn-success custom-table-btn" (click)="goToDisplayEmployee(employee.id)">Consulter</button>
+                        <button class="btn btn-primary custom-table-btn" >Modifier</button>
+                      </td>
+                  </tr>
+                  
+              }
+          </tbody>
+      </table>
+
+    </div>
 
 </section>
