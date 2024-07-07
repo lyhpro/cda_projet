@@ -1,66 +1,50 @@
 <section>
-    <h1>Affichage des heures pour l'employé {{employee.secondname}} {{employee.firstname}}</h1>
+
+    <div class="dashboard-container">
+
+        <div class="form-container">
+            <h2>Année et mois à sélectionner : </h2>
+            <form [formGroup]="form">
+                <div class="input-container">
+                    <label for="fullname">Employé : </label>
+                    <input class="form-control custom-form-input" type="text" id="fullname" formControlName="fullname">
+                </div>
+                <div class="input-container">
+                    <label for="year">Année : </label>
+                    <select class="form-select custom-form-input" formControlName="year">
+                        <option value=0 disabled selected>Sélectionner une année</option>
+                        @for (year of years; track $index) {
+                            <option [ngValue]="year.id">{{year.value}}</option>
+                        }
+                    </select>
+                </div>
+                <div class="input-container">
+                    <label for="month">Mois : </label>
+                    <select class="form-select custom-form-input" formControlName="month">
+                        <option value=0 disabled selected>Sélectionner un mois</option>
+                        @for (month of months; track $index) {
+                            <option [ngValue]="month.id">{{month.name}}</option>
+                        }
+                    </select>
     
-    <div>
-        <button class="btn btn-success custom-table-btn" (click)="goToSpecialDay(employee.id,'vacance')">Ajout jour conge</button>
-        <button class="btn btn-success custom-table-btn" (click)="goToSpecialDay(employee.id,'rtt')">Ajout jour rtt</button>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="button-container">
+            <h2>Opérations : </h2>
+            <button class="btn btn-success custom-btn" (click)="goToSpecialDay(employee.id,'vacance')">Ajout jour conge</button>
+            <button class="btn btn-success custom-btn" (click)="goToSpecialDay(employee.id,'rtt')">Ajout jour rtt</button>
+        </div>
+
     </div>
-
-    <form [formGroup]="form">
-        <label for="year">Année : </label>
-        <select class="form-select custom-form-input" formControlName="year">
-            <option value=0 disabled selected>Sélectionner une année</option>
-            @for (year of years; track $index) {
-                <option [ngValue]="year.id">{{year.value}}</option>
-            }
-        </select>
-        <label for="month">Mois : </label>
-        <select class="form-select custom-form-input" formControlName="month">
-            <option value=0 disabled selected>Sélectionner un mois</option>
-            @for (month of months; track $index) {
-                <option [ngValue]="month.id">{{month.name}}</option>
-            }
-        </select>
-    </form>
-
+    
     <br><br>
 
     @if(recordings.length != 0) {
-        <table class="table table-striped custom-table">
-            <thead>
-              <tr>
-                <th class="custom-table-col-title" scope="col">Date</th>
-                <th class="custom-table-col-title" scope="col">Journée</th>
-                <th class="custom-table-col-title" scope="col">Heure de début</th>
-                <th class="custom-table-col-title" scope="col">Heure de fin</th>
-                <th class="custom-table-col-title" scope="col">Heure de pause</th>
-                <th class="custom-table-col-title" scope="col">Heure de fin de pause</th>
-                <th class="custom-table-col-title" scope="col">Heure supplémentaire</th>
-                <th class="custom-table-col-title" scope="col">Heure a rattraper</th>
-                <th class="custom-table-col-title" scope="col">Heure total</th>
-              </tr>
-            </thead>
-            <tbody>
-                @for (recording of recordings; track $index) {
-                    <tr>
-                        <td class="custom-table-col-content">{{recording.date}}</td>
-                        <td class="custom-table-col-content">{{loadDayType(recording.dayTypeId)}}</td>
-                        <td class="custom-table-col-content">{{recording.hourStart | hoursFormat}}</td>
-                        <td class="custom-table-col-content">{{recording.hourStop | hoursFormat}}</td>
-                        <td class="custom-table-col-content">{{recording.breakStart | hoursFormat}}</td>
-                        <td class="custom-table-col-content">{{recording.breakStop | hoursFormat}}</td>
-                        <td class="custom-table-col-content">{{recording.extraHours | durationsFormat}}</td>
-                        <td class="custom-table-col-content">{{recording.dueHours | durationsFormat}}</td>
-                        <td class="custom-table-col-content">{{recording.totalHours | durationsFormat}}</td>
-                    </tr>
-                    
-                }
-            </tbody>
-        </table>
 
-        <br><br>
-
-        <table class="table table-striped custom-table">
+        <table class="table table-striped table-primary custom-table">
             <thead>
                 <tr>
                     <th class="custom-table-col-title" scope="col">{{displayMonthName(form.value.month)}} {{displayYearValue(form.value.year)}}</th>
@@ -80,10 +64,8 @@
                 }
             </tbody>
         </table>
-
-        <br><br>
-
-        <table class="table table-striped custom-table">
+    
+        <table class="table table-striped table-primary custom-table">
             <thead>
                 <tr>
                     <th class="custom-table-col-title" scope="col">{{displayMonthName(form.value.month)}} {{displayYearValue(form.value.year)}}</th>
@@ -101,6 +83,40 @@
                 }
             </tbody>
         </table>
+
+        <div class="data-wrapper">
+            <table class="table table-striped table-primary">
+                <thead>
+                  <tr>
+                    <th class="custom-table-col-title" scope="col">Date</th>
+                    <th class="custom-table-col-title" scope="col">Journée</th>
+                    <th class="custom-table-col-title" scope="col">Heure de début</th>
+                    <th class="custom-table-col-title" scope="col">Heure de fin</th>
+                    <th class="custom-table-col-title" scope="col">Heure de pause</th>
+                    <th class="custom-table-col-title" scope="col">Heure de fin de pause</th>
+                    <th class="custom-table-col-title" scope="col">Heure supplémentaire</th>
+                    <th class="custom-table-col-title" scope="col">Heure a rattraper</th>
+                    <th class="custom-table-col-title" scope="col">Heure total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    @for (recording of recordings; track $index) {
+                        <tr>
+                            <td class="custom-table-col-content">{{recording.date}}</td>
+                            <td class="custom-table-col-content">{{loadDayType(recording.dayTypeId)}}</td>
+                            <td class="custom-table-col-content">{{recording.hourStart | hoursFormat}}</td>
+                            <td class="custom-table-col-content">{{recording.hourStop | hoursFormat}}</td>
+                            <td class="custom-table-col-content">{{recording.breakStart | hoursFormat}}</td>
+                            <td class="custom-table-col-content">{{recording.breakStop | hoursFormat}}</td>
+                            <td class="custom-table-col-content">{{recording.extraHours | durationsFormat}}</td>
+                            <td class="custom-table-col-content">{{recording.dueHours | durationsFormat}}</td>
+                            <td class="custom-table-col-content">{{recording.totalHours | durationsFormat}}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
     }
 
 </section>

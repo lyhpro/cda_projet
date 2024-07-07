@@ -70,6 +70,7 @@ export class EmployeeDisplayComponent implements OnInit {
     this.employeeId = this.activatedRoute.snapshot.params['id'];
     this.form = this.formBuilder.group(
       {
+        fullname: [{value: '',disabled: true}],
         year: new FormControl(0),
         month: new FormControl(0),
       }
@@ -173,6 +174,11 @@ export class EmployeeDisplayComponent implements OnInit {
       {
         next: resp => {
           this.employee = new Employee(resp.id,resp.secondname,resp.firstname,resp.placeOfBirth,resp.dateOfBirth,resp.enable,resp.dateOfCreation,resp.contactDetailId,resp.professionalDetailId);
+          this.form.patchValue(
+            {
+              fullname: this.employee.firstname + " " + this.employee.secondname
+            }
+          )
         },
         error: err => {
           console.log(err);
