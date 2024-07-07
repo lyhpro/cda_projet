@@ -1,45 +1,59 @@
 <section>
-    <h1>Ajouter un enregistrement</h1>
 
-    <form class="custom-form" [formGroup]="recordingForm" (ngSubmit)="onSubmit()">
-        <select class="form-select custom-form-input" formControlName="employeeId">
-            <option value=0 disabled selected>Sélectionner un employe</option>
-            @for (employee of employees; track $index) {
-                <option [ngValue]="employee.id" (change)="reloadRecordingForm()">{{employee.secondname + " " + employee.firstname}}</option>
-            }
-        </select>
-        <div class="custom-form-radio">
-            @for (dayType of dayTypes; track $index) {
-                <div class="form-check custom-form-input">
-                    <input class="form-check-input" type="radio" id="dayTypeId" formControlName="dayTypeId" [value]="dayType.id" (change)="displayDayType(recordingForm.value.dayTypeId )">
-                    <label class="form-check-label" for="dayType.id">{{dayType.name}}</label>
-                </div>
-            }
-        </div>
-        @if(recordingForm.value.dayTypeId != 0) {
-            <div>
-                <div>{{title}}</div>
-                <input class="form-control" type="number" id="id" formControlName="id" [hidden]="true">
-
-                <label for="date" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">Date : </label>    
-                <input class="form-control" type="date" id="date" formControlName="date" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">
-                <label for="hourStart" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">Heure de début : </label>    
-                <input class="form-control" type="time" id="hourStart" formControlName="hourStart" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">
-                <label for="hourStop" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">Heure d'arrêt : </label>    
-                <input class="form-control" type="time" id="hourStop" formControlName="hourStop" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">
-                <label for="breakStart" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">Heure de début de pause : </label>    
-                <input class="form-control" type="time" id="breakStart" formControlName="breakStart" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">
-                <label for="breakStop" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">Heure de fin de pause : </label>    
-                <input class="form-control" type="time" id="breakStop" formControlName="breakStop" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">
-                
-                <label for="dateStart" [hidden]="!isTravailDayType(recordingForm.value.dayTypeId)">Date de début : </label>
-                <input class="form-control" type="date" id="dateStart" formControlName="dateStart" [hidden]="!isTravailDayType(recordingForm.value.dayTypeId)">
-                <label for="dateStop" [hidden]="!isTravailDayType(recordingForm.value.dayTypeId)">Date de fin : </label>    
-                <input class="form-control" type="date" id="dateStop" formControlName="dateStop" [hidden]="!isTravailDayType(recordingForm.value.dayTypeId)">   
+    <div class="recording-container">
+        <h2>Ajouter un enregistrement</h2>
     
+        <form class="custom-form" [formGroup]="recordingForm" (ngSubmit)="onSubmit()">
+            <div class="input-container">
+                <label for="employeeId">Employé : </label>
+                <select class="form-select custom-form-input custom-input-text" formControlName="employeeId">
+                    <option value=0 disabled selected>Sélectionner un employe</option>
+                    @for (employee of employees; track $index) {
+                        <option [ngValue]="employee.id" (change)="reloadRecordingForm()">{{employee.secondname + " " + employee.firstname}}</option>
+                    }
+                </select>
             </div>
 
-        }
-        <button class="btn btn-primary" type="submit" [disabled]="!recordingForm.valid">Submit</button>
-    </form>
+            <div class="input-container">
+                <p>Type de journée : {{title}}</p>
+                <div class="custom-form-radio">
+                    @for (dayType of dayTypes; track $index) {
+                        <div class="form-check custom-form-input custom-form-check">
+                            <input class="form-check-input" type="radio" id="dayTypeId" formControlName="dayTypeId" [value]="dayType.id" (change)="displayDayType(recordingForm.value.dayTypeId )">
+                            <label class="form-check-label" for="dayType.id">{{dayType.name}}</label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @if(recordingForm.value.dayTypeId != 0) {
+                <div>
+                    <input class="form-control" type="number" id="id" formControlName="id" [hidden]="true">
+        
+                    <label for="date" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">Date : </label>    
+                    <input class="form-control custom-form-input custom-input-text" type="date" id="date" formControlName="date" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">
+                    <label for="hourStart" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">Heure de début : </label>    
+                    <input class="form-control custom-form-input custom-input-text" type="time" id="hourStart" formControlName="hourStart" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">
+                    <label for="hourStop" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">Heure d'arrêt : </label>    
+                    <input class="form-control custom-form-input custom-input-text" type="time" id="hourStop" formControlName="hourStop" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">
+                    <label for="breakStart" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">Heure de début de pause : </label>    
+                    <input class="form-control custom-form-input custom-input-text" type="time" id="breakStart" formControlName="breakStart" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">
+                    <label for="breakStop" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">Heure de fin de pause : </label>    
+                    <input class="form-control custom-form-input custom-input-text" type="time" id="breakStop" formControlName="breakStop" [hidden]="isTravailDayType(recordingForm.value.dayTypeId)">
+                    
+                    <label for="dateStart" [hidden]="!isTravailDayType(recordingForm.value.dayTypeId)">Date de début : </label>
+                    <input class="form-control custom-form-input custom-input-text" type="date" id="dateStart" formControlName="dateStart" [hidden]="!isTravailDayType(recordingForm.value.dayTypeId)">
+                    <label for="dateStop" [hidden]="!isTravailDayType(recordingForm.value.dayTypeId)">Date de fin : </label>    
+                    <input class="form-control custom-form-input custom-input-text" type="date" id="dateStop" formControlName="dateStop" [hidden]="!isTravailDayType(recordingForm.value.dayTypeId)">   
+        
+                </div>
+        
+                <div class="custom-btn">
+                    <button class="btn btn-primary" type="submit" [disabled]="!recordingForm.valid">Envoyer</button>
+                </div>
+            }
+        </form>
+    </div>
+
+
 </section>

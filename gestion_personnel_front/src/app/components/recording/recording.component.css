@@ -1,13 +1,25 @@
-section {
-    height: 40em;
+h2 {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.recording-container {
+    width: 50%;
+    padding: 1em;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: rgb(207,226,255);
+        
+    border: 2px solid black;
+    border-radius: 30px;
 }
 
 .custom-form {
-    margin: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 50%;
+    width: 75%;
 }
 
 .custom-form-input {
@@ -15,7 +27,31 @@ section {
     margin-bottom: .5em;
 }
 
+.custom-input-text {
+    border: 1px solid black;
+    background-color: azure;
+}
+
 .custom-form-radio {
+    border: 2px solid green;
     display: flex;
     flex-direction: row;
+}
+
+.input-container {
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+
+.input-container p {
+    margin: 0em;
+}
+
+.custom-btn {
+    width: auto;
+    margin: .5em .5em .5em .0em;
+}
+
+.custom-form-check {
+    display: flex;
 }

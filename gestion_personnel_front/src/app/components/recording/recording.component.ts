@@ -37,6 +37,7 @@ export class RecordingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.title = '';
     this.recording = new Recording(0,"","","","","","","","","","",0,0);
     this.recordingForm = this.formBuilder.group(
       {
