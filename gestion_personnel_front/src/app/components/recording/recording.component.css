@@ -3,23 +3,62 @@ h2 {
     font-weight: bold;
 }
 
-.recording-container {
+.recording-form {
+    width: 100%;
+    margin-bottom: 1em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.first-recording-container {
     width: 50%;
+    margin-bottom: 1em;
     padding: 1em;
 
     display: flex;
     flex-direction: column;
 
-    background-color: rgb(207,226,255);
-        
     border: 2px solid black;
     border-radius: 30px;
+
+    background-color: rgb(207,226,255);
+
 }
 
-.custom-form {
+.second-recording-container {
+    width: 100%;
+    margin-bottom: 1em;
+    padding: 1em;
+
     display: flex;
     flex-direction: column;
-    width: 75%;
+
+    border: 2px solid black;
+    border-radius: 30px;
+
+    background-color: rgb(207,226,255);
+
+}
+
+.date-input {
+    width: 45%;
+}
+
+.date-container {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.date-subcontainer {
+    width: 45%;
+
+    display: flex;
+    flex-direction: column;
 }
 
 .custom-form-input {
@@ -43,15 +82,9 @@ h2 {
     margin-bottom: .5em;
 }
 
-.input-container p {
-    margin: 0em;
-}
-
 .custom-btn {
-    width: auto;
-    margin: .5em .5em .5em .0em;
-}
-
-.custom-form-check {
+    width: 100%;    
+    
     display: flex;
+    justify-content: center;
 }

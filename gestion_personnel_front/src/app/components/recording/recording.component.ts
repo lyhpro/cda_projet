@@ -152,19 +152,6 @@ export class RecordingComponent implements OnInit {
     );
   }
 
-  displayDayType(dayTypeId: number) {
-    this.reloadRecordingForm();
-    if(dayTypeId == 1) {
-      this.title = "TRAVAIL";
-    } else if(dayTypeId == 2) {
-      this.title = "VACANCE";
-    } else if(dayTypeId == 3) {
-      this.title = "RTT";
-    } else if(dayTypeId == 4) {
-      this.title = "MALADIE";
-    }
-  }
-
   isTravailDayType(dayTypeId: number): boolean {
     if(dayTypeId == 1) {
       return false;
