@@ -10,11 +10,14 @@ import { Path } from '../../models/path/path';
 import { LocalstorageService } from '../../services/localStorage/localstorage.service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { CommonService } from '../../services/common/common.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { PopupDialogComponent } from '../popup-dialog/popup-dialog.component';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, MatDialogModule, MatButtonModule],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.css'
 })
@@ -41,7 +44,8 @@ export class TopbarComponent implements OnInit {
     private commonService: CommonService,
     private authenticationService: AuthenticationService,
     private localstorageService: LocalstorageService, 
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -51,6 +55,10 @@ export class TopbarComponent implements OnInit {
     if(this.jwtIsPresent()) {
       this.loadEnvironment();
     }
+  }
+
+  openDialog() {
+    this.dialog.open(PopupDialogComponent);
   }
 
   onSubmit() {
@@ -67,8 +75,7 @@ export class TopbarComponent implements OnInit {
             alert("Erreur.");
           } else {
             this.localstorageService.setItem("userJwt",this.jwtResponse.jwt);
-            alert("Connexion réussie.");
-            location.reload();
+            this.openDialog();
           }
         },
         error: err => {

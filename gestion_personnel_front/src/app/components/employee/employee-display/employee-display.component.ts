@@ -4,7 +4,7 @@ import { UserService } from '../../../services/user/user.service';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Employee } from '../../../models/employee/employee/employee';
-import { Observable, Subscription, map } from 'rxjs';
+import { Observable, Subscription, map, window } from 'rxjs';
 import { Month } from '../../../models/month/month';
 import { Recording } from '../../../models/recording/recording';
 import { DayType } from '../../../models/dayType/day-type';
@@ -22,7 +22,9 @@ import { Year } from '../../../models/year/year';
 export class EmployeeDisplayComponent implements OnInit {
 
   form!: FormGroup;
+  nbDayForm!: FormGroup;
   employeeId!: number;
+  dayNameTitle!: string;
 
   monthSelected!: number;
   yearSelected!: number;
@@ -66,6 +68,7 @@ export class EmployeeDisplayComponent implements OnInit {
     this.recordings = [];
     this.monthSelected = 0;
     this.yearSelected = 0;
+    this.dayNameTitle = '';
     this.employee = new Employee(0,"","","",new Date(),false,new Date(),0,0);
     this.employeeId = this.activatedRoute.snapshot.params['id'];
     this.form = this.formBuilder.group(
@@ -73,6 +76,13 @@ export class EmployeeDisplayComponent implements OnInit {
         fullname: [{value: '',disabled: true}],
         year: new FormControl(0),
         month: new FormControl(0),
+      }
+    )
+    this.nbDayForm = this.formBuilder.group(
+      {
+        employeeId: new FormControl(0),
+        dayName: new FormControl(''),
+        nbDay: new FormControl(1)
       }
     )
     // this.enableMonthField(this.form);
@@ -179,6 +189,11 @@ export class EmployeeDisplayComponent implements OnInit {
               fullname: this.employee.firstname + " " + this.employee.secondname
             }
           )
+          this.nbDayForm.patchValue(
+            {
+              employeeId: this.employee.id
+            }
+          )
         },
         error: err => {
           console.log(err);
@@ -261,6 +276,12 @@ export class EmployeeDisplayComponent implements OnInit {
     }
   }
 
+  onSubmit() {
+    this.userService.addDaysToEmployeeSpecialDay(this.nbDayForm.value.employeeId, this.nbDayForm.value.dayName, this.nbDayForm.value.nbDay).subscribe();
+    alert("Jours ajoutés");
+    location.reload();
+  }
+
   enableMonthField(form: FormGroup) {
     form.get('year')?.valueChanges.subscribe(
       value => {       
@@ -319,8 +340,20 @@ export class EmployeeDisplayComponent implements OnInit {
     }
   }
 
-  goToSpecialDay(employeeId: number, dayname: string) {
-    this.router.navigate(['/home/employee/add-special-day', employeeId, dayname]);
+  loadDayName(dayName: string) {
+    this.nbDayForm.patchValue(
+      {
+        dayName: dayName,
+        nbDay: 1
+      }
+    )
+    if(dayName == 'vacance') {
+      this.dayNameTitle = 'jours de congé';
+    } else if(dayName == 'rtt') {
+      this.dayNameTitle = 'jours de RTT';
+    } else if(dayName == 'maladie') {
+      this.dayNameTitle = 'jours de congé maladie';
+    }
   }
 
 }

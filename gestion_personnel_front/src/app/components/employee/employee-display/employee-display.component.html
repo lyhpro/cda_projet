@@ -3,7 +3,9 @@
     <div class="dashboard-container">
 
         <div class="form-container">
+
             <h2>Année et mois à sélectionner : </h2>
+
             <form [formGroup]="form">
                 <div class="input-container">
                     <label for="fullname">Employé : </label>
@@ -32,10 +34,34 @@
 
         </div>
 
-        <div class="button-container">
+        <div class="operation-container">
+
             <h2>Opérations : </h2>
-            <button class="btn btn-success custom-btn" (click)="goToSpecialDay(employee.id,'vacance')">Ajout jour conge</button>
-            <button class="btn btn-success custom-btn" (click)="goToSpecialDay(employee.id,'rtt')">Ajout jour rtt</button>
+
+            <div class="button-container">
+                <button class="btn btn-success custom-btn" (click)="loadDayName('vacance')">Ajout jour conge</button>
+                <button class="btn btn-success custom-btn" (click)="loadDayName('rtt')">Ajout jour rtt</button>
+                <button class="btn btn-success custom-btn" (click)="loadDayName('maladie')">Ajout jour maladie</button>
+            </div>
+
+            @if(nbDayForm.value.dayName != '') {
+                <h2>Entrez un nombre de {{dayNameTitle}} à ajouter : </h2>
+                <form [formGroup]="nbDayForm" (ngSubmit)="onSubmit()">
+                    <input class="form-control custom-form-input" type="number" id="employeeId" formControlName="employeeId" [hidden]="true">
+                    
+                    <input class="form-control custom-form-input" type="text" id="dayName" formControlName="dayName" [hidden]="true">
+                    
+                    <div class="input-container">
+                        <label for="nbDay">Nombre de jours : </label>
+                        <input class="form-control custom-form-input" type="number" id="nbDay" formControlName="nbDay" min="1" max="99">
+                    </div>
+                
+                    <button class="btn btn-primary" type="submit">Ajouter</button>
+
+                </form>
+
+            }
+
         </div>
 
     </div>
