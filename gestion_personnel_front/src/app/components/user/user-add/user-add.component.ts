@@ -5,6 +5,7 @@ import { SignupRequest } from '../../../models/signup-request/signup-request';
 import { Role } from '../../../models/role/role';
 import { Observable, Subscription, map } from 'rxjs';
 import { AdminService } from '../../../services/admin/admin.service';
+import { PopupService } from '../../../services/popup/popup.service';
 
 @Component({
   selector: 'app-user-add',
@@ -26,7 +27,8 @@ export class UserAddComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private popupService: PopupService
   ) {}
 
   ngOnInit(): void {
@@ -83,8 +85,7 @@ export class UserAddComponent implements OnInit, OnDestroy {
 
   signUp() {
     this.adminService.signup(this.signup).subscribe();
-    alert("Utilisateur ajouté.");
-    location.reload();
+    this.popupService.openPopup("Utilisateur ajouté",2000,true);
   }
 
   initSignupRequestWithForm() {

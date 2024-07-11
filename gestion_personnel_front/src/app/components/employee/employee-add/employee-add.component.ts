@@ -7,6 +7,7 @@ import { Department } from '../../../models/department/department';
 import { UserService } from '../../../services/user/user.service';
 import { CommonModule } from '@angular/common';
 import { HoursPerWeek } from '../../../models/hoursPerWeek/hours-per-week';
+import { PopupService } from '../../../services/popup/popup.service';
 
 @Component({
   selector: 'app-employee-add',
@@ -34,7 +35,8 @@ export class EmployeeAddComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private popupService: PopupService
   ) {}
 
   ngOnInit(): void {
@@ -159,8 +161,7 @@ export class EmployeeAddComponent implements OnInit {
 
   createEmployee() {
     this.userService.createEmploye(this.employeForm).subscribe();
-    alert("Employe ajouté.");
-    location.reload();
+    this.popupService.openPopup("Employé ajouté",2000,true);
   }
 
   initEmployeeFormWithForm() {

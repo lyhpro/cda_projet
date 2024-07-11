@@ -13,6 +13,7 @@ import { CommonService } from '../../services/common/common.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { PopupDialogComponent } from '../popup-dialog/popup-dialog.component';
+import { PopupService } from '../../services/popup/popup.service';
 
 @Component({
   selector: 'app-topbar',
@@ -44,6 +45,7 @@ export class TopbarComponent implements OnInit {
     private commonService: CommonService,
     private authenticationService: AuthenticationService,
     private localstorageService: LocalstorageService, 
+    private popupService: PopupService,
     private router: Router,
     private dialog: MatDialog
   ) {}
@@ -55,10 +57,6 @@ export class TopbarComponent implements OnInit {
     if(this.jwtIsPresent()) {
       this.loadEnvironment();
     }
-  }
-
-  openDialog() {
-    this.dialog.open(PopupDialogComponent);
   }
 
   onSubmit() {
@@ -75,7 +73,7 @@ export class TopbarComponent implements OnInit {
             alert("Erreur.");
           } else {
             this.localstorageService.setItem("userJwt",this.jwtResponse.jwt);
-            this.openDialog();
+            this.popupService.openPopup("Connexion réussie",2000,true)
           }
         },
         error: err => {
@@ -89,16 +87,20 @@ export class TopbarComponent implements OnInit {
   }
 
   signOut() {
-    this.user = new User(0,"","","",false);
-    this.menu = [];
-    this.localstorageService.removeItem("userJwt");
-    this.subscriptionMenu.unsubscribe();
-    alert("Déconnexion réussie.");
-    this.goToPage('auth');
+    this.popupService.openPopup("Déconnexion réussie",2000,false);
+    setTimeout(
+      () => {
+        this.menu = [];
+        this.user = new User(0,"","","",false);
+        this.localstorageService.removeItem("userJwt");
+        this.subscriptionMenu.unsubscribe();
+        this.goToPage('auth');
+      },2100
+    )
     setTimeout(
       () => {
         location.reload();
-      },100
+      },2200
     )
   }
 
@@ -155,7 +157,7 @@ export class TopbarComponent implements OnInit {
   }
 
   goToPage(url: string) {
-    this.router.navigateByUrl(url);
+    this.router.navigateByUrl(url);    
   }
 
 }

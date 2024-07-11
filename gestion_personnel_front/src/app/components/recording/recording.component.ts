@@ -6,6 +6,7 @@ import { UserService } from '../../services/user/user.service';
 import { DayType } from '../../models/dayType/day-type';
 import { Recording } from '../../models/recording/recording';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { PopupService } from '../../services/popup/popup.service';
 
 @Component({
   selector: 'app-recording',
@@ -33,7 +34,8 @@ export class RecordingComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private popupService: PopupService
   ) {}
 
   ngOnInit(): void {
@@ -63,8 +65,7 @@ export class RecordingComponent implements OnInit {
   onSubmit() {
     this.initRecordingFormWithForm();
     this.userService.createRecording(this.recording).subscribe();
-    alert("Enregistrement effectué.");
-    location.reload();
+    this.popupService.openPopup("Enregistrement effectué",2000,true);
   }
 
   initEmployees() {

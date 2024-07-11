@@ -11,6 +11,7 @@ import { DayType } from '../../../models/dayType/day-type';
 import { HoursFormatPipe } from '../../../pipes/hours/hours-format.pipe';
 import { DurationsFormatPipe } from '../../../pipes/durations/durations-format.pipe';
 import { Year } from '../../../models/year/year';
+import { PopupService } from '../../../services/popup/popup.service';
 
 @Component({
   selector: 'app-employee-display',
@@ -61,7 +62,8 @@ export class EmployeeDisplayComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private popupService: PopupService
   ) {}
 
   ngOnInit(): void {
@@ -278,8 +280,7 @@ export class EmployeeDisplayComponent implements OnInit {
 
   onSubmit() {
     this.userService.addDaysToEmployeeSpecialDay(this.nbDayForm.value.employeeId, this.nbDayForm.value.dayName, this.nbDayForm.value.nbDay).subscribe();
-    alert("Jours ajoutés");
-    location.reload();
+    this.popupService.openPopup("Jours ajoutés",2000,true);
   }
 
   enableMonthField(form: FormGroup) {

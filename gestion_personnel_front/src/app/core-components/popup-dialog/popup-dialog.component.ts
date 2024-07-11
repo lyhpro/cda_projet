@@ -10,13 +10,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class PopupDialogComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<PopupDialogComponent>) {}
-
-  close() {
-    this.dialogRef.close();
-    location.reload();
-
-  }
+  constructor(
+    public dialogRef: MatDialogRef<PopupDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { message: string }
+  ) {}
 
   ngOnInit(): void {
       
