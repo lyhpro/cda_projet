@@ -5,7 +5,7 @@ import { Observable, Subscription, map } from 'rxjs';
 import { UserService } from '../../services/user/user.service';
 import { DayType } from '../../models/dayType/day-type';
 import { Recording } from '../../models/recording/recording';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PopupService } from '../../services/popup/popup.service';
 
 @Component({
@@ -43,7 +43,7 @@ export class RecordingComponent implements OnInit {
     this.recording = new Recording(0,"","","","","","","","","","",0,0);
     this.recordingForm = this.formBuilder.group(
       {
-        id: new FormControl(0),
+        id: new FormControl(0, Validators.required),
         date: new FormControl(''),
         dateStart: new FormControl(''),
         dateStop: new FormControl(''),
@@ -54,12 +54,14 @@ export class RecordingComponent implements OnInit {
         totalHours: new FormControl(''), 
         extraHours: new FormControl(''), 
         dueHours: new FormControl(''), 
-        employeeId: new FormControl(0),
-        dayTypeId: new FormControl(0)
+        employeeId: new FormControl(0, Validators.required),
+        dayTypeId: new FormControl(0, Validators.required)
       }
     )
     this.initEmployees();
     this.initDayTypes();
+
+    this.reloadRecordingForm();
   }
 
   onSubmit() {
@@ -139,7 +141,75 @@ export class RecordingComponent implements OnInit {
     this.recording.dayTypeId = this.recordingForm.value.dayTypeId;
   }
 
-  reloadRecordingForm() {    
+  reloadRecordingForm() {   
+
+    this.recordingForm.get('dayTypeId')?.valueChanges.subscribe(
+      dayTypeId => {
+
+        const dateControl = this.recordingForm.get('date');
+        dateControl?.setValue('');
+        dateControl?.clearValidators();
+    
+        const dateStartControl = this.recordingForm.get('dateStart');
+        dateStartControl?.setValue('');
+        dateStartControl?.clearValidators();
+    
+        const dateStopControl = this.recordingForm.get('dateStop');
+        dateStopControl?.setValue('');
+        dateStopControl?.clearValidators();
+    
+        const hourStartControl = this.recordingForm.get('hourStart');
+        hourStartControl?.setValue('');
+        hourStartControl?.clearValidators();
+        
+        const hourStopControl = this.recordingForm.get('hourStop');
+        hourStopControl?.setValue('');
+        hourStopControl?.clearValidators();
+    
+        const breakStartControl = this.recordingForm.get('breakStart');
+        breakStartControl?.setValue('');
+        breakStartControl?.clearValidators();
+    
+        const breakStopControl = this.recordingForm.get('breakStop');
+        breakStopControl?.setValue('');
+        breakStopControl?.clearValidators();
+        
+        if(dayTypeId == 1) {
+
+          dateControl?.setValidators([Validators.required]);
+          hourStartControl?.setValidators([Validators.required]);
+          hourStopControl?.setValidators([Validators.required]);
+          breakStartControl?.setValidators([Validators.required]);
+          breakStopControl?.setValidators([Validators.required]);
+
+        } else {
+          dateStartControl?.setValidators([Validators.required]);
+          dateStopControl?.setValidators([Validators.required]);
+        }
+
+        dateControl?.updateValueAndValidity();
+        dateStartControl?.updateValueAndValidity();
+        dateStopControl?.updateValueAndValidity();
+        hourStartControl?.updateValueAndValidity();
+        hourStopControl?.updateValueAndValidity();
+        breakStartControl?.updateValueAndValidity();
+        breakStopControl?.updateValueAndValidity();
+
+      }
+    )
+  
+  }
+
+  isTravailDayType(dayTypeId: number): boolean {
+    if(dayTypeId == 1) {
+      return false;
+    }
+    return true;
+  }
+
+  resetDateForm() {
+    console.log("ohe");
+    
     this.recordingForm.patchValue(
       {
         date: '',
@@ -151,13 +221,6 @@ export class RecordingComponent implements OnInit {
         breakStop: ''
       }
     );
-  }
-
-  isTravailDayType(dayTypeId: number): boolean {
-    if(dayTypeId == 1) {
-      return false;
-    }
-    return true;
   }
  
 }

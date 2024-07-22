@@ -8,7 +8,7 @@
     
             <div class="input-container">
                 <label for="employeeId">Employé : </label>
-                <select class="form-select custom-form-input custom-input-text" formControlName="employeeId" (change)="reloadRecordingForm()">
+                <select class="form-select custom-form-input custom-input-text" formControlName="employeeId" (change)="resetDateForm()">
                     <option value=0 disabled selected>Sélectionner un employe</option>
                     @for (employee of employees; track $index) {
                         <option [ngValue]="employee.id">{{employee.secondname + " " + employee.firstname}}</option>
@@ -18,7 +18,7 @@
     
             <div class="input-container">
                 <label for="dayTypeId">Type de journée : </label>
-                <select class="form-select custom-form-input custom-input-text" formControlName="dayTypeId" (change)="reloadRecordingForm()">
+                <select class="form-select custom-form-input custom-input-text" formControlName="dayTypeId">
                     <option value=0 disabled selected>Sélectionner un type de journée</option>
                     @for (dayType of dayTypes; track $index) {
                         <option [ngValue]="dayType.id">{{dayType.name}}</option>
@@ -75,8 +75,9 @@
                 
             </div>
             
-            <div class="custom-btn">
-                <button class="btn btn-primary" type="submit" [disabled]="!recordingForm.valid">Envoyer</button>
+            <div class="button-container">
+                <button class="btn btn-primary custom-btn" type="submit" [disabled]="!recordingForm.valid">Envoyer</button>
+                <button class="btn btn-danger custom-btn" type="button" (click)="resetDateForm()">Annuler</button>
             </div>
         }
 

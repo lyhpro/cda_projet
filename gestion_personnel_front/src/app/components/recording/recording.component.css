@@ -82,9 +82,14 @@ h2 {
     margin-bottom: .5em;
 }
 
-.custom-btn {
+.button-container {
     width: 100%;    
     
     display: flex;
     justify-content: center;
+}
+
+.custom-btn {
+    width: auto;
+    margin: .5em .5em .5em .0em;
 }

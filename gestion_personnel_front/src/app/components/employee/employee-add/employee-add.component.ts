@@ -70,7 +70,7 @@ export class EmployeeAddComponent implements OnInit {
         phonenumber: new FormControl('', Validators.required),
 
         post: new FormControl('', Validators.required),
-        salary: new FormControl('', Validators.required),
+        salary: new FormControl(0, Validators.required),
         hoursPerWeekId: new FormControl('', Validators.required),
         departmentId: new FormControl('', Validators.required),
         contractId: new FormControl('', Validators.required),
@@ -202,10 +202,11 @@ export class EmployeeAddComponent implements OnInit {
     this.form.get('contractId')?.valueChanges.subscribe(
       contractId => {
         const dateOfHiringControl = this.form.get('dateOfHiring');
-        const dateEndOfContractControl = this.form.get('dateEndOfContract');
-        dateOfHiringControl?.reset();
+        dateOfHiringControl?.setValue('');
         dateOfHiringControl?.clearValidators();
-        dateEndOfContractControl?.reset();
+
+        const dateEndOfContractControl = this.form.get('dateEndOfContract');
+        dateEndOfContractControl?.setValue('');
         dateEndOfContractControl?.clearValidators();
 
         if(contractId == 1) {
@@ -239,7 +240,7 @@ export class EmployeeAddComponent implements OnInit {
         phonenumber: '',
 
         post: '',
-        salary: '',
+        salary: 0,
         hoursPerWeekId: '',
         departmentId: '',
         contractId: '',

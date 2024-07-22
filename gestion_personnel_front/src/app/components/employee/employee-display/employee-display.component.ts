@@ -357,4 +357,14 @@ export class EmployeeDisplayComponent implements OnInit {
     }
   }
 
+  resetNbDayForm() {
+    this.nbDayForm.patchValue(
+      {
+        employeeId: 0,
+        dayName: '',
+        nbDay: 1
+      }
+    )
+  }
+
 }
