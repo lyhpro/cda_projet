@@ -32,9 +32,6 @@
                 <div>
                     <h2>Informations de contact</h2>
                 </div>
-    
-                <label for="email">Email : </label>
-                <input class="form-control employee-form-input" type="email" id="email" formControlName="email">
                 
                 <label for="address">Adresse : </label>
                 <input class="form-control employee-form-input" type="text" id="address" formControlName="address">
@@ -45,6 +42,9 @@
                 <label for="city">Ville : </label>
                 <input class="form-control employee-form-input" type="text" id="city" formControlName="city">
                 
+                <label for="email">Email : </label>
+                <input class="form-control employee-form-input" type="email" id="email" formControlName="email">
+
                 <label for="homenumber">Telephone fixe : </label>
                 <input class="form-control employee-form-input" type="number" id="homenumber" formControlName="homenumber">
                 
@@ -61,44 +61,52 @@
                 <label for="post">Intitulé du poste : </label>
                 <input class="form-control employee-form-input" type="text" id="post" formControlName="post">
                 
-                <label for="dateOfHiring">Date d'embauche : </label>
-                <input class="form-control employee-form-input" type="date" id="dateOfHiring" formControlName="dateOfHiring">
-                
-                <label for="dateEndOfContract">Date de fin de contrat : </label>
-                <input class="form-control employee-form-input" type="date" id="dateEndOfContract" formControlName="dateEndOfContract">
-                
                 <label for="salary">Salaire : </label>
                 <input class="form-control employee-form-input" type="number" id="salary" formControlName="salary">
                 
                 <label for="hoursPerWeekId">Nombre d'heure mensuel : </label>
                 <select class="form-select employee-form-input" formControlName="hoursPerWeekId" id="hoursPerWeekId">
-                    <option value="" disabled selected>Sélectionner un nombre d'heure</option>
+                    <option value=0 disabled selected>Sélectionner un nombre d'heure</option>
                     @for (hoursPerWeek of hoursPerWeeks; track $index) {
                         <option [ngValue]="hoursPerWeek.id">{{hoursPerWeek.hours}}</option>
                     }
                 </select>
     
-                <label for="contractId">Type de contrat : </label>
-                <select class="form-select employee-form-input" formControlName="contractId" id="contractId">
-                    <option value="" disabled selected>Sélectionner un type de contrat</option>
-                    @for (contractType of contractTypes; track $index) {
-                        <option [ngValue]="contractType.id">{{contractType.name}}</option>
-                    }
-                </select>
-    
                 <label for="departmentId">Département : </label>
                 <select class="form-select employee-form-input" formControlName="departmentId" id="departmentId">
-                    <option value="" disabled selected>Sélectionner un departement</option>
+                    <option value=0 disabled selected>Sélectionner un departement</option>
                     @for (departement of departments; track $index) {
                         <option [ngValue]="departement.id">{{departement.name}}</option>
                     }
                 </select>
+
+                <label for="contractId">Type de contrat : </label>
+                <select class="form-select employee-form-input" formControlName="contractId" id="contractId">
+                    <option value=0 disabled selected>Sélectionner un type de contrat</option>
+                    @for (contractType of contractTypes; track $index) {
+                        <option [ngValue]="contractType.id">{{contractType.name}}</option>
+                    }
+                </select>
+
+                @if (form.value.contractId == 1 || form.value.contractId == 2) {
+                    <label for="dateOfHiring">Date d'embauche : </label>
+                    <input class="form-control employee-form-input" type="date" id="dateOfHiring" formControlName="dateOfHiring">
+                }
+                
+                @if (form.value.contractId == 2) {
+                    <label for="dateEndOfContract">Date de fin de contrat : </label>
+                    <input class="form-control employee-form-input" type="date" id="dateEndOfContract" formControlName="dateEndOfContract">
+                }
+
     
             </div>
 
         </div>
         
-        <button class="btn btn-primary employee-form-btn" type="submit" [disabled]="!form.valid">Ajouter</button>
+        <div>
+            <button class="btn btn-primary employee-form-btn" type="submit" [disabled]="!form.valid">Ajouter</button>
+            <button class="btn btn-danger employee-form-btn" type="button" (click)="resetForm()">Annuler</button>
+        </div>
 
     </form>
 

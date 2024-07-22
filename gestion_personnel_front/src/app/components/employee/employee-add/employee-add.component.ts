@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeeForm } from '../../../models/employee/employee-form/employee-form';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ContractType } from '../../../models/contractType/contract-type';
 import { Observable, Subscription, map } from 'rxjs';
 import { Department } from '../../../models/department/department';
@@ -40,34 +40,44 @@ export class EmployeeAddComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.employeForm = new EmployeeForm(0,",","","",new Date(),"","",0,"",0,0,"",new Date(),new Date(),0,0,0,0);  
-    this.form = this.formBuilder.group(
-      {
-        id: new FormControl(''),
-        secondname: new FormControl(''),
-        firstname: new FormControl(''),
-        placeOfBirth: new FormControl(''),
-        dateOfBirth: new FormControl(''),
-
-        email: new FormControl(''),
-        address: new FormControl(''),
-        postalCode: new FormControl(''),
-        city: new FormControl(''),
-        homenumber: new FormControl(''),
-        phonenumber: new FormControl(''),
-
-        post: new FormControl(''),
-        dateOfHiring: new FormControl(''),
-        dateEndOfContract: new FormControl(''),
-        salary: new FormControl(''),
-        hoursPerWeekId: new FormControl(''),
-        contractId: new FormControl(''),
-        departmentId: new FormControl('')
-      }
-    )
+    this.employeForm = this.initEmptyEmployeeForm();
+    this.form = this.initForm();
     this.initListContractType();
     this.initListDepartment();
     this.initListHoursPerWeek();
+    
+    this.resetDateFields();
+  }
+
+  initEmptyEmployeeForm() {
+    return new EmployeeForm(0,",","","",new Date(),"","",0,"",0,0,"",new Date(),new Date(),0,0,0,0);
+  }
+
+  initForm() {
+    return this.formBuilder.group(
+      {
+        id: new FormControl(0, Validators.required),
+        secondname: new FormControl('', Validators.required),
+        firstname: new FormControl('', Validators.required),
+        placeOfBirth: new FormControl('', Validators.required),
+        dateOfBirth: new FormControl('', Validators.required),
+
+        email: new FormControl('', Validators.required),
+        address: new FormControl('', Validators.required),
+        postalCode: new FormControl('', Validators.required),
+        city: new FormControl('', Validators.required),
+        homenumber: new FormControl('', Validators.required),
+        phonenumber: new FormControl('', Validators.required),
+
+        post: new FormControl('', Validators.required),
+        salary: new FormControl('', Validators.required),
+        hoursPerWeekId: new FormControl('', Validators.required),
+        departmentId: new FormControl('', Validators.required),
+        contractId: new FormControl('', Validators.required),
+        dateOfHiring: new FormControl(''),
+        dateEndOfContract: new FormControl('')
+      }
+    )
   }
 
   initListContractType() {
@@ -154,7 +164,7 @@ export class EmployeeAddComponent implements OnInit {
     )
   }
 
-  onSubmit() {
+  onSubmit() {    
     this.initEmployeeFormWithForm();
     this.createEmployee();
   }
@@ -185,6 +195,58 @@ export class EmployeeAddComponent implements OnInit {
     this.employeForm.hoursPerWeekId = this.form.value.hoursPerWeekId,
     this.employeForm.contractId = this.form.value.contractId,
     this.employeForm.departmentId = this.form.value.departmentId
+  }
+
+  resetDateFields() {
+
+    this.form.get('contractId')?.valueChanges.subscribe(
+      contractId => {
+        const dateOfHiringControl = this.form.get('dateOfHiring');
+        const dateEndOfContractControl = this.form.get('dateEndOfContract');
+        dateOfHiringControl?.reset();
+        dateOfHiringControl?.clearValidators();
+        dateEndOfContractControl?.reset();
+        dateEndOfContractControl?.clearValidators();
+
+        if(contractId == 1) {
+          dateOfHiringControl?.setValidators([Validators.required]);
+        } else if(contractId == 2) {
+          dateOfHiringControl?.setValidators([Validators.required]);
+          dateEndOfContractControl?.setValidators([Validators.required]);
+        } 
+
+        dateOfHiringControl?.updateValueAndValidity();
+        dateEndOfContractControl?.updateValueAndValidity();
+
+      }
+    )
+  }
+
+  resetForm() {
+    this.form.patchValue(
+      {
+        id: 0,
+        secondname: '',
+        firstname: '',
+        placeOfBirth: '',
+        dateOfBirth: '',
+
+        email: '',
+        address: '',
+        postalCode: '',
+        city: '',
+        homenumber: '',
+        phonenumber: '',
+
+        post: '',
+        salary: '',
+        hoursPerWeekId: '',
+        departmentId: '',
+        contractId: '',
+        dateOfHiring: '',
+        dateEndOfContract: ''
+      }
+    )
   }
 
 }
