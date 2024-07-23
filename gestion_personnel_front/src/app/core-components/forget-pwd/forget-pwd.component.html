@@ -1,0 +1,22 @@
+<section>
+    <h1>{{title}}</h1>
+
+    <div class="form-container">
+
+        <form class="forgetpwd-form" [formGroup]="forgetpwdForm" (ngSubmit)="onSubmit()">
+
+            <h2>Veuiller entrer votre email pour réinitialiser votre mot de passe</h2>
+    
+            <div class="custom-input">
+                <label for="userEmail">Votre email : </label>
+                <input class="form-control" type="email" id="userEmail" formControlName="userEmail">
+            </div>
+
+            <div class="btn-container">
+                <button class="btn btn-primary custom-btn" type="submit" [disabled]="!forgetpwdForm.valid">Envoyer</button>
+            </div>
+
+        </form>
+
+    </div>
+</section>

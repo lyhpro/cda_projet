@@ -10,9 +10,11 @@ import { EmployeeDisplayComponent } from './components/employee/employee-display
 import { SpecialDayComponent } from './components/special-day/special-day.component';
 import { authenticationGuard } from './guards/authentication/authentication.guard';
 import { userGuard } from './guards/user/user.guard';
+import { ForgetPwdComponent } from './core-components/forget-pwd/forget-pwd.component';
 
 export const routes: Routes = [
-    {path: 'auth', component: LandingPageComponent, canDeactivate: [authenticationGuard]},
+    {path: 'auth', component: LandingPageComponent},
+    {path: 'forget-pwd', component: ForgetPwdComponent},
     {path: 'home', component: HomeComponent, canActivate: [authenticationGuard, userGuard], data: {roles: ['ADMIN','USER']}},
     {path: 'home/user/add', component: UserAddComponent,  canActivate: [authenticationGuard, userGuard], data: {roles: ['ADMIN']}},
     {path: 'home/user/list', component: UserListComponent,  canActivate: [authenticationGuard, userGuard], data: {roles: ['ADMIN']}},

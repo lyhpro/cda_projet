@@ -84,8 +84,20 @@ export class UserAddComponent implements OnInit, OnDestroy {
   }
 
   signUp() {
-    this.adminService.signup(this.signup).subscribe();
-    this.popupService.openPopup("Utilisateur ajouté",2000,true);
+    this.adminService.signup(this.signup).subscribe(
+      {
+        next: resp => {
+          console.log(resp);
+        },
+        error: err => {
+          console.log(err);
+          this.popupService.openPopup("Erreur, utilisateur déja crée",2000, false);
+        },
+        complete: () => {
+          this.popupService.openPopup("Utilisateur ajouté",2000,true);
+        }
+      }
+    );
   }
 
   initSignupRequestWithForm() {
