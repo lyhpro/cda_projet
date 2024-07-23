@@ -11,6 +11,8 @@ const API_URL_COMMON = 'http://localhost:8080/gestionnaire-personnel/common/';
 })
 export class CommonService {
 
+  user: User = new User(0,"","","",false);
+
   constructor(private http: HttpClient) {}
 
   getMenu(nomRole: string): Observable<Path[]> {
@@ -19,6 +21,14 @@ export class CommonService {
 
   getUser(): Observable<User> {
     return this.http.get<User>(API_URL_COMMON + 'getUser');
+  }
+
+  getUserInCommonService() {
+    return this.user
+  }
+
+  setUserInCommonService(user: User) {
+    this.user = user;
   }
 
 }
