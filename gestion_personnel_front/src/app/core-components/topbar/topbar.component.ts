@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { SigninRequest } from '../../models/signin-request/signin-request';
 import { JwtResponse } from '../../models/jwt-response/jwt-response';
 import { Observable, Subscription, concatMap, map } from 'rxjs';
@@ -47,6 +47,7 @@ export class TopbarComponent implements OnInit {
     private localstorageService: LocalstorageService, 
     private popupService: PopupService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private dialog: MatDialog
   ) {}
 

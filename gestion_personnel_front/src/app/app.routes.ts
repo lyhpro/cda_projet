@@ -8,17 +8,18 @@ import { EmployeeListComponent } from './components/employee/employee-list/emplo
 import { RecordingComponent } from './components/recording/recording.component';
 import { EmployeeDisplayComponent } from './components/employee/employee-display/employee-display.component';
 import { SpecialDayComponent } from './components/special-day/special-day.component';
+import { authenticationGuard } from './guards/authentication/authentication.guard';
 
 export const routes: Routes = [
-    {path: 'auth', component: LandingPageComponent},
-    {path: 'home', component: HomeComponent},
-    {path: 'home/user/add', component: UserAddComponent},
-    {path: 'home/user/list', component: UserListComponent},
-    {path: 'home/employee/display/:id', component: EmployeeDisplayComponent},
-    {path: 'home/employee/list', component: EmployeeListComponent},
-    {path: 'home/employee/add', component: EmployeeAddComponent},
-    {path: 'home/employee/add-hours', component: RecordingComponent},
-    {path: 'home/employee/add-special-day/:employeeId/:dayname', component: SpecialDayComponent},
+    {path: 'auth', component: LandingPageComponent, canDeactivate: [authenticationGuard]},
+    {path: 'home', component: HomeComponent, canActivate: [authenticationGuard], data: {roles: ['ADMIN','USER']}},
+    {path: 'home/user/add', component: UserAddComponent,  canActivate: [authenticationGuard], data: {roles: ['ADMIN']}},
+    {path: 'home/user/list', component: UserListComponent,  canActivate: [authenticationGuard], data: {roles: ['ADMIN']}},
+    {path: 'home/employee/display/:id', component: EmployeeDisplayComponent, canActivate: [authenticationGuard], data: {roles: ['USER']}}, 
+    {path: 'home/employee/list', component: EmployeeListComponent, canActivate: [authenticationGuard], data: {roles: ['USER']}},
+    {path: 'home/employee/add', component: EmployeeAddComponent, canActivate: [authenticationGuard], data: {roles: ['USER']}},
+    {path: 'home/employee/add-hours', component: RecordingComponent, canActivate: [authenticationGuard], data: {roles: ['USER']}},
+    {path: 'home/employee/add-special-day/:employeeId/:dayname', component: SpecialDayComponent, canActivate: [authenticationGuard], data: {roles: ['USER']}},
 
     {path: '', redirectTo: 'auth', pathMatch: 'full'},
     {path: '**', redirectTo: 'home', pathMatch: 'full'}
