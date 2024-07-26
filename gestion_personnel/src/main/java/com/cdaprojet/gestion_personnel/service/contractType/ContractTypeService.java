@@ -6,6 +6,10 @@ import com.cdaprojet.gestion_personnel.model.contractType.ContractType;
 
 public interface ContractTypeService {
     
+    /**
+     * 
+     * @return
+     */
     List<ContractType> getAllContractType();
     
 }
