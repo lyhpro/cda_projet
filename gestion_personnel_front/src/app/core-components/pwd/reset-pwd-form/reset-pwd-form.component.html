@@ -1,0 +1,27 @@
+<section>
+
+    <div class="form-container">
+
+        <form class="pwd-form" [formGroup]="pwdForm" (ngSubmit)="onSubmit()">
+        
+            <h2>{{title}}</h2>
+
+            <div class="custom-input">
+                <label for="pwd">Entrez votre nouveau mot de passe : </label>
+                <input class="form-control" type="password" name="pwd" id="pwd" formControlName="pwd">
+            </div>
+            
+            <div class="custom-input">
+                <label for="confirmedPwd">Confirmez votre nouveau mot de passe : </label>
+                <input class="form-control" type="password" name="confirmedPwd" id="confirmedPwd" formControlName="confirmedPwd">
+            </div>
+
+            <div class="button-container">
+                <button class="btn btn-primary custom-btn" type="submit" [disabled]="!pwdForm.valid">Valider</button>
+                <button class="btn btn-danger custom-btn" type="button" (click)="cancel()">Annuler</button>
+            </div>
+
+        </form>
+
+    </div>
+</section>
