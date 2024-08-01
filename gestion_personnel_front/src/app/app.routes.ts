@@ -13,12 +13,14 @@ import { userGuard } from './guards/user/user.guard';
 import { ForgetPwdComponent } from './core-components/pwd/forget-pwd/forget-pwd.component';
 import { CreatePwdComponent } from './core-components/pwd/create-pwd/create-pwd.component';
 import { ResetPwdComponent } from './core-components/pwd/reset-pwd/reset-pwd.component';
+import { ActivatedUserComponent } from './core-components/activated-user/activated-user.component';
 
 export const routes: Routes = [
     {path: 'auth', component: LandingPageComponent},
     {path: 'forget-pwd', component: ForgetPwdComponent},
     {path: 'create-pwd', component: CreatePwdComponent},
     {path: 'reset-pwd', component: ResetPwdComponent},
+    {path: 'activated-user/:token', component: ActivatedUserComponent},
     {path: 'home', component: HomeComponent, canActivate: [authenticationGuard, userGuard], data: {roles: ['ADMIN','USER']}},
     {path: 'home/user/add', component: UserAddComponent,  canActivate: [authenticationGuard, userGuard], data: {roles: ['ADMIN']}},
     {path: 'home/user/list', component: UserListComponent,  canActivate: [authenticationGuard, userGuard], data: {roles: ['ADMIN']}},

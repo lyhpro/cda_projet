@@ -88,7 +88,7 @@ public class Dataload implements CommandLineRunner {
             String pwd = new BCryptPasswordEncoder().encode("admin");
             Role role = roleRepository.findByName("ADMIN");
             
-            User newAdmin = new User("admin","admin","admin@monmail.com",pwd,role,true);
+            User newAdmin = new User("admin","admin","admin@monmail.com",pwd,role,true,true);
             
             userRepository.save(newAdmin);
         }
@@ -99,7 +99,7 @@ public class Dataload implements CommandLineRunner {
             String pwd = new BCryptPasswordEncoder().encode("user");
             Role role = roleRepository.findByName("USER");
 
-            User newUser = new User("user","user","user@monmail.com",pwd,role,true);
+            User newUser = new User("user","user","user@monmail.com",pwd,role,true,true);
 
             userRepository.save(newUser);
         }

@@ -17,9 +17,9 @@ public class EmailController {
     @Autowired
     private EmailService emailService;
 
-    @GetMapping("/sendEmail")
-    public ResponseEntity<String> sendEmail() {
-        emailService.sendSimpleMailMessage("test name", "lyheunpha-ly@hotmail.fr", "token");
+    @GetMapping("/sendActivatedUserEmail")
+    public ResponseEntity<String> sendActivatedUserEmail(String userFullname, String userEmail, String token) {
+        emailService.sendActivatedUserEmail("test name", "lyheunpha-ly@hotmail.fr", "token");
         return ResponseEntity.ok("Email envoyé");
     }
 }

@@ -14,6 +14,7 @@ public class UserDto {
     private String firstname;
     private String roleName;
     private boolean enable;
+    private boolean passwordUpdated;
 
     public UserDto(User user) {
         this.id = user.getId();
@@ -21,6 +22,7 @@ public class UserDto {
         this.firstname = user.getFirstname();
         this.roleName = user.getRole().getName();
         this.enable = user.isEnable();
+        this.passwordUpdated = user.isPasswordUpdate();
     }
 
 }

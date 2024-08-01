@@ -38,5 +38,18 @@ public class SigninRequestServiceImpl implements SigninRequestService {
         return jwtResponse;
 
     }
+
+    @Override
+    public boolean activatedUser(String token) {
+        String userEmail = jwtService.extractUserName(token);
+        if(userEmail == null || jwtService.isTokenExpired(token)) {
+            return false;
+        }
+
+        User user = userRepository.findByEmail(userEmail).orElse(null);
+        user.setEnable(true);
+        userRepository.save(user);
+        return true;
+    }
     
 }

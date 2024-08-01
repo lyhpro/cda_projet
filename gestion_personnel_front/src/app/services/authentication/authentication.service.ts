@@ -16,5 +16,9 @@ export class AuthenticationService {
   signin(signinRequest: SigninRequest): Observable<JwtResponse> {
     return this.http.post<JwtResponse>(API_URL_AUTH + 'signin', signinRequest);
   }
+
+  activatedUser(token: string): Observable<boolean> {
+    return this.http.get<boolean>(API_URL_AUTH + 'activatedUser/' + token);
+  }
   
 }

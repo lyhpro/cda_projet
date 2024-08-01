@@ -42,17 +42,20 @@ public class User implements UserDetails{
 
     private boolean enable;
 
+    private boolean passwordUpdate;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_role", referencedColumnName = "id", updatable = true)
     private Role role;
 
-    public User(String secondName, String firstName, String email, String password, Role role, boolean enable) {
+    public User(String secondName, String firstName, String email, String password, Role role, boolean enable, boolean passwordUpdated) {
         this.id = 0;
         this.secondname = secondName;
         this.firstname = firstName;
         this.email = email;
         this.password = password;
         this.enable = enable;
+        this.passwordUpdate = passwordUpdated;
         this.role = role;
     }
 

@@ -12,17 +12,17 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender javaMailSender;
 
     @Override
-    public void sendSimpleMailMessage(String name, String to, String token) {
+    public void sendActivatedUserEmail(String userFullname, String userEmail, String token) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
-            message.setSubject("Activation de votre compte");
+            message.setSubject("Activation du profil utilisateur");
             message.setFrom("gestionnairepersonnel.hly@gmail.com");
-            message.setTo(to);
-            String fakeUrl = "http://localhost:4200/auth";
+            message.setTo(userEmail);
+            String activateduserUrl = "http://localhost:4200/activated-user/"+token;
             String text = 
-                "<p>Bonjour " +name+".</p>" +
-                "<p>Bienvenue sur l'application de gesion de personnel. Vous troouverez ci-dessous un lien pour activer votre compte.</p>"+
-                "<a href=\""+fakeUrl+"\">Activer votre compte</a>" + 
+                "<p>Bonjour " +userFullname+".</p>" +
+                "<p>Bienvenue sur l'application de gesion de personnel. Vous trouverez ci-dessous un lien pour activer votre profil utilisateur.</p>"+
+                "<a href=\""+activateduserUrl+"\">Activer votre profil utilisateur</a>" + 
                 "<p>Merci.</p>" + 
                 "<p>L'equipe support.</p>";
             message.setText(text);
@@ -33,4 +33,28 @@ public class EmailServiceImpl implements EmailService {
         }
         
     }
+
+    @Override
+    public void sendUpdatedPwdUserEmail(String name, String to, String token) {
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setSubject("Création d'un nouveau mot de passe");
+            message.setFrom("gestionnairepersonnel.hly@gmail.com");
+            message.setTo(to);
+            String activateduserUrl = "http://localhost:4200/activated-user?token="+token;
+            String text = 
+                "<p>Bonjour " +name+".</p>" +
+                "<p>Vote profil utilisateur est désormais activé. Vous trouverez ci-dessous un lien pour créer un nouveau mot de passe.</p>"+
+                "<a href=\""+activateduserUrl+"\">Créer votre nouveau mot de passe</a>" + 
+                "<p>Merci.</p>" + 
+                "<p>L'equipe support.</p>";
+            message.setText(text);
+            javaMailSender.send(message);
+        } catch(Exception exception) {
+            System.out.println(exception.getMessage());
+            throw new RuntimeException(exception.getMessage());
+        }
+        
+    }
+
 }

@@ -33,6 +33,19 @@ public class JwtServiceImpl implements JwtService {
             .signWith(getSigninKey(), SignatureAlgorithm.HS256)
             .compact();
     }
+
+    @Override
+    public String generateActivatedUserToken(User userDetails) {
+
+        return Jwts.builder()
+            .setSubject(userDetails.getUsername())
+            .setId(String.valueOf(userDetails.getId()))
+            .setIssuedAt(new Date(System.currentTimeMillis()))
+            .setExpiration(new Date(System.currentTimeMillis() + 24*60*60*1000))
+            .signWith(getSigninKey(), SignatureAlgorithm.HS256)
+            .compact();
+
+    }
     
     @Override
     public String extractUserName(String token) {

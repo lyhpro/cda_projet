@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,10 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cdaprojet.gestion_personnel.model.JwtResponse;
 import com.cdaprojet.gestion_personnel.model.SigninRequest;
-import com.cdaprojet.gestion_personnel.model.SignupRequest;
-import com.cdaprojet.gestion_personnel.model.user.UserDto;
 import com.cdaprojet.gestion_personnel.service.signinrequest.SigninRequestService;
-import com.cdaprojet.gestion_personnel.service.signuprequest.SignupRequestService;
 
 @RestController
 @RequestMapping("/gestionnaire-personnel/authentication")
@@ -23,9 +21,6 @@ public class AuthenticationController {
     
     @Autowired
     private SigninRequestService signinRequestService;
-
-    @Autowired
-    private SignupRequestService signupRequestService;
 
     @GetMapping("/hello")
     public ResponseEntity<String> helloAuthentication() {
@@ -37,9 +32,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(signinRequestService.signin(signinRequest));
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<UserDto> signup(@RequestBody SignupRequest signupRequest) {
-        return ResponseEntity.ok(signupRequestService.signup(signupRequest));
+    @GetMapping("/activatedUser/{token}")
+    public ResponseEntity<Boolean> activatedUser(@PathVariable String token) {
+        return ResponseEntity.ok(signinRequestService.activatedUser(token));
     }
 
 }
