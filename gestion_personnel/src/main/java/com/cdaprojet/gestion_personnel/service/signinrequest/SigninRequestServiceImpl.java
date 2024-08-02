@@ -51,5 +51,10 @@ public class SigninRequestServiceImpl implements SigninRequestService {
         userRepository.save(user);
         return true;
     }
+
+    @Override
+    public boolean updatePasswordUser(String token) {
+        return false;
+    }
     
 }

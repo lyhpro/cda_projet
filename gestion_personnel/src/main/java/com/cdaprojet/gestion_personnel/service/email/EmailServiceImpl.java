@@ -5,11 +5,21 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.cdaprojet.gestion_personnel.model.user.User;
+import com.cdaprojet.gestion_personnel.service.jwt.JwtService;
+import com.cdaprojet.gestion_personnel.service.user.UserService;
+
 @Service
 public class EmailServiceImpl implements EmailService {
     
     @Autowired
     private JavaMailSender javaMailSender;
+
+    @Autowired 
+    private JwtService jwtService;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public void sendActivatedUserEmail(String userFullname, String userEmail, String token) {
@@ -35,15 +45,20 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendUpdatedPwdUserEmail(String name, String to, String token) {
+    public void sendCreatedPwdUserEmail(String token) {
+        String userEmail = jwtService.extractUserName(token);
+        User user = userService.findByEmail(userEmail);
+        String userFullname = user.getFirstname() + " " + user.getSecondname();
+        String userToken = jwtService.generateActivatedUserToken(user);
+
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject("Création d'un nouveau mot de passe");
             message.setFrom("gestionnairepersonnel.hly@gmail.com");
-            message.setTo(to);
-            String activateduserUrl = "http://localhost:4200/activated-user?token="+token;
+            message.setTo(userEmail);
+            String activateduserUrl = "http://localhost:4200/create-password-user/"+userToken;
             String text = 
-                "<p>Bonjour " +name+".</p>" +
+                "<p>Bonjour " +userFullname+".</p>" +
                 "<p>Vote profil utilisateur est désormais activé. Vous trouverez ci-dessous un lien pour créer un nouveau mot de passe.</p>"+
                 "<a href=\""+activateduserUrl+"\">Créer votre nouveau mot de passe</a>" + 
                 "<p>Merci.</p>" + 

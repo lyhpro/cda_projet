@@ -37,4 +37,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(signinRequestService.activatedUser(token));
     }
 
+    @GetMapping("/updatePwdUser/{token}")
+    public ResponseEntity<Boolean> updatePasswordUser(@PathVariable String token) {
+        return ResponseEntity.ok(signinRequestService.updatePasswordUser(token));
+    }
+
 }

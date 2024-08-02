@@ -7,5 +7,6 @@ public interface SigninRequestService {
     
     JwtResponse signin(SigninRequest signinRequest);
     boolean activatedUser(String token);
+    boolean updatePasswordUser(String token);
 
 }
