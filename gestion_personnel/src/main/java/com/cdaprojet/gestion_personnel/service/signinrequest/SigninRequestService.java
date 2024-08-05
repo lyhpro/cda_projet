@@ -6,7 +6,6 @@ import com.cdaprojet.gestion_personnel.model.SigninRequest;
 public interface SigninRequestService {
     
     JwtResponse signin(SigninRequest signinRequest);
-    boolean activatedUser(String token);
-    boolean updatePasswordUser(String token);
+    boolean activatedUser(long tokenId);
 
 }

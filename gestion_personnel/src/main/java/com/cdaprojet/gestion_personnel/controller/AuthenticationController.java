@@ -32,14 +32,10 @@ public class AuthenticationController {
         return ResponseEntity.ok(signinRequestService.signin(signinRequest));
     }
 
-    @GetMapping("/activatedUser/{token}")
-    public ResponseEntity<Boolean> activatedUser(@PathVariable String token) {
-        return ResponseEntity.ok(signinRequestService.activatedUser(token));
+    @GetMapping("/activatedUser/{tokenId}")
+    public ResponseEntity<Boolean> activatedUser(@PathVariable long tokenId) {
+        return ResponseEntity.ok(signinRequestService.activatedUser(tokenId));
     }
-
-    @GetMapping("/updatePwdUser/{token}")
-    public ResponseEntity<Boolean> updatePasswordUser(@PathVariable String token) {
-        return ResponseEntity.ok(signinRequestService.updatePasswordUser(token));
-    }
+    
 
 }

@@ -13,6 +13,7 @@
               <th class="custom-table-col-title" scope="col">Prenom</th>
               <th class="custom-table-col-title" scope="col">Role</th>
               <th class="custom-table-col-title" scope="col">Activé</th>
+              <th class="custom-table-col-title" scope="col">Mot de passe modifié</th>
               <th class="custom-table-col-title" scope="col">Actions</th>
             </tr>
           </thead>
@@ -23,6 +24,7 @@
                       <td class="custom-table-col-content">{{user.firstname}}</td>
                       <td class="custom-table-col-content">{{user.roleName}}</td>
                       <td class="custom-table-col-content">{{user.enable ? "Oui" : "Non"}}</td>
+                      <td class="custom-table-col-content">{{user.passwordUpdated ? "Oui" : "Non"}}</td>
                       <td class="custom-table-col-content">
                           <button class="btn btn-sm btn-success custom-table-btn">Consulter</button>
                           <button class="btn btn-sm btn-warning custom-table-btn">Modifier</button>

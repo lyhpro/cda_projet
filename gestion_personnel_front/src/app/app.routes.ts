@@ -18,9 +18,9 @@ import { ActivatedUserComponent } from './core-components/activated-user/activat
 export const routes: Routes = [
     {path: 'auth', component: LandingPageComponent},
     {path: 'forget-pwd', component: ForgetPwdComponent},
-    {path: 'create-password-user/:token', component: CreatePwdComponent},
-    {path: 'reset-password-user/:token', component: ResetPwdComponent},
-    {path: 'activated-user/:token', component: ActivatedUserComponent},
+    {path: 'create-password-user/:tokenId', component: CreatePwdComponent},
+    {path: 'reset-password-user/:tokenId', component: ResetPwdComponent},
+    {path: 'activated-user/:tokenId', component: ActivatedUserComponent},
     {path: 'home', component: HomeComponent, canActivate: [authenticationGuard, userGuard], data: {roles: ['ADMIN','USER']}},
     {path: 'home/user/add', component: UserAddComponent,  canActivate: [authenticationGuard, userGuard], data: {roles: ['ADMIN']}},
     {path: 'home/user/list', component: UserListComponent,  canActivate: [authenticationGuard, userGuard], data: {roles: ['ADMIN']}},

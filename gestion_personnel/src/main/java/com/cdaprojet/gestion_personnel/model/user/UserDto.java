@@ -23,6 +23,7 @@ public class UserDto {
         this.roleName = user.getRole().getName();
         this.enable = user.isEnable();
         this.passwordUpdated = user.isPasswordUpdate();
+
     }
 
 }

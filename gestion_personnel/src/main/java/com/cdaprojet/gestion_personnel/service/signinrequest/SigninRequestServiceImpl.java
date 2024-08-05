@@ -8,7 +8,12 @@ import org.springframework.stereotype.Service;
 import com.cdaprojet.gestion_personnel.model.JwtResponse;
 import com.cdaprojet.gestion_personnel.model.SigninRequest;
 import com.cdaprojet.gestion_personnel.model.user.User;
+import com.cdaprojet.gestion_personnel.model.userProfilActivationToken.UserProfilActivationToken;
+import com.cdaprojet.gestion_personnel.model.userPwdActivationToken.UserPwdActivationToken;
+import com.cdaprojet.gestion_personnel.repository.UserProfilActivationTokenRepository;
+import com.cdaprojet.gestion_personnel.repository.UserPwdActivationTokenRepository;
 import com.cdaprojet.gestion_personnel.repository.UserRepository;
+import com.cdaprojet.gestion_personnel.service.email.EmailService;
 import com.cdaprojet.gestion_personnel.service.jwt.JwtService;
 
 @Service
@@ -19,6 +24,15 @@ public class SigninRequestServiceImpl implements SigninRequestService {
 
     @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private UserProfilActivationTokenRepository userProfilActivationTokenRepository;
+
+    @Autowired
+    private UserPwdActivationTokenRepository userPwdActivationTokenRepository;
 
     @Autowired 
     private UserRepository userRepository;
@@ -40,21 +54,30 @@ public class SigninRequestServiceImpl implements SigninRequestService {
     }
 
     @Override
-    public boolean activatedUser(String token) {
-        String userEmail = jwtService.extractUserName(token);
-        if(userEmail == null || jwtService.isTokenExpired(token)) {
+    public boolean activatedUser(long tokenId) {
+        UserProfilActivationToken userProfilActivationToken = userProfilActivationTokenRepository.findById(tokenId).orElse(null);
+        boolean isActivated = this.activatedProfilUser(userProfilActivationToken);
+        if(isActivated) {
+            String userFullname = userProfilActivationToken.getUser().getFirstname() + " " + userProfilActivationToken.getUser().getSecondname();
+            String userEmail = userProfilActivationToken.getUser().getEmail();
+            String token = jwtService.generateActivatedUserToken(userProfilActivationToken.getUser());
+            UserPwdActivationToken userPwdActivationToken = new UserPwdActivationToken(0, token, userProfilActivationToken.getUser());
+            UserPwdActivationToken newUserPwdActivationToken = userPwdActivationTokenRepository.save(userPwdActivationToken);
+            emailService.sendCreatedPwdUserEmail(userFullname, userEmail, newUserPwdActivationToken.getId());
+        }
+        return isActivated;
+    }
+
+    public boolean activatedProfilUser(UserProfilActivationToken userProfilActivationToken) {
+        if(userProfilActivationToken == null || jwtService.isTokenExpired(userProfilActivationToken.getUserprofilActivationToken())) {
             return false;
         }
 
-        User user = userRepository.findByEmail(userEmail).orElse(null);
+        User user = userRepository.findById(userProfilActivationToken.getUser().getId()).orElse(null);
         user.setEnable(true);
         userRepository.save(user);
         return true;
     }
 
-    @Override
-    public boolean updatePasswordUser(String token) {
-        return false;
-    }
     
 }

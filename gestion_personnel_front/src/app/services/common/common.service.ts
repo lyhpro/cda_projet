@@ -11,7 +11,7 @@ const API_URL_COMMON = 'http://localhost:8080/gestionnaire-personnel/common/';
 })
 export class CommonService {
 
-  user: User = new User(0,"","","",false);
+  user: User = new User(0,"","","",false,false);
 
   constructor(private http: HttpClient) {}
 

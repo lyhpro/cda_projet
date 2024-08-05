@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { catchError, concatMap, Observable, of, Subscription, switchMap } from 'rxjs';
 import { EmailService } from '../../services/email/email.service';
+import { PopupService } from '../../services/popup/popup.service';
 
 @Component({
   selector: 'app-activated-user',
@@ -14,15 +15,13 @@ import { EmailService } from '../../services/email/email.service';
 })
 export class ActivatedUserComponent implements OnInit {
 
-  token!: string;
+  tokenId!: number;
   text!: string;
   isUserActivated: boolean = false;
 
-
   constructor(
     private activatedRoute: ActivatedRoute,
-    private authenticationService: AuthenticationService,
-    private emailService: EmailService
+    private authenticationService: AuthenticationService
   ) {
 
   }
@@ -32,37 +31,27 @@ export class ActivatedUserComponent implements OnInit {
   }
   
   activatedUser() {
-    this.authenticationService.activatedUser(this.activatedRoute.snapshot.params['token']).pipe(
-      switchMap(resp => {
-        this.isUserActivated = resp;
-        if (this.isUserActivated) {
-          this.text = "Profil utilisateur activé. Un second email vous a été envoyé afin de créer votre nouveau mot de passe.";
-          console.log(this.activatedRoute.snapshot.params['token']);
+    this.tokenId = this.activatedRoute.snapshot.params['tokenId'];
+    this.authenticationService.activatedUser(this.tokenId).subscribe(
+      {
+        next: resp=> {
+          this.isUserActivated = resp;
+          if(this.isUserActivated) {
+            this.text = "Profil utilisateur activé. Un second email vous a été envoyé afin de créer votre nouveau mot de passe.";          
+          } else {
+            this.text = "Lien invalide ou périmé. Veuillez contacter l'équipe support.";
+          }
+        },
+        error: err => {
+          console.log(err);
           
-          return this.emailService.sendCreatedPasswordUserEmail(this.activatedRoute.snapshot.params['token']);
-        } else {
-          this.text = "Lien invalide ou périmé. Veuillez contacter l'équipe support.";
-          return of(null);  // Retourne un observable vide si l'utilisateur n'est pas activé
+        },
+        complete: () => {
+          console.log("Processus d'activation du profil user terminée");
         }
-      }),
-      catchError(err => {
-        this.text = "Lien invalide ou périmé. Veuillez contacter l'équipe support.";
-        console.log(err);
-        return of(null);  // Retourne un observable vide en cas d'erreur
-      })
-    ).subscribe({
-      next: resp => {
-        if (resp) {
-          console.log(resp);
-        }
-      },
-      error: err => {
-        console.log(err);
-      },
-      complete: () => {
-        console.log("Processus d'activation du profil de l'utilisateur terminé.");
       }
-    });
+    );
+    
   }
 
 }

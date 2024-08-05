@@ -1,5 +1,6 @@
 package com.cdaprojet.gestion_personnel.model.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -8,6 +9,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.cdaprojet.gestion_personnel.model.role.Role;
+import com.cdaprojet.gestion_personnel.model.userProfilActivationToken.UserProfilActivationToken;
+import com.cdaprojet.gestion_personnel.model.userPwdActivationToken.UserPwdActivationToken;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,6 +20,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -48,6 +53,14 @@ public class User implements UserDetails{
     @JoinColumn(name = "id_role", referencedColumnName = "id", updatable = true)
     private Role role;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<UserProfilActivationToken> userProfilActivationTokens;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<UserPwdActivationToken> userPwdActivationTokens;
+
     public User(String secondName, String firstName, String email, String password, Role role, boolean enable, boolean passwordUpdated) {
         this.id = 0;
         this.secondname = secondName;
@@ -57,6 +70,8 @@ public class User implements UserDetails{
         this.enable = enable;
         this.passwordUpdate = passwordUpdated;
         this.role = role;
+        this.userProfilActivationTokens = new ArrayList<UserProfilActivationToken>();
+        this.userPwdActivationTokens = new ArrayList<UserPwdActivationToken>();
     }
 
     @Override

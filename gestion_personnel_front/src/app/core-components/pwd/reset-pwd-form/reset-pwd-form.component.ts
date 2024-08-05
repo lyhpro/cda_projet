@@ -52,7 +52,11 @@ export class ResetPwdFormComponent implements OnInit {
   }
 
   onSubmit() {
+    if(this.createdPwd && !this.resetPwd) {
+      
+    } else if(!this.createdPwd && this.resetPwd) {
 
+    }
   }
 
   cancel() {

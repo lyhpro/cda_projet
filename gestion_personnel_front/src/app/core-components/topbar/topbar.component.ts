@@ -92,7 +92,7 @@ export class TopbarComponent implements OnInit {
     setTimeout(
       () => {
         this.menu = [];
-        this.user = new User(0,"","","",false);
+        this.user = new User(0,"","","",false,false);
         this.commonService.setUserInCommonService(this.user);
         this.localstorageService.removeItem("userJwt");
         this.subscriptionMenu.unsubscribe();
@@ -110,7 +110,7 @@ export class TopbarComponent implements OnInit {
     this.menu$ = this.commonService.getUser().pipe(
       concatMap(
         user => {
-          this.user = new User(user.id, user.secondname, user.firstname, user.roleName, user.enable);
+          this.user = new User(user.id, user.secondname, user.firstname, user.roleName, user.enable, user.passwordUpdated);
           this.commonService.setUserInCommonService(this.user);
           if(this.user.enable) {
             this.goToPage('home');

@@ -19,8 +19,8 @@ public class EmailController {
     private EmailService emailService;
 
     @GetMapping("/sendActivatedUserEmail")
-    public ResponseEntity<String> sendActivatedUserEmail(String userFullname, String userEmail, String token) {
-        emailService.sendActivatedUserEmail("test name", "lyheunpha-ly@hotmail.fr", "token");
+    public ResponseEntity<String> sendActivatedUserEmail(String userFullname, String userEmail, long tokenId) {
+        emailService.sendActivatedUserEmail(userFullname, userEmail, tokenId);
         return ResponseEntity.ok("Email d'activation du profil utilisateur envoyé");
     }
 

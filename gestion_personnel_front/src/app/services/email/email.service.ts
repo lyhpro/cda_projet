@@ -13,7 +13,7 @@ export class EmailService {
     private http: HttpClient
   ) { }
 
-  sendCreatedPasswordUserEmail(token: string): Observable<string> {
-    return this.http.get<string>(API_URL_EMAIL + 'sendUpdatePasswordUserEmail/' + token);
+  sendCreatedPasswordUserEmail(tokenId: number): Observable<string> {
+    return this.http.get<string>(API_URL_EMAIL + 'sendUpdatePasswordUserEmail/' + tokenId);
   }
 }

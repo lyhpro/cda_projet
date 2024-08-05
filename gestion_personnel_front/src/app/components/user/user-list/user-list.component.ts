@@ -40,7 +40,7 @@ export class UserListComponent implements OnInit, OnDestroy {
         users => {
           return users.map(
             user => {
-              const newUser = new User(user.id, user.secondname, user.firstname, user.roleName, user.enable);
+              const newUser = new User(user.id, user.secondname, user.firstname, user.roleName, user.enable, user.passwordUpdated);
               return newUser;
             }
           )

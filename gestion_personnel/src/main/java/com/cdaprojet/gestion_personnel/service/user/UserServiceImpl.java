@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAllUser() {
-        return userRepository.findAll().stream().filter(user -> user.isEnable()).map(UserDto::new).toList();
+        return userRepository.findAll().stream().map(UserDto::new).toList();
     }
 
     public boolean existsByEmail(String email) {

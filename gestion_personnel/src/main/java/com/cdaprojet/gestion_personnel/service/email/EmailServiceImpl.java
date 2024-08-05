@@ -5,30 +5,20 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import com.cdaprojet.gestion_personnel.model.user.User;
-import com.cdaprojet.gestion_personnel.service.jwt.JwtService;
-import com.cdaprojet.gestion_personnel.service.user.UserService;
-
 @Service
 public class EmailServiceImpl implements EmailService {
     
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @Autowired 
-    private JwtService jwtService;
-
-    @Autowired
-    private UserService userService;
-
     @Override
-    public void sendActivatedUserEmail(String userFullname, String userEmail, String token) {
+    public void sendActivatedUserEmail(String userFullname, String userEmail, long tokenId) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject("Activation du profil utilisateur");
             message.setFrom("gestionnairepersonnel.hly@gmail.com");
             message.setTo(userEmail);
-            String activateduserUrl = "http://localhost:4200/activated-user/"+token;
+            String activateduserUrl = "http://localhost:4200/activated-user/"+tokenId;
             String text = 
                 "<p>Bonjour " +userFullname+".</p>" +
                 "<p>Bienvenue sur l'application de gesion de personnel. Vous trouverez ci-dessous un lien pour activer votre profil utilisateur.</p>"+
@@ -45,18 +35,14 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendCreatedPwdUserEmail(String token) {
-        String userEmail = jwtService.extractUserName(token);
-        User user = userService.findByEmail(userEmail);
-        String userFullname = user.getFirstname() + " " + user.getSecondname();
-        String userToken = jwtService.generateActivatedUserToken(user);
+    public void sendCreatedPwdUserEmail(String userFullname, String userEmail,long tokenId) {
 
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject("Création d'un nouveau mot de passe");
             message.setFrom("gestionnairepersonnel.hly@gmail.com");
             message.setTo(userEmail);
-            String activateduserUrl = "http://localhost:4200/create-password-user/"+userToken;
+            String activateduserUrl = "http://localhost:4200/create-password-user/"+tokenId;
             String text = 
                 "<p>Bonjour " +userFullname+".</p>" +
                 "<p>Vote profil utilisateur est désormais activé. Vous trouverez ci-dessous un lien pour créer un nouveau mot de passe.</p>"+
