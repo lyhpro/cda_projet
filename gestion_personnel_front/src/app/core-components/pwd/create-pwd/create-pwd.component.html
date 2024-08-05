@@ -2,6 +2,10 @@
 
     <h1>Création d'un nouveau mot de passe</h1>
 
-    <app-reset-pwd-form [createdPwd]="createdPwd"></app-reset-pwd-form>
+    @if(createdPwd) {
+        <app-reset-pwd-form [createdPwd]="createdPwd"></app-reset-pwd-form>
+    } @else {
+        <p>{{text}}</p>
+    }
 
 </section>

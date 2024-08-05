@@ -7,5 +7,6 @@ public interface SigninRequestService {
     
     JwtResponse signin(SigninRequest signinRequest);
     boolean activatedUser(long tokenId);
+    boolean canUpdatePwdUser(long tokenId);
 
 }

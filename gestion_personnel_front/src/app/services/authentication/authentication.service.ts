@@ -21,6 +21,8 @@ export class AuthenticationService {
     return this.http.get<boolean>(API_URL_AUTH + 'activatedUser/' + tokenId);
   }
 
-  
+  canUpdatePwdUser(tokenId: number): Observable<boolean> {
+    return this.http.get<boolean>(API_URL_AUTH + 'canUpdatePwdUser/' + tokenId);
+  }
   
 }

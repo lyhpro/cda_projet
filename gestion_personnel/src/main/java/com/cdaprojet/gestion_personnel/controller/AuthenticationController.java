@@ -36,6 +36,11 @@ public class AuthenticationController {
     public ResponseEntity<Boolean> activatedUser(@PathVariable long tokenId) {
         return ResponseEntity.ok(signinRequestService.activatedUser(tokenId));
     }
+
+    @GetMapping("/canUpdatePwdUser/{tokenId}")
+    public ResponseEntity<Boolean> canUpdatePwdUser(@PathVariable long tokenId) {
+        return ResponseEntity.ok(signinRequestService.canUpdatePwdUser(tokenId));
+    }
     
 
 }

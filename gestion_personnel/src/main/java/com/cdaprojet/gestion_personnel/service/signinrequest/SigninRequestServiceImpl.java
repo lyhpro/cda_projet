@@ -15,6 +15,7 @@ import com.cdaprojet.gestion_personnel.repository.UserPwdActivationTokenReposito
 import com.cdaprojet.gestion_personnel.repository.UserRepository;
 import com.cdaprojet.gestion_personnel.service.email.EmailService;
 import com.cdaprojet.gestion_personnel.service.jwt.JwtService;
+import com.cdaprojet.gestion_personnel.service.userPwdActivationToken.UserPwdActivationTokenService;
 
 @Service
 public class SigninRequestServiceImpl implements SigninRequestService {
@@ -31,6 +32,9 @@ public class SigninRequestServiceImpl implements SigninRequestService {
     @Autowired
     private UserProfilActivationTokenRepository userProfilActivationTokenRepository;
 
+    @Autowired
+    private UserPwdActivationTokenService userPwdActivationTokenService;
+    
     @Autowired
     private UserPwdActivationTokenRepository userPwdActivationTokenRepository;
 
@@ -60,12 +64,20 @@ public class SigninRequestServiceImpl implements SigninRequestService {
         if(isActivated) {
             String userFullname = userProfilActivationToken.getUser().getFirstname() + " " + userProfilActivationToken.getUser().getSecondname();
             String userEmail = userProfilActivationToken.getUser().getEmail();
-            String token = jwtService.generateActivatedUserToken(userProfilActivationToken.getUser());
-            UserPwdActivationToken userPwdActivationToken = new UserPwdActivationToken(0, token, userProfilActivationToken.getUser());
-            UserPwdActivationToken newUserPwdActivationToken = userPwdActivationTokenRepository.save(userPwdActivationToken);
+            UserPwdActivationToken newUserPwdActivationToken = userPwdActivationTokenService.create(userProfilActivationToken.getUser());
             emailService.sendCreatedPwdUserEmail(userFullname, userEmail, newUserPwdActivationToken.getId());
         }
         return isActivated;
+    }
+
+    @Override   
+    public boolean canUpdatePwdUser(long tokenId) {
+        UserPwdActivationToken userPwdActivationToken = userPwdActivationTokenRepository.findById(tokenId).orElse(null);
+        if(userPwdActivationToken == null || jwtService.isTokenExpired(userPwdActivationToken.getUserpwdActivationToken())) {
+            return false;
+        }
+        return true;
+
     }
 
     public boolean activatedProfilUser(UserProfilActivationToken userProfilActivationToken) {
