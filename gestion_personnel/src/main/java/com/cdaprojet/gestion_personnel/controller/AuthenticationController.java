@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cdaprojet.gestion_personnel.model.JwtResponse;
 import com.cdaprojet.gestion_personnel.model.SigninRequest;
+import com.cdaprojet.gestion_personnel.model.emailForm.EmailForm;
+import com.cdaprojet.gestion_personnel.model.pwdForm.PwdForm;
 import com.cdaprojet.gestion_personnel.service.signinrequest.SigninRequestService;
 
 @RestController
@@ -41,6 +43,20 @@ public class AuthenticationController {
     public ResponseEntity<Boolean> canUpdatePwdUser(@PathVariable long tokenId) {
         return ResponseEntity.ok(signinRequestService.canUpdatePwdUser(tokenId));
     }
+
+    @PostMapping("/updatePwdUser")
+    public ResponseEntity<Boolean> updatePwdUser(@RequestBody PwdForm pwdForm) {
+        return ResponseEntity.ok(signinRequestService.updatePwdUser(pwdForm));
+    }
     
+    @PostMapping("/resetPwdUser")
+    public ResponseEntity<Boolean> resetPwdUser(@RequestBody PwdForm pwdForm) {
+        return ResponseEntity.ok(signinRequestService.resetPwdUser(pwdForm));
+    }
+
+    @PostMapping("resetPwdUserRequest")
+    public ResponseEntity<Boolean> resetPwdUserRequest(@RequestBody EmailForm emailForm) {
+        return ResponseEntity.ok(signinRequestService.resetPwdUserRequest(emailForm));
+    }
 
 }

@@ -2,22 +2,24 @@
 
     <div class="form-container">
 
-        <form class="pwd-form" [formGroup]="pwdForm" (ngSubmit)="onSubmit()">
+        <form class="pwd-form" [formGroup]="pwdFormGroup" (ngSubmit)="onSubmit()">
         
             <h2>{{title}}</h2>
 
+            <input class="form-control" type="number" name="tokenId" id="tokenId" formControlName="tokenId" [hidden]="true">
+
             <div class="custom-input">
-                <label for="pwd">Entrez votre nouveau mot de passe : </label>
-                <input class="form-control" type="password" name="pwd" id="pwd" formControlName="pwd">
+                <label for="password">Entrez votre nouveau mot de passe : </label>
+                <input class="form-control" type="password" name="password" id="password" formControlName="password">
             </div>
             
             <div class="custom-input">
-                <label for="confirmedPwd">Confirmez votre nouveau mot de passe : </label>
-                <input class="form-control" type="password" name="confirmedPwd" id="confirmedPwd" formControlName="confirmedPwd">
+                <label for="confirmedPassword">Confirmez votre nouveau mot de passe : </label>
+                <input class="form-control" type="password" name="confirmedPassword" id="confirmedPassword" formControlName="confirmedPassword">
             </div>
 
             <div class="button-container">
-                <button class="btn btn-primary custom-btn" type="submit" [disabled]="!pwdForm.valid">Valider</button>
+                <button class="btn btn-primary custom-btn" type="submit" [disabled]="!pwdFormGroup.valid">Valider</button>
                 <button class="btn btn-danger custom-btn" type="button" (click)="cancel()">Annuler</button>
             </div>
 

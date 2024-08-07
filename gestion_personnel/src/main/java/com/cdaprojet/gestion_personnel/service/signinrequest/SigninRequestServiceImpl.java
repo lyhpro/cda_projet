@@ -3,10 +3,13 @@ package com.cdaprojet.gestion_personnel.service.signinrequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cdaprojet.gestion_personnel.model.JwtResponse;
 import com.cdaprojet.gestion_personnel.model.SigninRequest;
+import com.cdaprojet.gestion_personnel.model.emailForm.EmailForm;
+import com.cdaprojet.gestion_personnel.model.pwdForm.PwdForm;
 import com.cdaprojet.gestion_personnel.model.user.User;
 import com.cdaprojet.gestion_personnel.model.userProfilActivationToken.UserProfilActivationToken;
 import com.cdaprojet.gestion_personnel.model.userPwdActivationToken.UserPwdActivationToken;
@@ -40,6 +43,9 @@ public class SigninRequestServiceImpl implements SigninRequestService {
 
     @Autowired 
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -80,6 +86,43 @@ public class SigninRequestServiceImpl implements SigninRequestService {
 
     }
 
+    @Override
+    public boolean updatePwdUser(PwdForm pwdForm) {
+        UserPwdActivationToken userPwdActivationToken = userPwdActivationTokenRepository.findById(pwdForm.getTokenId()).orElse(null);
+        if(userPwdActivationToken == null || jwtService.isTokenExpired(userPwdActivationToken.getUserpwdActivationToken()) || !pwdForm.getPassword().equals(pwdForm.getConfirmedPassword())) {
+            return false;
+        }
+        User user = userPwdActivationToken.getUser();
+        String encryptedPwd = passwordEncoder.encode(pwdForm.getConfirmedPassword());
+        user.setPassword(encryptedPwd);
+        user.setPasswordUpdate(true);
+        userRepository.save(user);
+        return true;
+    }
+
+    @Override
+    public boolean resetPwdUserRequest(EmailForm emailForm) {
+        User user = userRepository.findByEmail(emailForm.getUserEmail()).orElse(null);
+
+        if(user == null || !user.isEnable() || !user.isPasswordUpdate()) {
+            return false;
+        }
+
+        String token = jwtService.generateActivatedUserToken(user);
+        UserPwdActivationToken userPwdActivationToken = new UserPwdActivationToken(0, token, user);
+        UserPwdActivationToken newUserPwdActivationToken = userPwdActivationTokenRepository.save(userPwdActivationToken);
+        String userFullname = user.getFirstname() + " " + user.getSecondname();
+        String userEmail = user.getEmail();
+        emailService.sendCreatedPwdUserEmail(userFullname, userEmail, newUserPwdActivationToken.getId());
+        return true;
+    }
+
+    @Override
+    public boolean resetPwdUser(PwdForm pwdForm) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'resetPwdUser'");
+    }
+
     public boolean activatedProfilUser(UserProfilActivationToken userProfilActivationToken) {
         if(userProfilActivationToken == null || jwtService.isTokenExpired(userProfilActivationToken.getUserprofilActivationToken())) {
             return false;
@@ -90,6 +133,7 @@ public class SigninRequestServiceImpl implements SigninRequestService {
         userRepository.save(user);
         return true;
     }
+
 
     
 }

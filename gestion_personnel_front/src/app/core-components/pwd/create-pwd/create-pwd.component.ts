@@ -33,9 +33,7 @@ export class CreatePwdComponent implements OnInit {
     this.authenticationService.canUpdatePwdUser(this.tokenId).subscribe(
       {
         next: resp => {
-          this.createdPwd = resp;
-          console.log(this.createdPwd);
-          
+          this.createdPwd = resp;          
           if(!this.createdPwd) {
             this.text = "Lien invalide ou périmé. Veuillez contacter l'équipe support.";
           }
